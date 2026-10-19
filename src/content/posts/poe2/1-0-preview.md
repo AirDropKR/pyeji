@@ -9,7 +9,7 @@ sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3999509"
   - "https://www.pathofexile.com/forum/view-thread/4000430"
 cover:
-  src: "../../../assets/posts/poe2/1-0-full-release.jpg"
+  src: "../../../assets/seasons/poe2-1-0/key-art.jpg"
   alt: "패스 오브 엑자일 2 1.0 정식 출시 보도자료 이미지. 콜로세움에서 검을 든 듀얼리스트와 'December 11th 2026' 문구"
   credit: "Grinding Gear Games 보도자료"
   creditUrl: "https://www.pathofexile.com/forum/view-thread/3999509"

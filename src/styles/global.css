@@ -132,6 +132,31 @@ img { max-width: 100%; }
 .facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 24px; margin: 0; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+/* 카운트다운 (Countdown.astro) */
+.countdown { margin: 12px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.countdown .cd-label { color: var(--muted); }
+.countdown b { font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+
+/* 주요 일정 띠 (MilestoneTimeline.astro): 날짜 비율대로 점을 찍는다 */
+.mt { display: grid; gap: 22px; }
+.mt-band { position: relative; height: 112px; margin: 0 6px; }
+.mt-line { position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%); background: var(--rule); border-radius: 2px; }
+.mt-pt { position: absolute; left: var(--l); top: 50%; width: 0; height: 0; }
+.mt-pt::before { content: ''; position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 3px solid var(--muted); }
+.mt-pt.main::before { left: -9px; top: -9px; width: 18px; height: 18px; background: var(--game, var(--ink)); border-color: var(--game, var(--ink)); }
+.mt-pt b, .mt-pt em { position: absolute; left: 0; transform: translateX(-50%); white-space: nowrap; font-style: normal; }
+.mt-pt b { bottom: 16px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mt-pt em { bottom: 34px; font-size: 13px; color: var(--muted); }
+.mt-pt.below b { bottom: auto; top: 16px; }
+.mt-pt.below em { bottom: auto; top: 34px; }
+.mt-pt.main em { color: var(--ink); font-weight: 700; }
+.mt-pt.edge-l b, .mt-pt.edge-l em { transform: translateX(-8px); }
+.mt-pt.edge-r b, .mt-pt.edge-r em { transform: translateX(calc(-100% + 8px)); }
+.mt-today { position: absolute; left: var(--l); top: calc(50% - 22px); height: 44px; border-left: 2px solid var(--stamp); }
+.mt-today b { position: absolute; top: -18px; left: -14px; font-size: 12px; color: var(--stamp); }
+.ms-local { display: block; font-size: 12.5px; }
+@media (max-width: 640px) { .mt-band { display: none; } }
+
 .milestones { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 2px solid var(--rule); display: grid; gap: 14px; }
 .milestones li { position: relative; display: grid; grid-template-columns: minmax(0, 14em) minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline; }
 .milestones li::before { content: ''; position: absolute; left: -25px; top: 0.45em; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--muted); }
@@ -141,6 +166,12 @@ img { max-width: 100%; }
 .ms-rel { font-size: 13px; font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) { .milestones li { grid-template-columns: minmax(0, 1fr) auto; } .ms-date { grid-column: 1 / -1; } }
 .season-nav { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--rule); }
+
+/* 시즌 공식 이미지 갤러리 (SeasonImages.astro) */
+.gallery { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 20px; }
+.gallery figure { margin: 0; display: grid; gap: 6px; }
+.gallery img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 3px; }
+.gallery a:hover img { filter: brightness(1.06); }
 
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }

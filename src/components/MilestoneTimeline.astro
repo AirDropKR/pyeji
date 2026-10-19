@@ -1,0 +1,45 @@
+---
+// 주요 일정 타임라인: 위는 날짜 비율대로 찍은 띠 그림, 아래는 자세한 목록
+// 오늘 표시, 남은 날짜, 방문자 기기 시간은 live.ts가 브라우저에서 채운다
+import type { Milestone } from '../lib/seasons';
+import { formatKst } from '../lib/time';
+
+interface Props {
+  milestones: Milestone[];
+}
+const { milestones } = Astro.props;
+const first = Date.parse(milestones[0].at);
+const last = Date.parse(milestones.at(-1)!.at);
+// 오늘이 일정보다 앞이면 띠를 오늘부터 시작해 남은 거리가 보이게 한다
+const now = Date.now();
+const start = Math.min(first, now);
+const span = Math.max(last - start, 86_400_000);
+const pct = (iso: string) => ((Date.parse(iso) - start) / span) * 100;
+---
+<div class="mt" data-mt data-range-start={start} data-range-end={start + span}>
+  <div class="mt-band" aria-hidden="true">
+    <i class="mt-line"></i>
+    {milestones.map((m, i) => {
+      const p = pct(m.at);
+      return (
+        <span class:list={['mt-pt', { main: m.main, below: i % 2 === 1, 'edge-l': p < 12, 'edge-r': p > 88 }]} style={`--l:${p.toFixed(2)}%`}>
+          <b>{formatKst(m.at, 'day')}</b>
+          <em>{m.label}</em>
+        </span>
+      );
+    })}
+    <span class="mt-today" data-mt-today hidden><b>오늘</b></span>
+  </div>
+  <ol class="milestones">
+    {milestones.map((m) => (
+      <li class:list={{ main: m.main }}>
+        <span class="ms-date">
+          {formatKst(m.at, m.precision, true)}
+          {m.precision === 'exact' && <span class="ms-local" data-local={m.at}></span>}
+        </span>
+        <span class="ms-label">{m.href ? <a href={m.href} rel={m.href.startsWith('http') ? 'noopener' : undefined}>{m.label}</a> : m.label}</span>
+        <span class="ms-rel muted" data-dday={m.at}></span>
+      </li>
+    ))}
+  </ol>
+</div>

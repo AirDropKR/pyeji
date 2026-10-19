@@ -7,6 +7,7 @@ import SeasonProgress from '../../components/SeasonProgress.astro';
 import SeasonName from '../../components/SeasonName.astro';
 import GameStamp from '../../components/GameStamp.astro';
 import PostThumb from '../../components/PostThumb.astro';
+import SeasonImages from '../../components/SeasonImages.astro';
 import { formatKst } from '../../lib/time';
 
 export async function getStaticPaths() {
@@ -24,6 +25,8 @@ const posts = (await getCollection('posts', (p) => p.data.gameId.id === game.id)
 const patches = (await getCollection('patches', (p) => p.data.gameId.id === game.id)).sort(
   (a, b) => Date.parse(b.data.releasedAt) - Date.parse(a.data.releasedAt),
 );
+// 대표 이미지: 다음 시즌 공식 이미지가 있으면 그것, 없으면 진행 중인 시즌
+const featured = [next, current].find((x) => x?.data.images?.length);
 const statusLabel = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
 const term = game.data.seasonTerm;
 ---
@@ -40,6 +43,10 @@ const term = game.data.seasonTerm;
       <DdayStamp at={next.data.startsAt} size="big" estimated={next.data.status === 'estimated'} />
     )}
   </section>
+
+  {featured && (
+    <div class="section tight"><SeasonImages season={featured} mode="hero" withName /></div>
+  )}
 
   {current && (
     <section class="section tight gc" style={`--game-raw:${game.data.themeColor}`}>

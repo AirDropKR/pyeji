@@ -1,6 +1,41 @@
 // 정적 페이지라 빌드 시점 숫자가 굳어 있으므로, 브라우저에서 D-day와 진행률을 다시 계산한다
 import { daysUntil, ddayLabel } from '../lib/time';
 
+const KST_OFFSET_MIN = -540; // getTimezoneOffset 기준 한국 시간
+const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+/** 방문자 기기 시간대로 표시. formatKst와 같은 모양 */
+function formatLocal(ms: number): string {
+  const d = new Date(ms);
+  const h = d.getHours();
+  const m = d.getMinutes();
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${d.getMonth() + 1}월 ${d.getDate()}일(${WEEKDAYS[d.getDay()]}) ${h < 12 ? '오전' : '오후'} ${h12}시${m ? ` ${m}분` : ''}`;
+}
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+function tickCountdowns(now: number) {
+  document.querySelectorAll<HTMLElement>('[data-countdown]').forEach((el) => {
+    const target = Date.parse(el.dataset.countdown!);
+    if (el.dataset.precision === 'day') {
+      const days = daysUntil(el.dataset.countdown!, now);
+      el.textContent = days > 0 ? `${days}일` : '오늘';
+      return;
+    }
+    const ms = target - now;
+    if (ms <= 0) {
+      el.textContent = '시작됨';
+      return;
+    }
+    const d = Math.floor(ms / 86_400_000);
+    const h = Math.floor((ms % 86_400_000) / 3_600_000);
+    const m = Math.floor((ms % 3_600_000) / 60_000);
+    const s = Math.floor((ms % 60_000) / 1000);
+    el.textContent = `${d}일 ${pad(h)}시간 ${pad(m)}분 ${pad(s)}초`;
+  });
+}
+
 function update() {
   const now = Date.now();
   document.querySelectorAll<HTMLElement>('[data-dday]').forEach((el) => {
@@ -29,5 +64,24 @@ function update() {
     const x = overlay.offsetLeft + (overlay.clientWidth * pct) / 100;
     if (x > el.clientWidth * 0.75) el.scrollLeft = x - el.clientWidth * 0.6;
   });
+  // 주요 일정 띠: 오늘 위치 (띠 범위 안일 때만)
+  document.querySelectorAll<HTMLElement>('[data-mt]').forEach((el) => {
+    const start = Number(el.dataset.rangeStart);
+    const end = Number(el.dataset.rangeEnd);
+    const mark = el.querySelector<HTMLElement>('[data-mt-today]');
+    if (!mark || now < start || now > end) return;
+    mark.style.setProperty('--l', `${(((now - start) / (end - start)) * 100).toFixed(2)}%`);
+    mark.hidden = false;
+  });
+  // 한국 밖에서 보는 방문자에게는 기기 시간도 함께
+  if (new Date().getTimezoneOffset() !== KST_OFFSET_MIN) {
+    document.querySelectorAll<HTMLElement>('[data-local]').forEach((el) => {
+      el.textContent = `내 기기 시간 ${formatLocal(Date.parse(el.dataset.local!))}`;
+    });
+  }
+  tickCountdowns(now);
+  if (document.querySelector('[data-countdown][data-precision="exact"]')) {
+    setInterval(() => tickCountdowns(Date.now()), 1000);
+  }
 }
 update();

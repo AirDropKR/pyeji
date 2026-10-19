@@ -10,7 +10,37 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3987516",
-    "note": "시작은 태평양 시간 7월 24일 오후 1시. 종료(태평양 시간 11월 9일 오후 1시)는 3.30 일정 공지 https://www.pathofexile.com/forum/view-thread/4010618"
+    "note": "시작은 태평양 시간 7월 24일 오후 1시. 종료(태평양 시간 11월 9일 오후 1시)는 3.30 일정 공지 https://www.pathofexile.com/forum/view-thread/4010618",
+    "images": [
+      {
+        "file": "poe1-3-29/key-art.jpg",
+        "alt": "패스 오브 엑자일: 올플레임의 저주 로고와, 초록 불빛 랜턴을 든 인물이 그려진 키아트",
+        "caption": "올플레임의 저주 키아트",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3985355"
+      },
+      {
+        "file": "poe1-3-29/league-gameplay.jpg",
+        "alt": "초록 불꽃이 퍼지는 리그 전투 장면 게임 화면",
+        "caption": "리그 콘텐츠 플레이 화면",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3985355"
+      },
+      {
+        "file": "poe1-3-29/allflame-crafting.jpg",
+        "alt": "초록 불빛이 켜진 통들이 늘어선 어두운 실내 장면",
+        "caption": "올플레임 제작 장면",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3985355"
+      },
+      {
+        "file": "poe1-3-29/luminary.jpg",
+        "alt": "용병 관련 노드가 표시된 새 사이온 전직 루미너리의 전직 트리 화면",
+        "caption": "새 사이온 전직 루미너리(Luminary) 전직 트리",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3985355"
+      }
+    ]
   },
   {
     "id": "poe1-3-30",
@@ -57,7 +87,37 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3933994",
-    "note": "한국 시간 5월 30일 오전 5시 시작. 1.0 출시 때 종료(시각 미정). 이벤트 리그 금단의 의식(Forbidden Rites)이 한국 시간 9월 5일 오전 5시부터 함께 진행 중이며 같이 종료 https://www.pathofexile.com/forum/view-thread/4000430"
+    "note": "한국 시간 5월 30일 오전 5시 시작. 1.0 출시 때 종료(시각 미정). 이벤트 리그 금단의 의식(Forbidden Rites)이 한국 시간 9월 5일 오전 5시부터 함께 진행 중이며 같이 종료 https://www.pathofexile.com/forum/view-thread/4000430",
+    "images": [
+      {
+        "file": "poe2-0-5/key-art.jpg",
+        "alt": "패스 오브 엑자일 2: 고대의 귀환 로고와, 창을 들고 불타는 날개를 단 갑옷 인물이 그려진 키아트",
+        "caption": "고대의 귀환 키아트",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3930564"
+      },
+      {
+        "file": "poe2-0-5/martial-artist.jpg",
+        "alt": "푸른 기운을 두르고 자세를 잡은 무술가 일러스트",
+        "caption": "새 전직 마셜 아티스트(Martial Artist)",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3930564"
+      },
+      {
+        "file": "poe2-0-5/spiritwalker.jpg",
+        "alt": "보라색 곰, 사슴, 올빼미 정령과 함께 달리는 인물 일러스트",
+        "caption": "새 전직 스피릿 워커(Spiritwalker)",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3930564"
+      },
+      {
+        "file": "poe2-0-5/fortress-atlas.jpg",
+        "alt": "성벽으로 둘러싸인 지역이 보이는 아틀라스 지도 화면",
+        "caption": "새 엔드게임 아틀라스 요새 화면",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3930564"
+      }
+    ]
   },
   {
     "id": "poe2-1-0",
@@ -68,7 +128,16 @@
     "timePrecision": "day",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3999366",
-    "note": "태평양 시간 12월 11일 = 한국 시간 12월 12일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4000434). 정확한 오픈 시각 미발표"
+    "note": "태평양 시간 12월 11일 = 한국 시간 12월 12일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4000434). 정확한 오픈 시각 미발표",
+    "images": [
+      {
+        "file": "poe2-1-0/key-art.jpg",
+        "alt": "패스 오브 엑자일 2 1.0 정식 출시 보도자료 이미지. 콜로세움에서 검을 든 듀얼리스트와 'December 11th 2026' 문구",
+        "caption": "1.0 정식 출시 보도자료 이미지",
+        "credit": "Grinding Gear Games 보도자료",
+        "creditUrl": "https://www.pathofexile.com/forum/view-thread/3999509"
+      }
+    ]
   },
   {
     "id": "d4-s10",

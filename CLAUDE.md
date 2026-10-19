@@ -55,6 +55,9 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 게시글 대표 이미지(`cover`)는 공식 배포 이미지만, 출처(`credit`, `creditUrl`) 필수. 파일은 `src/assets/posts/{게임id}/`에 1600px JPG로 줄여서 저장
 - 공식 이미지 허용: POE1·POE2(GGG 공지·보도자료), 디아블로 4(블리자드 프레스 센터·소식). 라스트 에폭(약관상 서면 동의 필요)과 토치라이트(이용 조건 미확인)는 넣지 않는다
 - 대표 이미지가 있는 글은 og:image로도 쓰인다
+- 시즌 공식 이미지는 `seasons.json`의 `images`(첫 장이 키아트)에 넣고 파일은 `src/assets/seasons/{시즌id}/`에 1600px JPG로. 시즌 상세 페이지(키아트 + 갤러리), 게임 페이지(다음 시즌, 없으면 진행 중 시즌 키아트), og:image에 쓰인다
+- 이미지는 받아서 직접 보고 alt·캡션을 쓴다. 파일 이름만 믿지 않는다 (보도자료 파일명과 내용이 다른 경우가 있음)
+- 이미지를 찾을 곳: GGG 보도자료 게시판(pathofexile.com/forum/view-forum/press, poe2-press)의 `web.poecdn.com/public/news/.../PressLive...` 이미지
 
 ## 화면
 - `src/layouts/Base.astro` 공통 레이아웃(구글 폰트 링크 포함), `src/styles/global.css` 공통 스타일
@@ -62,7 +65,8 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 폐지달력(`/calendar/`): `src/lib/calendar.ts`가 기간(이번 달 기준 12개월 전 ~ 6개월 뒤)과 막대 위치를 계산. 종료일이 없는 시즌은 다음 시즌 시작까지, 다음 시즌도 없으면 기간 끝까지 흐리게. 오늘 선은 `live.ts`가 브라우저에서 위치를 잡음
 - D-day 도장은 `DdayStamp.astro`, 진행률 막대는 `SeasonProgress.astro`로만 그린다. 디자인을 바꿀 때는 tokens.css → 두 컴포넌트 → global.css 순으로 고친다
 - 콘셉트: 시안 A "날짜 도장". 재생지(크라프트지) 위에 찍은 날짜 도장. 튀는 요소는 D-day 도장 하나뿐, 나머지는 조용하게. 예상 일정 도장은 점선
-- D-day·진행률은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 다시 계산
+- D-day·진행률·카운트다운·오늘 표시·방문자 기기 시간은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 계산 (data-dday, data-countdown, data-local 등). 이 정도 상호작용은 React 없이 live.ts로 처리한다
+- 시즌 주요 일정은 `seasonMilestones()` + `MilestoneTimeline.astro`로 시즌 상세와 게시글에서 같이 쓴다. 글의 카운트다운 대상은 `countdownTo`(이벤트), 없으면 연결된 시즌 시작
 - 시간 표기는 `formatKst`만 사용 (로케일 데이터에 의존하지 않게 직접 계산)
 
 ## 작업 원칙

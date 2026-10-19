@@ -33,6 +33,14 @@ const seasons = defineCollection({
     status: z.enum(['confirmed', 'estimated', 'ended']),
     sourceUrl: z.string().url(),
     note: z.string().optional(),
+    // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수
+    images: z.array(z.object({
+      file: z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+\.(jpg|png|webp)$/), // 예: poe1-3-29/key-art.jpg
+      alt: z.string(),
+      caption: z.string(),
+      credit: z.string(),
+      creditUrl: z.string().url(),
+    })).optional(),
   }),
 });
 

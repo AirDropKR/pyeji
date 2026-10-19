@@ -1,12 +1,17 @@
 ---
 import Base from '../../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import { seasonImage } from '../../../../lib/images';
 import DdayStamp from '../../../../components/DdayStamp.astro';
 import SeasonName from '../../../../components/SeasonName.astro';
 import SeasonProgress from '../../../../components/SeasonProgress.astro';
 import GameStamp from '../../../../components/GameStamp.astro';
 import PostThumb from '../../../../components/PostThumb.astro';
-import { sortByStart, seasonPath, isIndexable } from '../../../../lib/seasons';
+import { sortByStart, seasonPath, isIndexable, seasonMilestones } from '../../../../lib/seasons';
+import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
+import Countdown from '../../../../components/Countdown.astro';
+import SeasonImages from '../../../../components/SeasonImages.astro';
 import { formatKst, kstDay } from '../../../../lib/time';
 import { josa } from '../../../../lib/korean';
 
@@ -51,14 +56,10 @@ const certainty = { confirmed: '확정', estimated: '예상', ended: '확정' } 
 const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined;
 const startText = formatKst(s.startsAt, s.timePrecision, true);
 
-// 주요 일정: 연결된 이벤트 + 직전 시즌 종료 + 이번 시즌 시작·종료를 날짜순으로
-type Milestone = { at: string; precision: 'exact' | 'day'; label: string; href?: string; main?: boolean };
-const milestones: Milestone[] = [
-  ...events.map((e) => ({ at: e.data.startsAt, precision: e.data.timePrecision, label: e.data.title, href: e.data.sourceUrl })),
-  ...(prev?.data.endsAt ? [{ at: prev.data.endsAt, precision: 'exact' as const, label: `${prev.data.name} 종료`, href: seasonPath(prev) }] : []),
-  { at: s.startsAt, precision: s.timePrecision, label: `${s.name} 시작`, main: true },
-  ...(s.endsAt ? [{ at: s.endsAt, precision: 'exact' as const, label: `${s.name} 종료` }] : []),
-].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+const milestones = seasonMilestones(season, prev, events);
+// 공유 미리보기: 대표 이미지가 있으면 1200px로
+const heroImg = s.images?.[0] ? seasonImage(s.images[0].file) : undefined;
+const ogImage = heroImg ? (await getImage({ src: heroImg, width: Math.min(1200, heroImg.width), format: 'jpg' })).src : undefined;
 
 // 직전 시즌과 비교: 종료일이 없으면 이번 시즌 시작까지를 기간으로 본다
 const prevDays = prev
@@ -70,6 +71,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
   title={`${game.data.name} ${s.name} 시작일·종료일`}
   description={`${game.data.name} ${s.name}${s.nameEn ? `(${s.nameEn})` : ''} 한국 시간 ${startText} 시작. 일정, 관련 정보, 공식 출처.`}
   noindex={!isIndexable(season, posts.length)}
+  image={ogImage}
 >
   <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
     <div>
@@ -80,9 +82,14 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
         {s.timePrecision === 'day' && <span class="muted"> · 시각 발표 전</span>}
         <span class="muted"> · {state} · {certainty[s.status]}</span>
       </p>
+      {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={`${s.name} 시작`} />}
     </div>
     {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
   </section>
+
+  {s.images && (
+    <div class="section tight"><SeasonImages season={season} mode="hero" /></div>
+  )}
 
   {!upcoming && !over && progressEnd && (
     <section class="section tight gc" style={`--game-raw:${game.data.themeColor}`}>
@@ -104,15 +111,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
   {milestones.length > 1 && (
     <section class="section gc" style={`--game-raw:${game.data.themeColor}`} aria-labelledby="ms-title">
       <h2 class="section-title" id="ms-title">주요 일정</h2>
-      <ol class="milestones">
-        {milestones.map((m) => (
-          <li class:list={{ main: m.main }}>
-            <span class="ms-date">{formatKst(m.at, m.precision, true)}</span>
-            <span class="ms-label">{m.href ? <a href={m.href} rel={m.href.startsWith('http') ? 'noopener' : undefined}>{m.label}</a> : m.label}</span>
-            <span class="ms-rel muted" data-dday={m.at}></span>
-          </li>
-        ))}
-      </ol>
+      <MilestoneTimeline milestones={milestones} />
     </section>
   )}
 
@@ -136,6 +135,13 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
           <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
       </ul>
+    </section>
+  )}
+
+  {s.images && s.images.length > 1 && (
+    <section class="section" aria-labelledby="img-title">
+      <h2 class="section-title" id="img-title">공식 이미지</h2>
+      <SeasonImages season={season} mode="gallery" />
     </section>
   )}
 

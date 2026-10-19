@@ -1,0 +1,17 @@
+---
+// 실시간 카운트다운 한 줄. 시각이 확정(exact)이면 초 단위, 날짜만 있으면(day) 일 단위
+// 숫자는 live.ts가 1초마다 다시 계산한다
+import { daysUntil } from '../lib/time';
+
+interface Props {
+  at: string;
+  precision: 'exact' | 'day';
+  label: string;
+}
+const { at, precision, label } = Astro.props;
+---
+<p class="countdown">
+  <span class="cd-label">{label}까지</span>
+  <b data-countdown={at} data-precision={precision}>{daysUntil(at)}일</b>
+  {precision === 'day' && <span class="muted small">시각 발표 전, 한국 날짜 기준</span>}
+</p>
