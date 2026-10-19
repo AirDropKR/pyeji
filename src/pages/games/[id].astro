@@ -63,21 +63,23 @@ const term = game.data.seasonTerm;
 
   <section style="margin-top:36px">
     <h2 class="section-title">{term} 기록</h2>
-    <div class="tbl">
-      <table>
-        <thead><tr><th>{term}</th><th>시작</th><th>종료</th><th>상태</th></tr></thead>
-        <tbody>
-          {mine.map((s) => (
-            <tr>
-              <td>{s.data.name}</td>
-              <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
-              <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact') : '미정'}</td>
-              <td><a href={s.data.sourceUrl} rel="noopener">{statusLabel[s.data.status]}</a></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    {mine.length ? (
+      <div class="tbl">
+        <table>
+          <thead><tr><th>{term}</th><th>시작</th><th>종료</th><th>상태</th></tr></thead>
+          <tbody>
+            {mine.map((s) => (
+              <tr>
+                <td>{s.data.name}</td>
+                <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
+                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact') : '미정'}</td>
+                <td><a href={s.data.sourceUrl} rel="noopener">{statusLabel[s.data.status]}</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : <p class="muted">아직 정리한 {term} 기록이 없어요.</p>}
   </section>
 
   {patches.length > 0 && (
