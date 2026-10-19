@@ -143,14 +143,39 @@
     "note": "태평양 시간 9월 15일 오전 9시 30분(영어판 공지 https://news.blizzard.com/en-us/article/24295394) = 한국 시간 9월 16일 오전 1시 30분. 종료일 미발표"
   },
   {
+    "id": "le-s3",
+    "gameId": "le",
+    "name": "시즌 3",
+    "nameEn": "Beneath Ancient Skies",
+    "slug": "season-3",
+    "startsAt": "2025-08-21T16:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://forum.lastepoch.com/t/last-epoch-beneath-ancient-skies-patch-notes/78635",
+    "note": "패치노트에 UTC 2025-08-21T16:00:00Z로 명시. 공식 한국어 이름 없음"
+  },
+  {
+    "id": "le-s4",
+    "gameId": "le",
+    "name": "시즌 4",
+    "nameEn": "Shattered Omens",
+    "slug": "season-4",
+    "startsAt": "2026-03-26T16:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://forum.lastepoch.com/t/last-epoch-shattered-omens-patch-notes/80571",
+    "note": "패치노트에 UTC 2026-03-26T16:00:00Z로 명시. 공식 한국어 이름 없음"
+  },
+  {
     "id": "le-s5",
     "gameId": "le",
-    "name": "시즌 5: Rage of the Frostborn",
+    "name": "시즌 5",
+    "nameEn": "Rage of the Frostborn",
     "slug": "season-5",
-    "startsAt": "2026-10-01T00:00:00Z",
-    "timePrecision": "day",
+    "startsAt": "2026-10-01T16:00:00Z",
+    "timePrecision": "exact",
     "status": "confirmed",
-    "sourceUrl": "https://kami-labs.fr/en/last-epoch-guides-builds-actualites/last-epoch-saison-5-frostborn/",
-    "note": "샘플 데이터. 공식 출처로 교체하고 시각 확인 필요"
+    "sourceUrl": "https://forum.lastepoch.com/t/countdown-to-season-5-rage-of-the-frostborn-hits-october-1/81745",
+    "note": "10월 1일 오전 11시 CDT = 한국 시간 10월 2일 오전 1시. 공식 한국어 이름 없음. 종료일 미발표"
   }
 ]
