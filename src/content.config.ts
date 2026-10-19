@@ -70,6 +70,7 @@ const posts = defineCollection({
     title: z.string(),
     gameId: reference('games'),
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
+    countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
     publishedAt: isoDateTime,
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
     // 대표 이미지. 공식 배포 이미지만, 출처 표기 필수. 없으면 직접 만든 도장 카드로 대신한다

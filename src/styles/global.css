@@ -132,6 +132,14 @@ img { max-width: 100%; }
 .facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 24px; margin: 0; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.milestones { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 2px solid var(--rule); display: grid; gap: 14px; }
+.milestones li { position: relative; display: grid; grid-template-columns: minmax(0, 14em) minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline; }
+.milestones li::before { content: ''; position: absolute; left: -25px; top: 0.45em; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--muted); }
+.milestones li.main::before { background: var(--game, var(--ink)); border-color: var(--game, var(--ink)); }
+.milestones li.main .ms-label { font-weight: 700; }
+.ms-date { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.ms-rel { font-size: 13px; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) { .milestones li { grid-template-columns: minmax(0, 1fr) auto; } .ms-date { grid-column: 1 / -1; } }
 .season-nav { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--rule); }
 
 /* 게시글 대표 이미지 (PostCover.astro) */
@@ -151,7 +159,7 @@ img { max-width: 100%; }
 /* 글 목록 썸네일 (PostThumb.astro) */
 .post-item { display: flex; align-items: center; gap: 14px; }
 .post-thumb { flex-shrink: 0; display: grid; place-items: center; width: 96px; height: 54px; border-radius: 3px; overflow: hidden; background: color-mix(in oklab, var(--kraft) 60%, var(--paper)); }
-.post-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 /* 폐지달력 (calendar.astro). 위치는 --l(왼쪽)·--w(폭) 퍼센트로 받는다 */
 .tl-legend { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); }

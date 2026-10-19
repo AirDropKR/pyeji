@@ -8,6 +8,7 @@ import GameStamp from '../../../../components/GameStamp.astro';
 import PostThumb from '../../../../components/PostThumb.astro';
 import { sortByStart, seasonPath, isIndexable } from '../../../../lib/seasons';
 import { formatKst, kstDay } from '../../../../lib/time';
+import { josa } from '../../../../lib/korean';
 
 export async function getStaticPaths() {
   const games = await getCollection('games');
@@ -49,6 +50,21 @@ const state = upcoming ? '시작 전' : over ? '종료' : '진행 중';
 const certainty = { confirmed: '확정', estimated: '예상', ended: '확정' } as const;
 const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined;
 const startText = formatKst(s.startsAt, s.timePrecision, true);
+
+// 주요 일정: 연결된 이벤트 + 직전 시즌 종료 + 이번 시즌 시작·종료를 날짜순으로
+type Milestone = { at: string; precision: 'exact' | 'day'; label: string; href?: string; main?: boolean };
+const milestones: Milestone[] = [
+  ...events.map((e) => ({ at: e.data.startsAt, precision: e.data.timePrecision, label: e.data.title, href: e.data.sourceUrl })),
+  ...(prev?.data.endsAt ? [{ at: prev.data.endsAt, precision: 'exact' as const, label: `${prev.data.name} 종료`, href: seasonPath(prev) }] : []),
+  { at: s.startsAt, precision: s.timePrecision, label: `${s.name} 시작`, main: true },
+  ...(s.endsAt ? [{ at: s.endsAt, precision: 'exact' as const, label: `${s.name} 종료` }] : []),
+].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+
+// 직전 시즌과 비교: 종료일이 없으면 이번 시즌 시작까지를 기간으로 본다
+const prevDays = prev
+  ? kstDay(Date.parse(prev.data.endsAt ?? s.startsAt)) - kstDay(Date.parse(prev.data.startsAt))
+  : undefined;
+const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.endsAt)) : undefined;
 ---
 <Base
   title={`${game.data.name} ${s.name} 시작일·종료일`}
@@ -85,14 +101,30 @@ const startText = formatKst(s.startsAt, s.timePrecision, true);
     </dl>
   </section>
 
-  {events.length > 0 && (
-    <section class="section" aria-labelledby="ev-title">
-      <h2 class="section-title" id="ev-title">관련 일정</h2>
-      <ul class="plain-list">
-        {events.map((e) => (
-          <li><span class="date">{formatKst(e.data.startsAt, e.data.timePrecision, true)}</span><a href={e.data.sourceUrl} rel="noopener">{e.data.title}</a></li>
+  {milestones.length > 1 && (
+    <section class="section gc" style={`--game-raw:${game.data.themeColor}`} aria-labelledby="ms-title">
+      <h2 class="section-title" id="ms-title">주요 일정</h2>
+      <ol class="milestones">
+        {milestones.map((m) => (
+          <li class:list={{ main: m.main }}>
+            <span class="ms-date">{formatKst(m.at, m.precision, true)}</span>
+            <span class="ms-label">{m.href ? <a href={m.href} rel={m.href.startsWith('http') ? 'noopener' : undefined}>{m.label}</a> : m.label}</span>
+            <span class="ms-rel muted" data-dday={m.at}></span>
+          </li>
         ))}
-      </ul>
+      </ol>
+    </section>
+  )}
+
+  {prev && (
+    <section class="section" aria-labelledby="cmp-title">
+      <h2 class="section-title" id="cmp-title">직전 {josa(term, '과', '와')} 비교</h2>
+      <dl class="facts">
+        <dt>직전 {term}</dt><dd><a href={seasonPath(prev)}>{prev.data.name}</a>{prev.data.nameEn && <span class="muted"> · {prev.data.nameEn}</span>}</dd>
+        <dt>직전 {term} 시작</dt><dd>{formatKst(prev.data.startsAt, prev.data.timePrecision, true)}</dd>
+        <dt>직전 {term} 기간</dt><dd>{prevDays}일{!prev.data.endsAt && <span class="muted"> (종료일 미발표, 이번 {term} 시작까지)</span>}</dd>
+        {gapDays !== undefined && <><dt>{term} 공백</dt><dd>{gapDays > 0 ? `${gapDays}일 (직전 ${term} 종료 ~ 이번 ${term} 시작)` : '없음'}</dd></>}
+      </dl>
     </section>
   )}
 

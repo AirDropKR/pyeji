@@ -12,5 +12,5 @@ const { post, game } = Astro.props;
 const cover = post.data.cover;
 ---
 <span class="post-thumb" aria-hidden="true">
-  {cover ? <Image src={cover.src} alt="" width={192} height={108} fit="cover" /> : <GameStamp game={game} size="sm" />}
+  {cover ? <Image src={cover.src} alt="" width={192} /> : <GameStamp game={game} size="sm" />}
 </span>

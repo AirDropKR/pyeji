@@ -16,10 +16,15 @@ const { Content } = await render(post);
 const game = await getEntry(post.data.gameId);
 const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefined;
 const now = Date.now();
-const upcoming = season && Date.parse(season.data.startsAt) > now;
+const countdown = post.data.countdownTo ? await getEntry(post.data.countdownTo) : undefined;
+// D-day 대상: 지정한 일정이 있으면 그것, 없으면 연결된 시즌 시작
+const target = countdown
+  ? { at: countdown.data.startsAt, estimated: false }
+  : season ? { at: season.data.startsAt, estimated: season.data.status === 'estimated' } : undefined;
+const upcoming = target && Date.parse(target.at) > now;
 // 공유 미리보기용: 공식 대표 이미지가 있으면 1200px로 줄여서 쓴다
 const ogImage = post.data.cover
-  ? (await getImage({ src: post.data.cover.src, width: 1200, format: 'jpg' })).src
+  ? (await getImage({ src: post.data.cover.src, width: Math.min(1200, post.data.cover.src.width), format: 'jpg' })).src
   : undefined;
 ---
 <Base title={post.data.title} type="article" image={ogImage} description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`}>
@@ -30,9 +35,7 @@ const ogImage = post.data.cover
         <h1>{post.data.title}</h1>
         <p class="small muted">{formatKst(post.data.publishedAt, 'day')} 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
       </div>
-      {season && upcoming && (
-        <DdayStamp at={season.data.startsAt} size="big" estimated={season.data.status === 'estimated'} />
-      )}
+      {target && upcoming && <DdayStamp at={target.at} size="big" estimated={target.estimated} />}
     </header>
     <div class="section tight">
       <PostCover post={post} game={game} season={season} />

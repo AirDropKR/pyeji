@@ -9,6 +9,14 @@
     "sourceUrl": "https://x.com/pathofexile/status/2109750375381393508"
   },
   {
+    "id": "poe1-3-29-end",
+    "gameId": "poe1",
+    "title": "3.29 올플레임의 저주 종료",
+    "startsAt": "2026-11-09T21:00:00Z",
+    "timePrecision": "exact",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/4010618"
+  },
+  {
     "id": "exilecon-2026",
     "gameId": "poe2",
     "title": "엑자일콘 2026 생중계 (이틀간)",
