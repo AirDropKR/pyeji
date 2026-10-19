@@ -71,6 +71,78 @@
     "note": "태평양 시간 12월 11일 = 한국 시간 12월 12일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4000434). 정확한 오픈 시각 미발표"
   },
   {
+    "id": "d4-s10",
+    "gameId": "d4",
+    "name": "10시즌 지옥불 혼돈",
+    "nameEn": "Season of Infernal Chaos",
+    "slug": "season-10",
+    "startsAt": "2025-09-23T15:00:00Z",
+    "timePrecision": "day",
+    "status": "ended",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24226702",
+    "note": "한국 시간 9월 24일 시작. 공지에 시즌 시작 시각 없음(상점 개장만 오전 4시)"
+  },
+  {
+    "id": "d4-s11",
+    "gameId": "d4",
+    "name": "11시즌 신성한 개입",
+    "nameEn": "Season of Divine Intervention",
+    "slug": "season-11",
+    "startsAt": "2025-12-12T04:30:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24244465",
+    "note": "태평양 시간 12월 11일 오후 8시 30분 = 한국 시간 12월 12일 오후 1시 30분"
+  },
+  {
+    "id": "d4-s12",
+    "gameId": "d4",
+    "name": "12시즌 살육",
+    "nameEn": "Season of Slaughter",
+    "slug": "season-12",
+    "startsAt": "2026-03-11T17:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24244648",
+    "note": "한국 시간 3월 12일 오전 2시. 시즌 번호는 공지에 직접 없고 순서로 붙임"
+  },
+  {
+    "id": "d4-s13",
+    "gameId": "d4",
+    "name": "13시즌 결전",
+    "nameEn": "Season of Reckoning",
+    "slug": "season-13",
+    "startsAt": "2026-04-27T23:30:00Z",
+    "timePrecision": "day",
+    "status": "ended",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24267729",
+    "note": "확장팩 증오의 군주(Lord of Hatred)와 함께 시작. 공지 안에서 시작 시각이 한국 시간 오전 8시 30분과 오전 8시로 엇갈려 날짜만 표시. 시즌 번호는 순서로 붙임"
+  },
+  {
+    "id": "d4-s14",
+    "gameId": "d4",
+    "name": "14시즌 죽음의 각성",
+    "nameEn": "Season of Death Awakening",
+    "slug": "season-14",
+    "startsAt": "2026-06-30T17:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24268702",
+    "note": "한국 시간 7월 1일 오전 2시"
+  },
+  {
+    "id": "d4-s15",
+    "gameId": "d4",
+    "name": "15시즌 지옥의 유산",
+    "nameEn": "Season of Hell's Legacy",
+    "slug": "season-15",
+    "startsAt": "2026-09-15T16:30:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24295394",
+    "note": "태평양 시간 9월 15일 오전 9시 30분(영어판 공지 https://news.blizzard.com/en-us/article/24295394) = 한국 시간 9월 16일 오전 1시 30분. 종료일 미발표"
+  },
+  {
     "id": "le-s5",
     "gameId": "le",
     "name": "시즌 5: Rage of the Frostborn",
