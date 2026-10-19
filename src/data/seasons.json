@@ -6,10 +6,10 @@
     "slug": "3-29",
     "startsAt": "2026-07-24T20:00:00Z",
     "endsAt": "2026-11-09T21:00:00Z",
-    "timePrecision": "day",
+    "timePrecision": "exact",
     "status": "confirmed",
-    "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile",
-    "note": "종료는 태평양 시간 11월 9일 오후 1시. 시작 시각은 공식 출처로 확인 후 exact로 변경"
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3987516",
+    "note": "시작은 태평양 시간 7월 24일 오후 1시. 종료(태평양 시간 11월 9일 오후 1시)는 3.30 일정 공지 https://www.pathofexile.com/forum/view-thread/4010618"
   },
   {
     "id": "poe1-3-30",
@@ -19,8 +19,8 @@
     "startsAt": "2026-11-13T21:00:00Z",
     "timePrecision": "day",
     "status": "confirmed",
-    "sourceUrl": "https://maxroll.gg/poe/news/3-30-expansion-timeline",
-    "note": "태평양 시간 11월 13일 = 한국 시간 11월 14일. 정확한 시각 미발표. 리그 이름은 엑자일콘에서 공개"
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/4010618",
+    "note": "태평양 시간 11월 13일 = 한국 시간 11월 14일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4010521). 정확한 시각 미발표. 리그 이름은 엑자일콘에서 공개"
   },
   {
     "id": "poe2-1-0",

@@ -2,18 +2,18 @@
   {
     "id": "poe1-3-30-reveal",
     "gameId": "poe1",
-    "title": "3.30 전체 공개 (엑자일콘 키노트)",
-    "startsAt": "2026-11-06T20:00:00Z",
-    "timePrecision": "day",
-    "sourceUrl": "https://maxroll.gg/poe/news/3-30-expansion-timeline"
+    "title": "3.30 공개 (엑자일콘 키노트)",
+    "startsAt": "2026-11-06T21:00:00Z",
+    "timePrecision": "exact",
+    "sourceUrl": "https://x.com/pathofexile/status/2109750375381393508"
   },
   {
     "id": "exilecon-2026",
     "gameId": "poe2",
-    "title": "엑자일콘 (정식 출시 정보 공개)",
-    "startsAt": "2026-11-06T15:00:00Z",
+    "title": "엑자일콘 2026 생중계 (이틀간)",
+    "startsAt": "2026-11-06T20:00:00Z",
     "endsAt": "2026-11-08T15:00:00Z",
-    "timePrecision": "day",
-    "sourceUrl": "https://www.inven.co.kr/webzine/news/?news=322076"
+    "timePrecision": "exact",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/4009902"
   }
 ]
