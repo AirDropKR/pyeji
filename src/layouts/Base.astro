@@ -33,7 +33,12 @@ const path = Astro.url.pathname;
         <slot />
       </main>
       <footer class="site-footer">
-        비공식 팬 사이트예요. 일정은 공식 발표를 기준으로 정리하고, 각 항목에 출처를 달아둡니다. 시간은 모두 한국 시간이에요.
+        <p>비공식 팬 사이트예요. 일정은 공식 발표를 기준으로 정리하고, 각 항목에 출처를 달아둡니다. 시간은 모두 한국 시간이에요.</p>
+        <nav class="footer-nav" aria-label="사이트 정보">
+          <a href="/about">소개</a>
+          <a href="/privacy">개인정보처리방침</a>
+          <a href="/contact">문의·정정 요청</a>
+        </nav>
       </footer>
     </div>
     <script>import '../scripts/live.ts';</script>
