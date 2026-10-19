@@ -1,0 +1,76 @@
+import { defineCollection, reference } from 'astro:content';
+import { file, glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+
+// 모든 시각은 UTC ISO 8601로 저장 (예: 2026-12-11T15:00:00Z). 화면에서 KST로 변환
+const isoDateTime = z.string().datetime({ offset: true });
+const slug = z.string().regex(/^[a-z0-9-]+$/);
+
+const games = defineCollection({
+  loader: file('src/data/games.json'),
+  schema: z.object({
+    id: slug, // URL에 쓰임: /games/{id}
+    order: z.number().int(),
+    name: z.string(),
+    shortName: z.string(),
+    seasonTerm: z.string(), // 리그, 시즌 등
+    themeColor: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+    officialUrl: z.string().url().optional(),
+  }),
+});
+
+const seasons = defineCollection({
+  loader: file('src/data/seasons.json'),
+  schema: z.object({
+    id: z.string(),
+    gameId: reference('games'), // games.json에 없는 id면 빌드 실패
+    name: z.string(),
+    slug,
+    startsAt: isoDateTime,
+    endsAt: isoDateTime.optional(),
+    timePrecision: z.enum(['exact', 'day']), // exact: 시각까지 확정, day: 날짜만
+    status: z.enum(['confirmed', 'estimated', 'ended']),
+    sourceUrl: z.string().url(),
+    note: z.string().optional(),
+  }),
+});
+
+const events = defineCollection({
+  loader: file('src/data/events.json'),
+  schema: z.object({
+    id: z.string(),
+    gameId: reference('games'),
+    title: z.string(),
+    startsAt: isoDateTime,
+    endsAt: isoDateTime.optional(),
+    timePrecision: z.enum(['exact', 'day']),
+    sourceUrl: z.string().url(),
+  }),
+});
+
+// 패치 목록: 요약 없이 날짜·버전·공식 링크와 직접 쓴 한 줄만
+const patches = defineCollection({
+  loader: file('src/data/patches.json'),
+  schema: z.object({
+    id: z.string(),
+    gameId: reference('games'),
+    version: z.string(),
+    releasedAt: isoDateTime,
+    sourceUrl: z.string().url(), // 공식 패치노트
+    note: z.string().max(80).optional(), // 직접 쓴 한 줄 설명. 원문 번역 금지
+  }),
+});
+
+// 사이트의 핵심 콘텐츠. 시즌 오픈 전 공개 정보 정리 글: src/content/posts/{게임id}/{slug}.md
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
+  schema: z.object({
+    title: z.string(),
+    gameId: reference('games'),
+    seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
+    publishedAt: isoDateTime,
+    sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
+  }),
+});
+
+export const collections = { games, seasons, events, patches, posts };

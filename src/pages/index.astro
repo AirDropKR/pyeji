@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import Countdown from '../components/Countdown.tsx';
+import { formatKst } from '../lib/time';
+
+const games = await getCollection('games');
+const seasons = (await getCollection('seasons')).sort(
+  (a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt),
+);
+const events = await getCollection('events');
+const gameName = (id: string) => games.find((g) => g.id === id)?.data.shortName ?? id;
+const upcoming = seasons.find((s) => Date.parse(s.data.startsAt) > Date.now());
+---
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>폐지.com | ARPG 시즌·패치 달력</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #ccc; }
+    </style>
+  </head>
+  <body>
+    <h1>폐지.com</h1>
+    <p>개발 중인 임시 페이지입니다. 입력된 데이터를 확인하는 용도예요.</p>
+
+    {upcoming && (
+      <p>
+        <strong>{gameName(upcoming.data.gameId.id)} {upcoming.data.name}</strong>까지{' '}
+        <Countdown client:load target={upcoming.data.startsAt} />
+      </p>
+    )}
+
+    <h2>시즌 ({seasons.length})</h2>
+    <table>
+      <thead><tr><th>게임</th><th>시즌</th><th>시작 (한국 시간)</th><th>상태</th><th>출처</th></tr></thead>
+      <tbody>
+        {seasons.map((s) => (
+          <tr>
+            <td>{gameName(s.data.gameId.id)}</td>
+            <td>{s.data.name}</td>
+            <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
+            <td>{s.data.status}</td>
+            <td><a href={s.data.sourceUrl}>링크</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <h2>이벤트 ({events.length})</h2>
+    <ul>
+      {events.map((e) => (
+        <li>{gameName(e.data.gameId.id)}: {e.data.title} ({formatKst(e.data.startsAt, e.data.timePrecision)})</li>
+      ))}
+    </ul>
+  </body>
+</html>
