@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+
+interface Props { title?: string; description?: string; }
+const { title, description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리합니다.' } = Astro.props;
+const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | ARPG 시즌·패치 달력';
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a class="logo" href="/" aria-label="폐지.com 처음으로">폐지.com</a>
+        <nav class="site-nav" aria-label="게임">
+          {games.map((g) => (
+            <a href={`/games/${g.id}`} aria-current={path.startsWith(`/games/${g.id}`) ? 'page' : undefined}>{g.data.shortName}</a>
+          ))}
+        </nav>
+      </header>
+      <main class="sheet">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        비공식 팬 사이트예요. 일정은 공식 발표를 기준으로 정리하고, 각 항목에 출처를 달아둡니다. 시간은 모두 한국 시간이에요.
+      </footer>
+    </div>
+    <script>import '../scripts/live.ts';</script>
+  </body>
+</html>

@@ -1,5 +1,28 @@
 [
   {
+    "id": "poe1-3-29",
+    "gameId": "poe1",
+    "name": "3.29 Curse of the Allflame",
+    "slug": "3-29",
+    "startsAt": "2026-07-24T20:00:00Z",
+    "endsAt": "2026-11-09T21:00:00Z",
+    "timePrecision": "day",
+    "status": "confirmed",
+    "sourceUrl": "https://www.arpg-timeline.com/game/path-of-exile",
+    "note": "종료는 태평양 시간 11월 9일 오후 1시. 시작 시각은 공식 출처로 확인 후 exact로 변경"
+  },
+  {
+    "id": "poe1-3-30",
+    "gameId": "poe1",
+    "name": "3.30",
+    "slug": "3-30",
+    "startsAt": "2026-11-13T21:00:00Z",
+    "timePrecision": "day",
+    "status": "confirmed",
+    "sourceUrl": "https://maxroll.gg/poe/news/3-30-expansion-timeline",
+    "note": "태평양 시간 11월 13일 = 한국 시간 11월 14일. 정확한 시각 미발표. 리그 이름은 엑자일콘에서 공개"
+  },
+  {
     "id": "poe2-1-0",
     "gameId": "poe2",
     "name": "정식 출시 (1.0)",
@@ -8,7 +31,7 @@
     "timePrecision": "day",
     "status": "confirmed",
     "sourceUrl": "https://www.inven.co.kr/webzine/news/?news=322076",
-    "note": "한국 기준 12월 12일. 정확한 오픈 시각은 확인 후 timePrecision을 exact로 변경"
+    "note": "한국 기준 12월 12일. 정확한 오픈 시각은 확인 후 exact로 변경"
   },
   {
     "id": "le-s5",

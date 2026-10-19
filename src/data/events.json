@@ -1,5 +1,13 @@
 [
   {
+    "id": "poe1-3-30-reveal",
+    "gameId": "poe1",
+    "title": "3.30 전체 공개 (엑자일콘 키노트)",
+    "startsAt": "2026-11-06T20:00:00Z",
+    "timePrecision": "day",
+    "sourceUrl": "https://maxroll.gg/poe/news/3-30-expansion-timeline"
+  },
+  {
     "id": "exilecon-2026",
     "gameId": "poe2",
     "title": "엑자일콘 (정식 출시 정보 공개)",

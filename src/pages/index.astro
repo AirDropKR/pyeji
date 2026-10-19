@@ -1,59 +1,125 @@
 ---
+import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import Countdown from '../components/Countdown.tsx';
-import { formatKst } from '../lib/time';
+import { timelineFor } from '../lib/seasons';
+import { formatKst, daysUntil, ddayLabel } from '../lib/time';
 
-const games = await getCollection('games');
-const seasons = (await getCollection('seasons')).sort(
-  (a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt),
-);
+const now = Date.now();
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+const seasons = await getCollection('seasons');
 const events = await getCollection('events');
-const gameName = (id: string) => games.find((g) => g.id === id)?.data.shortName ?? id;
-const upcoming = seasons.find((s) => Date.parse(s.data.startsAt) > Date.now());
+const posts = (await getCollection('posts')).sort(
+  (a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt),
+);
+const gameOf = (id: string) => games.find((g) => g.id === id)!;
+
+const rows = games.map((g) => ({ g, ...timelineFor(g.id, seasons, now) }));
+const hero = seasons
+  .filter((s) => Date.parse(s.data.startsAt) > now)
+  .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt))[0];
+const heroGame = hero && gameOf(hero.data.gameId.id);
+const upcoming = events
+  .filter((e) => Date.parse(e.data.endsAt ?? e.data.startsAt) > now)
+  .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt))
+  .slice(0, 6);
 ---
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>폐지.com | ARPG 시즌·패치 달력</title>
-    <style>
-      body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
-      table { border-collapse: collapse; width: 100%; }
-      th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #ccc; }
-    </style>
-  </head>
-  <body>
-    <h1>폐지.com</h1>
-    <p>개발 중인 임시 페이지입니다. 입력된 데이터를 확인하는 용도예요.</p>
+<Base>
+  {hero && heroGame ? (
+    <section class="hero">
+      <div>
+        <p class="muted" style="margin:0 0 6px">가장 먼저 열리는 시즌</p>
+        <h1>{heroGame.data.shortName} {hero.data.name}</h1>
+        <p>
+          한국 시간 {formatKst(hero.data.startsAt, hero.data.timePrecision)} 시작
+          {hero.data.status === 'estimated' && ' (예상)'}
+          {hero.data.timePrecision === 'day' && <span class="muted">, 정확한 시각은 아직 발표 전</span>}
+        </p>
+      </div>
+      <span class:list={['stamp big', { estimate: hero.data.status === 'estimated' }]} data-dday={hero.data.startsAt}>
+        {ddayLabel(daysUntil(hero.data.startsAt, now))}
+      </span>
+    </section>
+  ) : (
+    <section class="hero"><h1>지금 발표된 다음 시즌이 없어요</h1></section>
+  )}
 
-    {upcoming && (
-      <p>
-        <strong>{gameName(upcoming.data.gameId.id)} {upcoming.data.name}</strong>까지{' '}
-        <Countdown client:load target={upcoming.data.startsAt} />
-      </p>
-    )}
-
-    <h2>시즌 ({seasons.length})</h2>
-    <table>
-      <thead><tr><th>게임</th><th>시즌</th><th>시작 (한국 시간)</th><th>상태</th><th>출처</th></tr></thead>
-      <tbody>
-        {seasons.map((s) => (
-          <tr>
-            <td>{gameName(s.data.gameId.id)}</td>
-            <td>{s.data.name}</td>
-            <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
-            <td>{s.data.status}</td>
-            <td><a href={s.data.sourceUrl}>링크</a></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-
-    <h2>이벤트 ({events.length})</h2>
-    <ul>
-      {events.map((e) => (
-        <li>{gameName(e.data.gameId.id)}: {e.data.title} ({formatKst(e.data.startsAt, e.data.timePrecision)})</li>
+  <section style="margin-top:28px" aria-labelledby="games-title">
+    <h2 class="section-title" id="games-title">게임별 시즌</h2>
+    <ul class="games">
+      {rows.map(({ g, current, next, currentEndsAt }) => (
+        <li class="game-row gc" style={`--game-raw:${g.data.themeColor}`}>
+          <div>
+            <h3><a href={`/games/${g.id}`}>{g.data.shortName}</a></h3>
+            <span class="small muted">{g.data.name}</span>
+          </div>
+          <div>
+            {current ? (
+              <>
+                <strong>{current.data.name}</strong>
+                {currentEndsAt && (
+                  <div class="progress" data-progress-start={current.data.startsAt} data-progress-end={currentEndsAt} aria-hidden="true"><i style="width:0"></i></div>
+                )}
+                <span class="small muted" style="display:block">
+                  <span data-elapsed={current.data.startsAt}></span>
+                  {current.data.endsAt && `, ${formatKst(current.data.endsAt, 'exact')} 종료`}
+                </span>
+              </>
+            ) : (
+              <span class="muted">진행 중인 {g.data.seasonTerm} 정보가 아직 없어요</span>
+            )}
+          </div>
+          <div class="next">
+            {next ? (
+              <>
+                <span class:list={['stamp small', { estimate: next.data.status === 'estimated' }]} data-dday={next.data.startsAt}>
+                  {ddayLabel(daysUntil(next.data.startsAt, now))}
+                </span>
+                <span class="when">
+                  {next.data.name} {formatKst(next.data.startsAt, next.data.timePrecision)}
+                  {next.data.status === 'estimated' && ' 예상'}
+                </span>
+              </>
+            ) : (
+              <span class="small muted">다음 {g.data.seasonTerm} 미발표</span>
+            )}
+          </div>
+        </li>
       ))}
     </ul>
-  </body>
-</html>
+  </section>
+
+  <div class="split">
+    <section aria-labelledby="events-title">
+      <h2 class="section-title" id="events-title">다가오는 일정</h2>
+      {upcoming.length ? (
+        <ul class="plain-list">
+          {upcoming.map((e) => {
+            const g = gameOf(e.data.gameId.id);
+            return (
+              <li class="gc" style={`--game-raw:${g.data.themeColor}`}>
+                <span class="date">{formatKst(e.data.startsAt, e.data.timePrecision)}</span>
+                <span class="tag">{g.data.shortName}</span>{e.data.title}
+              </li>
+            );
+          })}
+        </ul>
+      ) : <p class="muted">예정된 공개 방송이나 일정이 없어요.</p>}
+    </section>
+    <section aria-labelledby="posts-title">
+      <h2 class="section-title" id="posts-title">최근 사전 정보</h2>
+      {posts.length ? (
+        <ul class="plain-list">
+          {posts.slice(0, 5).map((p) => {
+            const g = gameOf(p.data.gameId.id);
+            return (
+              <li class="gc" style={`--game-raw:${g.data.themeColor}`}>
+                <span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span>
+                <span class="tag">{g.data.shortName}</span><a href={`/posts/${p.id}`}>{p.data.title}</a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : <p class="muted">아직 정리한 글이 없어요.</p>}
+    </section>
+  </div>
+</Base>

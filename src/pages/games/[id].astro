@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { timelineFor, sortByStart } from '../../lib/seasons';
+import { formatKst, daysUntil, ddayLabel } from '../../lib/time';
+
+export async function getStaticPaths() {
+  const games = await getCollection('games');
+  return games.map((g) => ({ params: { id: g.id }, props: { game: g } }));
+}
+const { game } = Astro.props;
+const now = Date.now();
+const seasons = await getCollection('seasons');
+const mine = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id)).reverse();
+const { current, next, currentEndsAt } = timelineFor(game.id, seasons, now);
+const posts = (await getCollection('posts', (p) => p.data.gameId.id === game.id)).sort(
+  (a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt),
+);
+const patches = (await getCollection('patches', (p) => p.data.gameId.id === game.id)).sort(
+  (a, b) => Date.parse(b.data.releasedAt) - Date.parse(a.data.releasedAt),
+);
+const statusLabel = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
+const term = game.data.seasonTerm;
+---
+<Base title={`${game.data.shortName} 다음 ${term} 언제? ${term} 일정 정리`} description={`${game.data.name}의 현재 ${term}, 다음 ${term} 시작일(한국 시간)과 사전 공개 정보를 정리합니다.`}>
+  <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
+    <div>
+      <h1>{game.data.name}</h1>
+      <p>
+        {next ? <>다음 {term} {next.data.name}, 한국 시간 {formatKst(next.data.startsAt, next.data.timePrecision)}{next.data.status === 'estimated' ? ' 예상' : ' 시작'}</> : <>다음 {term}은 아직 발표되지 않았어요</>}
+      </p>
+      {game.data.officialUrl && <p class="small"><a href={game.data.officialUrl} rel="noopener">공식 사이트</a></p>}
+    </div>
+    {next && (
+      <span class:list={['stamp big', { estimate: next.data.status === 'estimated' }]} data-dday={next.data.startsAt}>
+        {ddayLabel(daysUntil(next.data.startsAt, now))}
+      </span>
+    )}
+  </section>
+
+  {current && (
+    <section class="gc" style={`margin-top:28px;--game-raw:${game.data.themeColor}`}>
+      <h2 class="section-title">진행 중인 {term}</h2>
+      <strong>{current.data.name}</strong>
+      {currentEndsAt && <div class="progress" data-progress-start={current.data.startsAt} data-progress-end={currentEndsAt} aria-hidden="true"><i style="width:0"></i></div>}
+      <p class="small muted" style="margin:0">
+        <span data-elapsed={current.data.startsAt}></span>
+        {current.data.endsAt && `, ${formatKst(current.data.endsAt, 'exact')} 종료`}
+      </p>
+    </section>
+  )}
+
+  <section style="margin-top:36px">
+    <h2 class="section-title">사전 정보</h2>
+    {posts.length ? (
+      <ul class="plain-list">
+        {posts.map((p) => (
+          <li><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}`}>{p.data.title}</a></li>
+        ))}
+      </ul>
+    ) : <p class="muted">이 게임의 사전 정보 글은 아직 없어요.</p>}
+  </section>
+
+  <section style="margin-top:36px">
+    <h2 class="section-title">{term} 기록</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>{term}</th><th>시작</th><th>종료</th><th>상태</th></tr></thead>
+        <tbody>
+          {mine.map((s) => (
+            <tr>
+              <td>{s.data.name}</td>
+              <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
+              <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact') : '미정'}</td>
+              <td><a href={s.data.sourceUrl} rel="noopener">{statusLabel[s.data.status]}</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {patches.length > 0 && (
+    <section style="margin-top:36px">
+      <h2 class="section-title">패치 목록</h2>
+      <ul class="plain-list">
+        {patches.map((p) => (
+          <li><span class="date">{formatKst(p.data.releasedAt, 'day')}</span><a href={p.data.sourceUrl} rel="noopener">{p.data.version} 공식 패치노트</a>{p.data.note && <span class="muted">, {p.data.note}</span>}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>
