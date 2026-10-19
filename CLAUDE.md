@@ -42,7 +42,8 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 
 ## 화면
 - `src/layouts/Base.astro` 공통 레이아웃(구글 폰트 링크 포함), `src/styles/global.css` 공통 스타일
-- 디자인 토큰은 `src/styles/tokens.css`에만 둔다 (색, 서체, 도장 모양, 간격). 페이지에 색·서체·여백을 직접 쓰지 않는다. 예외는 게임 색 `--game-raw` 하나
+- 디자인 토큰은 `src/styles/tokens.css`에만 둔다 (색, 서체, 도장 모양, 간격). 페이지에 색·서체·여백을 직접 쓰지 않는다. 예외는 데이터에서 오는 값: 게임 색 `--game-raw`, 폐지달력 막대 위치 `--l`·`--w`
+- 폐지달력(`/calendar/`): `src/lib/calendar.ts`가 기간(이번 달 기준 12개월 전 ~ 4개월 뒤)과 막대 위치를 계산. 종료일이 없는 시즌은 다음 시즌 시작까지, 다음 시즌도 없으면 기간 끝까지 흐리게. 오늘 선은 `live.ts`가 브라우저에서 위치를 잡음
 - D-day 도장은 `DdayStamp.astro`, 진행률 막대는 `SeasonProgress.astro`로만 그린다. 디자인을 바꿀 때는 tokens.css → 두 컴포넌트 → global.css 순으로 고친다
 - 콘셉트: 시안 A "날짜 도장". 재생지(크라프트지) 위에 찍은 날짜 도장. 튀는 요소는 D-day 도장 하나뿐, 나머지는 조용하게. 예상 일정 도장은 점선
 - D-day·진행률은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 다시 계산

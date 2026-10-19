@@ -16,5 +16,18 @@ function update() {
   document.querySelectorAll<HTMLElement>('[data-elapsed]').forEach((el) => {
     el.textContent = `${-daysUntil(el.dataset.elapsed!, now) + 1}일째`;
   });
+  // 폐지달력: 오늘 선 위치를 잡고, 좁은 화면에서는 오늘이 보이도록 가로 스크롤
+  document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((el) => {
+    const start = Number(el.dataset.rangeStart);
+    const end = Number(el.dataset.rangeEnd);
+    const line = el.querySelector<HTMLElement>('[data-today-line]');
+    if (!line || now < start || now >= end) return;
+    const pct = ((now - start) / (end - start)) * 100;
+    line.style.setProperty('--l', `${pct.toFixed(3)}%`);
+    line.hidden = false;
+    const overlay = line.parentElement!;
+    const x = overlay.offsetLeft + (overlay.clientWidth * pct) / 100;
+    if (x > el.clientWidth * 0.75) el.scrollLeft = x - el.clientWidth * 0.6;
+  });
 }
 update();

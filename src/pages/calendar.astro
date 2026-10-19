@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { timelineRange, monthTicks, seasonSpans, pct } from '../lib/calendar';
+import { formatKst } from '../lib/time';
+
+const now = Date.now();
+const range = timelineRange(now);
+const ticks = monthTicks(range);
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+const seasons = await getCollection('seasons');
+const events = await getCollection('events');
+
+const rows = games.map((g) => ({
+  g,
+  spans: seasonSpans(g.id, seasons, range),
+  dots: events.filter((e) => {
+    const t = Date.parse(e.data.startsAt);
+    return e.data.gameId.id === g.id && t >= range.start && t < range.end;
+  }),
+}));
+
+const pos = (start: number, end: number) => {
+  const l = pct(start, range);
+  return `--l:${l.toFixed(3)}%;--w:${(pct(end, range) - l).toFixed(3)}%`;
+};
+const status = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
+---
+<Base title="폐지달력" description="POE1, POE2, 디아블로 4, 라스트 에폭, 토치라이트: 인피니트의 최근 1년 시즌과 앞으로 발표된 일정을 한국 시간 타임라인으로 보여줍니다.">
+  <section class="hero">
+    <div>
+      <h1>폐지달력</h1>
+      <p>최근 1년의 시즌과 앞으로 발표된 일정을 게임별로 한 줄에 펼쳤어요.</p>
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="tl-title">
+    <h2 class="section-title" id="tl-title">시즌 타임라인</h2>
+    <ul class="tl-legend small">
+      <li><i class="tl-key fill"></i>확정</li>
+      <li><i class="tl-key dashed"></i>예상</li>
+      <li><i class="tl-key dot"></i>공개 방송 등 일정</li>
+      <li><i class="tl-key today"></i>오늘</li>
+    </ul>
+
+    <div class="timeline" data-timeline data-range-start={range.start} data-range-end={range.end}>
+      <div class="tl-inner">
+        <div class="tl-grid" aria-hidden="true">
+          {ticks.map((t) => <i style={`--l:${pct(t.at, range).toFixed(3)}%`}></i>)}
+        </div>
+        <div class="tl-axis" aria-hidden="true">
+          <span class="tl-label"></span>
+          <div class="tl-track">
+            {ticks.map((t) => (
+              <span class="tl-tick" style={`--l:${pct(t.at, range).toFixed(3)}%`}>
+                {t.month}월{t.year && <b>{t.year}</b>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {rows.map(({ g, spans, dots }) => (
+          <div class="tl-row gc" style={`--game-raw:${g.data.themeColor}`}>
+            <a class="tl-label" href={`/games/${g.id}/`}>{g.data.shortName}</a>
+            <div class="tl-track">
+              {spans.map((sp) => {
+                const s = sp.season.data;
+                const when = `${formatKst(s.startsAt, s.timePrecision, true)} ~ ${sp.endKnown ? formatKst(s.endsAt!, 'exact', true) : sp.open ? '진행 중' : '다음 시즌 시작까지'}`;
+                return (
+                  <a
+                    class:list={['tl-bar', { estimate: s.status === 'estimated', ended: s.status === 'ended', open: sp.open }]}
+                    href={`/games/${g.id}/`}
+                    style={pos(sp.start, sp.end)}
+                    title={`${s.name}${s.nameEn ? ` (${s.nameEn})` : ''} · ${when} · ${status[s.status]}`}
+                    aria-label={`${g.data.name} ${s.name}, ${when}, ${status[s.status]}`}
+                  >
+                    <span>{s.name}</span>
+                  </a>
+                );
+              })}
+              {dots.map((e) => (
+                <span
+                  class="tl-dot"
+                  style={`--l:${pct(Date.parse(e.data.startsAt), range).toFixed(3)}%`}
+                  role="img"
+                  title={`${formatKst(e.data.startsAt, e.data.timePrecision)} ${e.data.title}`}
+                  aria-label={`${formatKst(e.data.startsAt, e.data.timePrecision)} ${e.data.title}`}
+                ></span>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="tl-overlay" aria-hidden="true">
+          <span class="tl-today" data-today-line hidden><b>오늘</b></span>
+        </div>
+      </div>
+    </div>
+    <p class="small muted">
+      종료일이 발표되지 않은 시즌은 다음 시즌 시작까지 그렸어요. 다음 시즌이 아직 없으면 오른쪽 끝까지 흐리게 이어져요.
+      막대를 누르면 게임별 일정으로 이동해요.
+    </p>
+  </section>
+</Base>

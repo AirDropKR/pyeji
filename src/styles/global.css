@@ -40,6 +40,7 @@ img { max-width: 100%; }
 /* 헤더·푸터 */
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
 .logo {
+  flex-shrink: 0;
   font-family: var(--font-display); font-size: 26px; color: var(--stamp);
   text-decoration: none; border: 3px var(--stamp-line) var(--stamp); border-radius: 6px;
   padding: 2px 10px 0; transform: rotate(var(--logo-tilt)); display: inline-block;
@@ -103,6 +104,54 @@ img { max-width: 100%; }
 .plain-list li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
 .plain-list .date { display: block; font-size: 14px; color: var(--muted); }
 .tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 0 8px; border-radius: 999px; border: 1.5px solid var(--game, var(--ink)); margin-right: 6px; }
+
+/* 폐지달력 (calendar.astro). 위치는 --l(왼쪽)·--w(폭) 퍼센트로 받는다 */
+.tl-legend { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); }
+.tl-legend li { display: flex; align-items: center; gap: 6px; }
+.tl-key { display: inline-block; width: 22px; height: 10px; border-radius: 2px; }
+.tl-key.fill { background: var(--ink); }
+.tl-key.dashed { border: 2px dashed var(--ink); }
+.tl-key.dot { width: 12px; height: 12px; border-radius: 50%; border: 3px solid var(--ink); background: var(--paper); }
+.tl-key.today { width: 2px; height: 16px; border-radius: 0; background: var(--stamp); }
+
+.timeline { --tl-label: 112px; overflow-x: auto; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+.tl-inner { position: relative; min-width: 860px; }
+.tl-axis, .tl-row { display: grid; grid-template-columns: var(--tl-label) minmax(0, 1fr); }
+.tl-row { border-top: 1px solid var(--rule); }
+.tl-track { position: relative; z-index: 1; height: 38px; }
+.tl-axis .tl-track { height: 44px; }
+.tl-label {
+  position: sticky; left: 0; z-index: 3; background: var(--paper);
+  display: flex; align-items: center; padding-right: 10px;
+  font-family: var(--font-display); font-size: 15px; line-height: 1.15; color: var(--ink); text-decoration: none;
+}
+a.tl-label:hover { color: var(--stamp); }
+.tl-tick { position: absolute; left: var(--l); bottom: 5px; padding-left: 5px; font-size: 12.5px; line-height: 1.3; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tl-tick b { position: absolute; bottom: 100%; left: 5px; font-weight: 700; color: var(--ink); }
+
+.tl-grid, .tl-overlay { position: absolute; top: 0; bottom: 0; left: var(--tl-label); right: 0; pointer-events: none; }
+.tl-grid { z-index: 0; }
+.tl-grid i { position: absolute; top: 0; bottom: 0; left: var(--l); border-left: 1px dashed var(--rule); }
+.tl-overlay { z-index: 2; }
+.tl-today { position: absolute; top: 0; bottom: 0; left: var(--l); border-left: 2px solid var(--stamp); }
+.tl-today b { position: absolute; top: 4px; left: 4px; white-space: nowrap; font-size: 12px; color: var(--stamp); background: var(--paper); padding: 0 4px; border-radius: 2px; }
+
+.tl-bar {
+  position: absolute; left: var(--l); width: max(4px, calc(var(--w) - 2px)); top: 6px; bottom: 6px;
+  display: flex; align-items: center; padding: 0 8px; border-radius: 3px; overflow: hidden;
+  background: var(--game); color: var(--paper); text-decoration: none;
+  font-size: 12.5px; font-weight: 500; white-space: nowrap;
+}
+.tl-bar span { overflow: hidden; text-overflow: ellipsis; }
+.tl-bar.ended { background: color-mix(in oklab, var(--game) 55%, var(--paper)); color: var(--ink); }
+.tl-bar.open { -webkit-mask-image: linear-gradient(90deg, #000 72%, transparent); mask-image: linear-gradient(90deg, #000 72%, transparent); }
+.tl-bar.estimate { background: transparent; border: 2px dashed var(--game); color: var(--ink); }
+.tl-bar:hover { filter: brightness(1.08); }
+.tl-bar:focus-visible { outline-offset: 1px; z-index: 3; }
+.tl-dot {
+  position: absolute; left: var(--l); top: 50%; z-index: 2; width: 13px; height: 13px; transform: translate(-50%, -50%);
+  border-radius: 50%; background: var(--paper); border: 3px solid var(--ink);
+}
 
 /* 표 */
 .tbl { overflow-x: auto; }
