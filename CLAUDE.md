@@ -11,7 +11,8 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - Astro (정적 출력) + TypeScript strict
 - 상호작용 부분만 React 컴포넌트 (`client:load` 등으로 필요한 곳에만)
 - 방문자 쪽 데이터베이스 없음. 일정·패치 목록은 `src/data/*.json`, 게시글은 `src/content/posts/**/*.md`, 스키마는 `src/content.config.ts`
-- 배포: Cloudflare Pages (빌드 `npm run build`, 출력 `dist`)
+- 배포: Cloudflare Workers 프로젝트 (Git 연동, main push 시 자동 배포. 빌드 `npm run build`, 출력 `dist`). 배포 설정은 대시보드에서 관리하므로 건드리지 않는다. wrangler 설정 파일이 생기면 수정 전에 확인받기
+- Node: `.nvmrc`는 22 유지 (로컬은 24 사용 중)
 
 ## 폴더
 - `src/data/` JSON 데이터 (games, seasons, events, patches)
