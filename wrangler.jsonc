@@ -1,0 +1,13 @@
+// Cloudflare Workers 배포 설정. 대시보드의 Git 연동이 `npx wrangler deploy`로 이 파일을 읽는다.
+// 도메인(pyeji.kr) 연결은 대시보드에서 관리하므로 여기에 routes를 두지 않는다.
+{
+  "name": "pyeji",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // 없는 주소는 dist/404.html을 404 코드와 함께 보여준다
+    "not_found_handling": "404-page",
+    // /about → /about/ 리다이렉트 (지금 동작 유지)
+    "html_handling": "auto-trailing-slash"
+  }
+}
