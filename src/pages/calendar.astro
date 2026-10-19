@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { timelineRange, monthTicks, seasonSpans, pct } from '../lib/calendar';
 import { formatKst } from '../lib/time';
+import { seasonPath } from '../lib/seasons';
 
 const now = Date.now();
 const range = timelineRange(now);
@@ -69,7 +70,7 @@ const status = { confirmed: '확정', estimated: '예상', ended: '종료' } as 
                 return (
                   <a
                     class:list={['tl-bar', { estimate: s.status === 'estimated', ended: s.status === 'ended', open: sp.open }]}
-                    href={`/games/${g.id}/`}
+                    href={seasonPath(sp.season)}
                     style={pos(sp.start, sp.end)}
                     title={`${s.name}${s.nameEn ? ` (${s.nameEn})` : ''} · ${when} · ${status[s.status]}`}
                     aria-label={`${g.data.name} ${s.name}, ${when}, ${status[s.status]}`}
@@ -98,7 +99,7 @@ const status = { confirmed: '확정', estimated: '예상', ended: '종료' } as 
     </div>
     <p class="small muted">
       종료일이 발표되지 않은 시즌은 다음 시즌 시작까지 표시. 다음 시즌이 없으면 오른쪽 끝까지 흐리게 표시.
-      막대를 누르면 게임별 일정으로 이동.
+      막대를 누르면 시즌 상세로 이동.
     </p>
   </section>
 </Base>

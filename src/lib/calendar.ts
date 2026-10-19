@@ -21,8 +21,8 @@ export interface Span {
 /** 한국 시간 기준 y년 m월 1일 0시 (m은 0부터, 범위를 넘으면 연도로 넘어감) */
 const kstMonthStart = (y: number, m: number) => Date.UTC(y, m, 1) - KST_OFFSET;
 
-/** 이번 달 기준 before개월 전 1일부터 after개월 뒤 말일까지 */
-export function timelineRange(now = Date.now(), before = 12, after = 4): Range {
+/** 이번 달 기준 before개월 전 1일부터 after개월 뒤 말일까지 (기본: 12개월 전 ~ 6개월 뒤) */
+export function timelineRange(now = Date.now(), before = 12, after = 6): Range {
   const d = new Date(now + KST_OFFSET);
   const y = d.getUTCFullYear();
   const m = d.getUTCMonth();

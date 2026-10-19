@@ -81,7 +81,7 @@ img { max-width: 100%; }
 /* 게임별 행 */
 .games { list-style: none; margin: 0; padding: 0; }
 .game-row {
-  display: grid; grid-template-columns: 210px minmax(0, 1fr) 190px; gap: 20px; align-items: center;
+  display: grid; grid-template-columns: 210px minmax(0, 1fr) 260px; gap: 20px; align-items: center;
   padding: 18px 0 18px 14px; border-bottom: 1px solid var(--rule);
   border-left: 5px solid var(--game, var(--ink));
 }
@@ -89,10 +89,13 @@ img { max-width: 100%; }
 .game-row h3 a { color: inherit; text-decoration: none; }
 .game-row h3 a:hover { text-decoration: underline; }
 .game-row .next { text-align: right; }
-.game-row .next .when { display: block; font-size: 14px; margin-top: 6px; }
+.game-row .next-body { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+.game-row .next .when { font-size: 14px; line-height: 1.45; }
+.slot-label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted); }
 @media (max-width: 720px) {
   .game-row { grid-template-columns: 1fr; gap: 8px; }
   .game-row .next { text-align: left; }
+  .game-row .next-body { justify-content: flex-start; }
 }
 
 /* 진행률 (SeasonProgress.astro) */
@@ -123,6 +126,14 @@ img { max-width: 100%; }
 .game-id { display: flex; align-items: center; gap: 12px; }
 .game-title { display: flex; align-items: center; gap: 14px; }
 
+/* 시즌 상세 페이지 */
+.season-link { color: inherit; text-decoration: none; }
+.season-link:hover { text-decoration: underline; }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 24px; margin: 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.season-nav { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--rule); }
+
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }
 .post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }
@@ -152,7 +163,7 @@ img { max-width: 100%; }
 .tl-key.today { width: 2px; height: 16px; border-radius: 0; background: var(--stamp); }
 
 .timeline { --tl-label: 112px; overflow-x: auto; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
-.tl-inner { position: relative; min-width: 860px; }
+.tl-inner { position: relative; min-width: 900px; }
 .tl-axis, .tl-row { display: grid; grid-template-columns: var(--tl-label) minmax(0, 1fr); }
 .tl-row { border-top: 1px solid var(--rule); }
 .tl-track { position: relative; z-index: 1; height: 38px; }

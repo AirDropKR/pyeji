@@ -27,7 +27,9 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 ## 데이터 규칙
 - 모든 시각은 UTC ISO 8601로 저장 (`2026-12-11T15:00:00Z`). 화면에서만 KST로 변환 (`src/lib/time.ts`)
 - 시각이 확정되지 않았으면 `timePrecision: "day"`, 확정되면 `"exact"`
-- 시즌 상태: `confirmed`(공식 발표) / `estimated`(과거 주기로 계산한 예상) / `ended`
+- 시즌 상태: `confirmed`(공식 발표) / `estimated`(과거 주기로 계산한 예상) / `ended`. 끝난 시즌은 반드시 `ended`로 바꾼다 (시즌 상세 페이지의 검색 노출 기준)
+- 시즌 상세 페이지(`/games/{id}/seasons/{slug}/`): `ended`이고 연결된 글이 없으면 noindex + 사이트맵 제외. 기준은 `src/lib/seasons.ts`의 `isIndexable`과 `astro.config.mjs`의 사이트맵 필터 두 곳에 있으니 함께 고친다
+- 이벤트의 `seasonId`(선택)로 시즌 상세 페이지의 "관련 일정"에 연결
 - `sourceUrl`은 필수. 가능하면 공식 출처
 - `id`와 `slug`는 소문자 영문, 숫자, 하이픈만
 - 시즌 이름: `name`은 국내 서비스사의 한국어 공식 이름, `nameEn`은 영어 원제. 업데이트 이름과 리그 이름이 다르면 `·`로 같이 적는다 (예: `0.5 고대의 귀환 · 알두르의 룬` / `Return of the Ancients · Runes of Aldur`)
@@ -56,7 +58,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 ## 화면
 - `src/layouts/Base.astro` 공통 레이아웃(구글 폰트 링크 포함), `src/styles/global.css` 공통 스타일
 - 디자인 토큰은 `src/styles/tokens.css`에만 둔다 (색, 서체, 도장 모양, 간격). 페이지에 색·서체·여백을 직접 쓰지 않는다. 예외는 데이터에서 오는 값: 게임 색 `--game-raw`, 폐지달력 막대 위치 `--l`·`--w`
-- 폐지달력(`/calendar/`): `src/lib/calendar.ts`가 기간(이번 달 기준 12개월 전 ~ 4개월 뒤)과 막대 위치를 계산. 종료일이 없는 시즌은 다음 시즌 시작까지, 다음 시즌도 없으면 기간 끝까지 흐리게. 오늘 선은 `live.ts`가 브라우저에서 위치를 잡음
+- 폐지달력(`/calendar/`): `src/lib/calendar.ts`가 기간(이번 달 기준 12개월 전 ~ 6개월 뒤)과 막대 위치를 계산. 종료일이 없는 시즌은 다음 시즌 시작까지, 다음 시즌도 없으면 기간 끝까지 흐리게. 오늘 선은 `live.ts`가 브라우저에서 위치를 잡음
 - D-day 도장은 `DdayStamp.astro`, 진행률 막대는 `SeasonProgress.astro`로만 그린다. 디자인을 바꿀 때는 tokens.css → 두 컴포넌트 → global.css 순으로 고친다
 - 콘셉트: 시안 A "날짜 도장". 재생지(크라프트지) 위에 찍은 날짜 도장. 튀는 요소는 D-day 도장 하나뿐, 나머지는 조용하게. 예상 일정 도장은 점선
 - D-day·진행률은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 다시 계산

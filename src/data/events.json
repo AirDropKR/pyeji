@@ -2,6 +2,7 @@
   {
     "id": "poe1-3-30-reveal",
     "gameId": "poe1",
+    "seasonId": "poe1-3-30",
     "title": "3.30 공개 (엑자일콘 키노트)",
     "startsAt": "2026-11-06T21:00:00Z",
     "timePrecision": "exact",

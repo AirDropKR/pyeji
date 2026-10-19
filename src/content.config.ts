@@ -41,6 +41,7 @@ const events = defineCollection({
   schema: z.object({
     id: z.string(),
     gameId: reference('games'),
+    seasonId: reference('seasons').optional(), // 특정 시즌 관련 일정이면 연결 (시즌 상세 페이지에 표시)
     title: z.string(),
     startsAt: isoDateTime,
     endsAt: isoDateTime.optional(),

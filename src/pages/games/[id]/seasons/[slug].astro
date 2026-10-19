@@ -1,0 +1,119 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import DdayStamp from '../../../../components/DdayStamp.astro';
+import SeasonName from '../../../../components/SeasonName.astro';
+import SeasonProgress from '../../../../components/SeasonProgress.astro';
+import GameStamp from '../../../../components/GameStamp.astro';
+import PostThumb from '../../../../components/PostThumb.astro';
+import { sortByStart, seasonPath, isIndexable } from '../../../../lib/seasons';
+import { formatKst, kstDay } from '../../../../lib/time';
+
+export async function getStaticPaths() {
+  const games = await getCollection('games');
+  const seasons = await getCollection('seasons');
+  const posts = await getCollection('posts');
+  const events = await getCollection('events');
+  return seasons.map((season) => {
+    const game = games.find((g) => g.id === season.data.gameId.id)!;
+    const list = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id));
+    const i = list.findIndex((s) => s.id === season.id);
+    return {
+      params: { id: game.id, slug: season.data.slug },
+      props: {
+        season,
+        game,
+        prev: list[i - 1],
+        next: list[i + 1],
+        posts: posts
+          .filter((p) => p.data.seasonId?.id === season.id)
+          .sort((a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt)),
+        events: events
+          .filter((e) => e.data.seasonId?.id === season.id)
+          .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt)),
+      },
+    };
+  });
+}
+
+const { season, game, prev, next, posts, events } = Astro.props;
+const s = season.data;
+const term = game.data.seasonTerm;
+const now = Date.now();
+const start = Date.parse(s.startsAt);
+// 종료일이 없으면 다음 시즌 시작을 진행률의 끝으로 쓴다 (게임 페이지와 같은 기준)
+const progressEnd = s.endsAt ?? next?.data.startsAt;
+const upcoming = start > now;
+const over = s.status === 'ended' || (s.endsAt !== undefined && Date.parse(s.endsAt) <= now);
+const state = upcoming ? '시작 전' : over ? '종료' : '진행 중';
+const certainty = { confirmed: '확정', estimated: '예상', ended: '확정' } as const;
+const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined;
+const startText = formatKst(s.startsAt, s.timePrecision, true);
+---
+<Base
+  title={`${game.data.name} ${s.name} 시작일·종료일`}
+  description={`${game.data.name} ${s.name}${s.nameEn ? `(${s.nameEn})` : ''} 한국 시간 ${startText} 시작. 일정, 관련 정보, 공식 출처.`}
+  noindex={!isIndexable(season, posts.length)}
+>
+  <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
+    <div>
+      <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
+      <div class="game-title"><GameStamp game={game} size="md" /><h1><SeasonName season={season} /></h1></div>
+      <p>
+        한국 시간 {startText} 시작
+        {s.timePrecision === 'day' && <span class="muted"> · 시각 발표 전</span>}
+        <span class="muted"> · {state} · {certainty[s.status]}</span>
+      </p>
+    </div>
+    {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
+  </section>
+
+  {!upcoming && !over && progressEnd && (
+    <section class="section tight gc" style={`--game-raw:${game.data.themeColor}`}>
+      <SeasonProgress start={s.startsAt} end={progressEnd} />
+      <p class="small muted flush"><span data-elapsed={s.startsAt}></span></p>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="sched-title">
+    <h2 class="section-title" id="sched-title">일정</h2>
+    <dl class="facts">
+      <dt>시작</dt><dd>{startText}</dd>
+      <dt>종료</dt><dd>{s.endsAt ? formatKst(s.endsAt, 'exact', true) : over ? '공식 발표 없음' : '미정'}</dd>
+      {days !== undefined && <><dt>기간</dt><dd>{days}일</dd></>}
+      <dt>상태</dt><dd>{state} · {certainty[s.status]}</dd>
+    </dl>
+  </section>
+
+  {events.length > 0 && (
+    <section class="section" aria-labelledby="ev-title">
+      <h2 class="section-title" id="ev-title">관련 일정</h2>
+      <ul class="plain-list">
+        {events.map((e) => (
+          <li><span class="date">{formatKst(e.data.startsAt, e.data.timePrecision, true)}</span><a href={e.data.sourceUrl} rel="noopener">{e.data.title}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="section" aria-labelledby="post-title">
+      <h2 class="section-title" id="post-title">사전 정보</h2>
+      <ul class="plain-list">
+        {posts.map((p) => (
+          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="src-title">
+    <h2 class="section-title" id="src-title">출처</h2>
+    <p class="flush"><a href={s.sourceUrl} rel="noopener">{new URL(s.sourceUrl).hostname} 공식 공지</a></p>
+  </section>
+
+  <nav class="season-nav section" aria-label={`${term} 이동`}>
+    {prev ? <a href={seasonPath(prev)}>← 이전 {term}: {prev.data.name}</a> : <span></span>}
+    {next ? <a href={seasonPath(next)}>다음 {term}: {next.data.name} →</a> : <span class="muted">다음 {term} 미발표</span>}
+  </nav>
+</Base>

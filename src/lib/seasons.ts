@@ -13,6 +13,13 @@ export function sortByStart(seasons: Season[]) {
   return [...seasons].sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt));
 }
 
+/** 시즌 상세 페이지 주소 */
+export const seasonPath = (s: Season) => `/games/${s.data.gameId.id}/seasons/${s.data.slug}/`;
+
+/** 검색 노출 여부: 끝났고 연결된 글이 없는 시즌은 내용이 얇아 noindex.
+ *  astro.config.mjs의 사이트맵 필터도 같은 기준을 쓴다 */
+export const isIndexable = (s: Season, linkedPostCount: number) => s.data.status !== 'ended' || linkedPostCount > 0;
+
 /** 빌드 시점 기준 현재·다음 시즌. 숫자(D-day, 진행률)는 브라우저에서 다시 계산 */
 export function timelineFor(gameId: string, seasons: Season[], now = Date.now()): GameTimeline {
   const list = sortByStart(seasons.filter((s) => s.data.gameId.id === gameId));

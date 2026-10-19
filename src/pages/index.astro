@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { timelineFor } from '../lib/seasons';
+import { timelineFor, seasonPath } from '../lib/seasons';
 import DdayStamp from '../components/DdayStamp.astro';
 import SeasonProgress from '../components/SeasonProgress.astro';
 import SeasonName from '../components/SeasonName.astro';
@@ -33,7 +33,7 @@ const upcoming = events
     <section class="hero">
       <div>
         <p class="eyebrow">가장 먼저 열리는 시즌</p>
-        <h1>{heroGame.data.shortName} <SeasonName season={hero} /></h1>
+        <h1><a class="season-link" href={seasonPath(hero)}>{heroGame.data.shortName} <SeasonName season={hero} /></a></h1>
         <p>
           한국 시간 {formatKst(hero.data.startsAt, hero.data.timePrecision)} 시작
           {hero.data.status === 'estimated' && ' (예상)'}
@@ -58,10 +58,11 @@ const upcoming = events
               <span class="small muted">{g.data.name}</span>
             </div>
           </div>
-          <div>
+          <div class="now">
+            <span class="slot-label">진행 중</span>
             {current ? (
               <>
-                <strong><SeasonName season={current} /></strong>
+                <strong><a class="season-link" href={seasonPath(current)}><SeasonName season={current} /></a></strong>
                 {currentEndsAt && (
                   <SeasonProgress start={current.data.startsAt} end={currentEndsAt} />
                 )}
@@ -75,16 +76,17 @@ const upcoming = events
             )}
           </div>
           <div class="next">
+            <span class="slot-label">다음 {g.data.seasonTerm}</span>
             {next ? (
-              <>
-                <DdayStamp at={next.data.startsAt} estimated={next.data.status === 'estimated'} />
+              <div class="next-body">
                 <span class="when">
-                  <SeasonName season={next} />{" "}{formatKst(next.data.startsAt, next.data.timePrecision)}
-                  {next.data.status === 'estimated' && ' 예상'}
+                  <strong><a class="season-link" href={seasonPath(next)}><SeasonName season={next} /></a></strong>
+                  <span class="block">{formatKst(next.data.startsAt, next.data.timePrecision)}{next.data.status === 'estimated' ? ' 예상' : ' 시작'}</span>
                 </span>
-              </>
+                <DdayStamp at={next.data.startsAt} estimated={next.data.status === 'estimated'} />
+              </div>
             ) : (
-              <span class="small muted">다음 {g.data.seasonTerm} 미발표</span>
+              <span class="small muted">미발표</span>
             )}
           </div>
         </li>

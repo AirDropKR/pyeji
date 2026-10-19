@@ -5,6 +5,7 @@ import { getImage } from 'astro:assets';
 import DdayStamp from '../../components/DdayStamp.astro';
 import PostCover from '../../components/PostCover.astro';
 import { formatKst } from '../../lib/time';
+import { seasonPath } from '../../lib/seasons';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -27,7 +28,7 @@ const ogImage = post.data.cover
       <div>
         <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
         <h1>{post.data.title}</h1>
-        <p class="small muted">{formatKst(post.data.publishedAt, 'day')} 갱신</p>
+        <p class="small muted">{formatKst(post.data.publishedAt, 'day')} 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
       </div>
       {season && upcoming && (
         <DdayStamp at={season.data.startsAt} size="big" estimated={season.data.status === 'estimated'} />
