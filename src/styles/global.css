@@ -14,6 +14,8 @@ body {
   color: var(--ink);
   font: 400 16px/1.7 var(--font-body);
   -webkit-font-smoothing: antialiased;
+  word-break: keep-all; /* 한국어는 단어 단위로 줄바꿈 */
+  overflow-wrap: break-word;
 }
 a { color: var(--stamp); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
@@ -79,7 +81,7 @@ img { max-width: 100%; }
 /* 게임별 행 */
 .games { list-style: none; margin: 0; padding: 0; }
 .game-row {
-  display: grid; grid-template-columns: 150px minmax(0, 1fr) 190px; gap: 20px; align-items: center;
+  display: grid; grid-template-columns: 210px minmax(0, 1fr) 190px; gap: 20px; align-items: center;
   padding: 18px 0 18px 14px; border-bottom: 1px solid var(--rule);
   border-left: 5px solid var(--game, var(--ink));
 }
@@ -104,6 +106,41 @@ img { max-width: 100%; }
 .plain-list li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
 .plain-list .date { display: block; font-size: 14px; color: var(--muted); }
 .tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 0 8px; border-radius: 999px; border: 1.5px solid var(--game, var(--ink)); margin-right: 6px; }
+
+/* 게임 도장 (GameStamp.astro): 공식 로고 대신 쓰는 조용한 원형 도장 */
+.game-stamp {
+  --size: 52px;
+  flex-shrink: 0; display: inline-grid; place-items: center; width: var(--size); height: var(--size);
+  border-radius: 50%; border: 3px double var(--game); color: var(--game);
+  font-family: var(--font-display); font-size: calc(var(--size) * 0.3); line-height: 1; letter-spacing: 0.02em;
+  transform: rotate(-8deg); opacity: 0.9;
+  background: radial-gradient(circle, transparent 58%, color-mix(in oklab, var(--game) 10%, transparent) 59%);
+}
+.game-stamp.long { font-size: calc(var(--size) * 0.25); }
+.game-stamp.sm { --size: 44px; border-width: 3px; }
+.game-stamp.md { --size: 60px; border-width: 4px; }
+.game-stamp.lg { --size: 120px; border-width: 6px; }
+.game-id { display: flex; align-items: center; gap: 12px; }
+.game-title { display: flex; align-items: center; gap: 14px; }
+
+/* 게시글 대표 이미지 (PostCover.astro) */
+.post-cover { margin: 0; display: grid; gap: 6px; }
+.post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }
+.post-cover figcaption { text-align: right; }
+.stamp-card {
+  display: flex; align-items: center; gap: clamp(16px, 4vw, 36px); flex-wrap: wrap;
+  padding: clamp(20px, 4vw, 36px); border-radius: 3px;
+  background: color-mix(in oklab, var(--kraft) 70%, var(--paper));
+  background-image: repeating-linear-gradient(115deg, var(--hatch) 0 2px, transparent 2px 9px);
+}
+.stamp-card-text { display: grid; gap: 4px; }
+.stamp-card-text .name { color: var(--muted); }
+.stamp-card-text strong { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 4vw, 34px); line-height: 1.2; }
+
+/* 글 목록 썸네일 (PostThumb.astro) */
+.post-item { display: flex; align-items: center; gap: 14px; }
+.post-thumb { flex-shrink: 0; display: grid; place-items: center; width: 96px; height: 54px; border-radius: 3px; overflow: hidden; background: color-mix(in oklab, var(--kraft) 60%, var(--paper)); }
+.post-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* 폐지달력 (calendar.astro). 위치는 --l(왼쪽)·--w(폭) 퍼센트로 받는다 */
 .tl-legend { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); }
@@ -160,7 +197,7 @@ th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rul
 th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 
 /* 게시글·안내 페이지 본문 */
-.prose { max-width: 68ch; }
+.prose { max-width: 90ch; }
 .prose h2 { font-size: 24px; margin: 36px 0 12px; }
 .prose ul { padding-left: 20px; }
 .prose li { margin: 6px 0; }

@@ -1,7 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, getEntry, render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import DdayStamp from '../../components/DdayStamp.astro';
+import PostCover from '../../components/PostCover.astro';
 import { formatKst } from '../../lib/time';
 
 export async function getStaticPaths() {
@@ -14,8 +16,12 @@ const game = await getEntry(post.data.gameId);
 const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefined;
 const now = Date.now();
 const upcoming = season && Date.parse(season.data.startsAt) > now;
+// 공유 미리보기용: 공식 대표 이미지가 있으면 1200px로 줄여서 쓴다
+const ogImage = post.data.cover
+  ? (await getImage({ src: post.data.cover.src, width: 1200, format: 'jpg' })).src
+  : undefined;
 ---
-<Base title={post.data.title} type="article" description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리했어요.`}>
+<Base title={post.data.title} type="article" image={ogImage} description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`}>
   <article class="gc" style={`--game-raw:${game.data.themeColor}`}>
     <header class="hero">
       <div>
@@ -27,6 +33,9 @@ const upcoming = season && Date.parse(season.data.startsAt) > now;
         <DdayStamp at={season.data.startsAt} size="big" estimated={season.data.status === 'estimated'} />
       )}
     </header>
+    <div class="section tight">
+      <PostCover post={post} game={game} season={season} />
+    </div>
     <div class="prose section tight">
       <Content />
       <h2>출처</h2>

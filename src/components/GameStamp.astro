@@ -1,0 +1,12 @@
+---
+// 게임 도장: 게임 색 원형 이중 테두리 안에 약어(POE1, D4 등). 공식 로고 대신 직접 만든 표식
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+  size?: 'sm' | 'md' | 'lg';
+}
+const { game, size = 'md' } = Astro.props;
+const code = game.id.toUpperCase();
+---
+<span class:list={['game-stamp gc', size, { long: code.length > 3 }]} style={`--game-raw:${game.data.themeColor}`} aria-hidden="true">{code}</span>

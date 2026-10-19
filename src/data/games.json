@@ -1,6 +1,6 @@
 [
-  { "id": "poe1", "order": 1, "name": "패스 오브 엑자일", "shortName": "POE1", "seasonTerm": "리그", "themeColor": "#7A4A1E", "officialUrl": "https://www.pathofexile.com" },
-  { "id": "poe2", "order": 2, "name": "패스 오브 엑자일 2", "shortName": "POE2", "seasonTerm": "리그", "themeColor": "#A8742C", "officialUrl": "https://pathofexile2.com" },
+  { "id": "poe1", "order": 1, "name": "패스 오브 엑자일", "shortName": "POE1", "seasonTerm": "리그", "themeColor": "#7A4A1E", "officialUrl": "https://poe.kakaogames.com" },
+  { "id": "poe2", "order": 2, "name": "패스 오브 엑자일 2", "shortName": "POE2", "seasonTerm": "리그", "themeColor": "#A8742C", "officialUrl": "https://pathofexile2.kakaogames.com" },
   { "id": "d4", "order": 3, "name": "디아블로 4", "shortName": "Diablo 4", "seasonTerm": "시즌", "themeColor": "#8E1B1B", "officialUrl": "https://diablo4.blizzard.com" },
   { "id": "le", "order": 4, "name": "라스트 에폭", "shortName": "Last Epoch", "seasonTerm": "시즌", "themeColor": "#3B6E8F", "officialUrl": "https://lastepoch.com" },
   { "id": "tli", "order": 5, "name": "토치라이트: 인피니트", "shortName": "Torchlight", "seasonTerm": "시즌", "themeColor": "#5B4A9E", "officialUrl": "https://torchlight.xd.com" }

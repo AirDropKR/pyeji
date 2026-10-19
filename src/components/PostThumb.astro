@@ -1,0 +1,16 @@
+---
+// 글 목록 썸네일: 공식 대표 이미지가 있으면 축소본, 없으면 게임 도장
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import GameStamp from './GameStamp.astro';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  game: CollectionEntry<'games'>;
+}
+const { post, game } = Astro.props;
+const cover = post.data.cover;
+---
+<span class="post-thumb" aria-hidden="true">
+  {cover ? <Image src={cover.src} alt="" width={192} height={108} fit="cover" /> : <GameStamp game={game} size="sm" />}
+</span>

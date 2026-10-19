@@ -5,6 +5,8 @@ import { timelineFor, sortByStart } from '../../lib/seasons';
 import DdayStamp from '../../components/DdayStamp.astro';
 import SeasonProgress from '../../components/SeasonProgress.astro';
 import SeasonName from '../../components/SeasonName.astro';
+import GameStamp from '../../components/GameStamp.astro';
+import PostThumb from '../../components/PostThumb.astro';
 import { formatKst } from '../../lib/time';
 
 export async function getStaticPaths() {
@@ -25,12 +27,12 @@ const patches = (await getCollection('patches', (p) => p.data.gameId.id === game
 const statusLabel = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
 const term = game.data.seasonTerm;
 ---
-<Base title={`${game.data.name} 다음 ${term} 언제? ${term} 일정 정리`} description={`${game.data.name}의 현재 ${term}, 다음 ${term} 시작일(한국 시간)과 사전 공개 정보를 정리합니다.`}>
+<Base title={`${game.data.name} 다음 ${term} 언제? ${term} 일정 정리`} description={`${game.data.name}의 현재 ${term}, 다음 ${term} 시작일(한국 시간)과 사전 공개 정보 정리.`}>
   <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
     <div>
-      <h1>{game.data.name}</h1>
+      <div class="game-title"><GameStamp game={game} size="md" /><h1>{game.data.name}</h1></div>
       <p>
-        {next ? <>다음 {term} {next.data.name}, 한국 시간 {formatKst(next.data.startsAt, next.data.timePrecision)}{next.data.status === 'estimated' ? ' 예상' : ' 시작'}</> : <>다음 {term}은 아직 발표되지 않았어요</>}
+        {next ? <>다음 {term} {next.data.name}, 한국 시간 {formatKst(next.data.startsAt, next.data.timePrecision)}{next.data.status === 'estimated' ? ' 예상' : ' 시작'}</> : <>다음 {term} 미발표</>}
       </p>
       {game.data.officialUrl && <p class="small"><a href={game.data.officialUrl} rel="noopener">공식 사이트</a></p>}
     </div>
@@ -56,10 +58,10 @@ const term = game.data.seasonTerm;
     {posts.length ? (
       <ul class="plain-list">
         {posts.map((p) => (
-          <li><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></li>
+          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
       </ul>
-    ) : <p class="muted">이 게임의 사전 정보 글은 아직 없어요.</p>}
+    ) : <p class="muted">아직 정리한 사전 정보 없음</p>}
   </section>
 
   <section class="section">
@@ -80,7 +82,7 @@ const term = game.data.seasonTerm;
           </tbody>
         </table>
       </div>
-    ) : <p class="muted">아직 정리한 {term} 기록이 없어요.</p>}
+    ) : <p class="muted">아직 정리한 {term} 기록 없음</p>}
   </section>
 
   {patches.length > 0 && (

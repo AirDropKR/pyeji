@@ -65,12 +65,20 @@ const patches = defineCollection({
 // 사이트의 핵심 콘텐츠. 시즌 오픈 전 공개 정보 정리 글: src/content/posts/{게임id}/{slug}.md
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     gameId: reference('games'),
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
     publishedAt: isoDateTime,
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
+    // 대표 이미지. 공식 배포 이미지만, 출처 표기 필수. 없으면 직접 만든 도장 카드로 대신한다
+    // 라스트 에폭(약관상 서면 동의 필요)과 토치라이트(이용 조건 미확인)는 넣지 않는다
+    cover: z.object({
+      src: image(), // src/assets/posts/{게임id}/ 아래 파일
+      alt: z.string(),
+      credit: z.string(), // 예: Grinding Gear Games
+      creditUrl: z.string().url(), // 이미지를 가져온 공식 페이지
+    }).optional(),
   }),
 });
 

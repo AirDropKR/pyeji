@@ -7,13 +7,17 @@ interface Props {
   description?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
+  /** 공유 미리보기 이미지 경로 (사이트 기준 상대 경로 가능) */
+  image?: string;
 }
 const {
   title,
-  description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리합니다.',
+  description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리.',
   type = 'website',
   noindex = false,
+  image,
 } = Astro.props;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
 const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | ARPG 시즌·패치 달력';
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 const path = Astro.url.pathname;
@@ -33,7 +37,8 @@ const canonical = new URL(path, Astro.site).href;
     <meta property="og:description" content={description} />
     {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content="ko_KR" />
-    <meta name="twitter:card" content="summary" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -58,7 +63,7 @@ const canonical = new URL(path, Astro.site).href;
         <slot />
       </main>
       <footer class="site-footer">
-        <p>비공식 팬 사이트예요. 일정은 공식 발표를 기준으로 정리하고, 각 항목에 출처를 달아둡니다. 시간은 모두 한국 시간이에요.</p>
+        <p>비공식 팬 사이트. 공식 발표 기준, 모든 시간은 한국 시간(KST).</p>
         <nav class="footer-nav" aria-label="사이트 정보">
           <a href="/about/">소개</a>
           <a href="/privacy/">개인정보처리방침</a>

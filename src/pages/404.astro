@@ -4,12 +4,12 @@ import { getCollection } from 'astro:content';
 
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="페이지를 찾을 수 없어요" noindex>
+<Base title="페이지를 찾을 수 없음" noindex>
   <section class="hero">
     <div>
       <p class="eyebrow">404</p>
-      <h1>페이지를 찾을 수 없어요</h1>
-      <p>주소가 바뀌었거나 없는 페이지예요. 아래에서 게임을 골라주세요.</p>
+      <h1>페이지를 찾을 수 없음</h1>
+      <p>주소가 바뀌었거나 없는 페이지다.</p>
     </div>
     <span class="stamp big estimate" aria-hidden="true">404</span>
   </section>
