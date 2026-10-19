@@ -61,7 +61,7 @@
     "slug": "0-3",
     "startsAt": "2025-08-29T20:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3829091",
     "note": "한국 시간 8월 30일 오전 5시 시작. 종료 시각은 공식 공지에서 찾지 못함(0.4.0 일정 공지에 '몇 주 뒤 종료'라고만 있음 https://www.pathofexile.com/forum/view-thread/3876666)"
   },
@@ -73,7 +73,7 @@
     "slug": "0-4",
     "startsAt": "2025-12-12T19:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3885148",
     "note": "한국 시간 12월 13일 오전 4시 시작. 종료 시각은 공식 공지에서 찾지 못함"
   },
@@ -147,7 +147,7 @@
     "slug": "season-10",
     "startsAt": "2025-09-23T15:00:00Z",
     "timePrecision": "day",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24226702",
     "note": "한국 시간 9월 24일 시작. 공지에 시즌 시작 시각 없음(상점 개장만 오전 4시)"
   },
@@ -159,7 +159,7 @@
     "slug": "season-11",
     "startsAt": "2025-12-12T04:30:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24244465",
     "note": "태평양 시간 12월 11일 오후 8시 30분 = 한국 시간 12월 12일 오후 1시 30분"
   },
@@ -171,7 +171,7 @@
     "slug": "season-12",
     "startsAt": "2026-03-11T17:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24244648",
     "note": "한국 시간 3월 12일 오전 2시. 시즌 번호는 공지에 직접 없고 순서로 붙임"
   },
@@ -183,7 +183,7 @@
     "slug": "season-13",
     "startsAt": "2026-04-27T23:30:00Z",
     "timePrecision": "day",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24267729",
     "note": "확장팩 증오의 군주(Lord of Hatred)와 함께 시작. 공지 안에서 시작 시각이 한국 시간 오전 8시 30분과 오전 8시로 엇갈려 날짜만 표시. 시즌 번호는 순서로 붙임"
   },
@@ -195,7 +195,7 @@
     "slug": "season-14",
     "startsAt": "2026-06-30T17:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24268702",
     "note": "한국 시간 7월 1일 오전 2시"
   },
@@ -219,7 +219,7 @@
     "slug": "season-3",
     "startsAt": "2025-08-21T16:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://forum.lastepoch.com/t/last-epoch-beneath-ancient-skies-patch-notes/78635",
     "note": "패치노트에 UTC 2025-08-21T16:00:00Z로 명시. 공식 한국어 이름 없음"
   },
@@ -231,7 +231,7 @@
     "slug": "season-4",
     "startsAt": "2026-03-26T16:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://forum.lastepoch.com/t/last-epoch-shattered-omens-patch-notes/80571",
     "note": "패치노트에 UTC 2026-03-26T16:00:00Z로 명시. 공식 한국어 이름 없음"
   },
@@ -255,7 +255,7 @@
     "slug": "ss10",
     "startsAt": "2025-10-11T02:00:00Z",
     "timePrecision": "exact",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1813041031258122",
     "note": "10월 10일 오후 7시 PDT = 한국 시간 10월 11일 오전 11시. 시즌 번호는 순서로 붙임"
   },
@@ -267,7 +267,7 @@
     "slug": "ss11",
     "startsAt": "2026-01-15T15:00:00Z",
     "timePrecision": "day",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1821922921814686",
     "note": "한국 날짜 1월 16일(스팀 한국어 공지 기준). 공지에 시각 없음. 시즌 번호는 순서로 붙임"
   },
@@ -279,7 +279,7 @@
     "slug": "ss12",
     "startsAt": "2026-04-16T15:00:00Z",
     "timePrecision": "day",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1830163047258912",
     "note": "한국 날짜 4월 17일(스팀 한국어 공지 기준). 공지에 시각 없음. 시즌 번호는 순서로 붙임"
   },
@@ -291,7 +291,7 @@
     "slug": "ss13",
     "startsAt": "2026-07-16T15:00:00Z",
     "timePrecision": "day",
-    "status": "ended",
+    "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1838407329258272",
     "note": "한국 날짜 7월 17일(스팀 한국어 공지 기준). 공지에 시각 없음"
   },

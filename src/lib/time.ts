@@ -22,8 +22,15 @@ export function formatKst(iso: string, precision: Precision = 'exact', withYear 
 /** 한국 날짜 기준 일 번호 (D-day 계산용) */
 export const kstDay = (ms: number) => Math.floor((ms + KST_OFFSET) / DAY);
 
+/** 빌드 기준 "지금". PYEJI_NOW 환경변수(ISO 시각)가 있으면 그 시각으로 빌드한다 (상태 전환 검증용).
+ *  브라우저에서는 process가 없으므로 항상 실제 시각 */
+export function buildNow(): number {
+  const v = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.PYEJI_NOW;
+  return v ? Date.parse(v) : Date.now();
+}
+
 /** 대상까지 남은 날 수. 0이면 당일, 음수면 지남 */
-export const daysUntil = (iso: string, now = Date.now()) => kstDay(Date.parse(iso)) - kstDay(now);
+export const daysUntil = (iso: string, now = buildNow()) => kstDay(Date.parse(iso)) - kstDay(now);
 
 export function ddayLabel(days: number): string {
   if (days > 0) return `D-${days}`;

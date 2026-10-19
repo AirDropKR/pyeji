@@ -4,7 +4,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import DdayStamp from '../../components/DdayStamp.astro';
 import PostCover from '../../components/PostCover.astro';
-import { formatKst } from '../../lib/time';
+import { formatKst, buildNow } from '../../lib/time';
 import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
@@ -17,7 +17,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const game = await getEntry(post.data.gameId);
 const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefined;
-const now = Date.now();
+const now = buildNow();
 const countdown = post.data.countdownTo ? await getEntry(post.data.countdownTo) : undefined;
 // D-day 대상: 지정한 일정이 있으면 그것, 없으면 연결된 시즌 시작
 const target = countdown

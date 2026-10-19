@@ -8,7 +8,7 @@ import SeasonName from '../../../../components/SeasonName.astro';
 import SeasonProgress from '../../../../components/SeasonProgress.astro';
 import GameStamp from '../../../../components/GameStamp.astro';
 import PostThumb from '../../../../components/PostThumb.astro';
-import { sortByStart, seasonPath, isIndexable, seasonMilestones } from '../../../../lib/seasons';
+import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, phaseLabel, certaintyLabel } from '../../../../lib/seasons';
 import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
 import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
@@ -31,6 +31,8 @@ export async function getStaticPaths() {
         game,
         prev: list[i - 1],
         next: list[i + 1],
+        phase: phaseOf(season, seasons),
+        indexable: isIndexable(season, seasons, posts.filter((p) => p.data.seasonId?.id === season.id).length),
         posts: posts
           .filter((p) => p.data.seasonId?.id === season.id)
           .sort((a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt)),
@@ -42,17 +44,16 @@ export async function getStaticPaths() {
   });
 }
 
-const { season, game, prev, next, posts, events } = Astro.props;
+const { season, game, prev, next, posts, events, phase, indexable } = Astro.props;
 const s = season.data;
 const term = game.data.seasonTerm;
-const now = Date.now();
 const start = Date.parse(s.startsAt);
 // 종료일이 없으면 다음 시즌 시작을 진행률의 끝으로 쓴다 (게임 페이지와 같은 기준)
 const progressEnd = s.endsAt ?? next?.data.startsAt;
-const upcoming = start > now;
-const over = s.status === 'ended' || (s.endsAt !== undefined && Date.parse(s.endsAt) <= now);
-const state = upcoming ? '시작 전' : over ? '종료' : '진행 중';
-const certainty = { confirmed: '확정', estimated: '예상', ended: '확정' } as const;
+// 진행 상태는 시각으로 판정 (getStaticPaths에서 계산, 매일 자동 재빌드로 갱신)
+const upcoming = phase === 'upcoming';
+const over = phase === 'ended';
+const state = phaseLabel[phase];
 const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined;
 const startText = formatKst(s.startsAt, s.timePrecision, true);
 
@@ -70,7 +71,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
 <Base
   title={`${game.data.name} ${s.name} 시작일·종료일`}
   description={`${game.data.name} ${s.name}${s.nameEn ? `(${s.nameEn})` : ''} 한국 시간 ${startText} 시작. 일정, 관련 정보, 공식 출처.`}
-  noindex={!isIndexable(season, posts.length)}
+  noindex={!indexable}
   image={ogImage}
 >
   <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
@@ -80,7 +81,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
       <p>
         한국 시간 {startText} 시작
         {s.timePrecision === 'day' && <span class="muted"> · 시각 발표 전</span>}
-        <span class="muted"> · {state} · {certainty[s.status]}</span>
+        <span class="muted"> · {state} · {certaintyLabel[s.status]}</span>
       </p>
       {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={`${s.name} 시작`} />}
     </div>
@@ -104,7 +105,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
       <dt>시작</dt><dd>{startText}</dd>
       <dt>종료</dt><dd>{s.endsAt ? formatKst(s.endsAt, 'exact', true) : over ? '공식 발표 없음' : '미정'}</dd>
       {days !== undefined && <><dt>기간</dt><dd>{days}일</dd></>}
-      <dt>상태</dt><dd>{state} · {certainty[s.status]}</dd>
+      <dt>상태</dt><dd>{state} · {certaintyLabel[s.status]}</dd>
     </dl>
   </section>
 

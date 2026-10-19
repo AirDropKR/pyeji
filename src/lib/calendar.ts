@@ -1,6 +1,7 @@
 // 폐지달력(/calendar/) 계산: 기간, 월 눈금, 시즌 막대 위치
 import type { CollectionEntry } from 'astro:content';
 import { sortByStart } from './seasons';
+import { buildNow } from './time';
 
 type Season = CollectionEntry<'seasons'>;
 
@@ -22,7 +23,7 @@ export interface Span {
 const kstMonthStart = (y: number, m: number) => Date.UTC(y, m, 1) - KST_OFFSET;
 
 /** 이번 달 기준 before개월 전 1일부터 after개월 뒤 말일까지 (기본: 12개월 전 ~ 6개월 뒤) */
-export function timelineRange(now = Date.now(), before = 12, after = 6): Range {
+export function timelineRange(now = buildNow(), before = 12, after = 6): Range {
   const d = new Date(now + KST_OFFSET);
   const y = d.getUTCFullYear();
   const m = d.getUTCMonth();

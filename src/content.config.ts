@@ -30,7 +30,7 @@ const seasons = defineCollection({
     startsAt: isoDateTime,
     endsAt: isoDateTime.optional(),
     timePrecision: z.enum(['exact', 'day']), // exact: 시각까지 확정, day: 날짜만
-    status: z.enum(['confirmed', 'estimated', 'ended']),
+    status: z.enum(['confirmed', 'estimated']), // 확정/예상 구분만. 진행·종료는 시각으로 판정 (src/lib/seasons.ts phaseOf)
     sourceUrl: z.string().url(),
     note: z.string().optional(),
     // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수

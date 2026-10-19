@@ -1,21 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { timelineFor, sortByStart, seasonPath } from '../../lib/seasons';
+import { timelineFor, sortByStart, seasonPath, phaseOf, phaseLabel, certaintyLabel } from '../../lib/seasons';
 import DdayStamp from '../../components/DdayStamp.astro';
 import SeasonProgress from '../../components/SeasonProgress.astro';
 import SeasonName from '../../components/SeasonName.astro';
 import GameStamp from '../../components/GameStamp.astro';
 import PostThumb from '../../components/PostThumb.astro';
 import SeasonImages from '../../components/SeasonImages.astro';
-import { formatKst } from '../../lib/time';
+import { formatKst, buildNow } from '../../lib/time';
 
 export async function getStaticPaths() {
   const games = await getCollection('games');
   return games.map((g) => ({ params: { id: g.id }, props: { game: g } }));
 }
 const { game } = Astro.props;
-const now = Date.now();
+const now = buildNow();
 const seasons = await getCollection('seasons');
 const mine = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id)).reverse();
 const { current, next, currentEndsAt } = timelineFor(game.id, seasons, now);
@@ -27,7 +27,6 @@ const patches = (await getCollection('patches', (p) => p.data.gameId.id === game
 );
 // 대표 이미지: 다음 시즌 공식 이미지가 있으면 그것, 없으면 진행 중인 시즌
 const featured = [next, current].find((x) => x?.data.images?.length);
-const statusLabel = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
 const term = game.data.seasonTerm;
 ---
 <Base title={`${game.data.name} 다음 ${term} 언제? ${term} 일정 정리`} description={`${game.data.name}의 현재 ${term}, 다음 ${term} 시작일(한국 시간)과 사전 공개 정보 정리.`}>
@@ -82,8 +81,8 @@ const term = game.data.seasonTerm;
               <tr>
                 <td><a class="season-link" href={seasonPath(s)}><SeasonName season={s} /></a></td>
                 <td>{formatKst(s.data.startsAt, s.data.timePrecision, true)}</td>
-                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : s.data.status === 'ended' ? '-' : '미정'}</td>
-                <td><a href={s.data.sourceUrl} rel="noopener">{statusLabel[s.data.status]}</a></td>
+                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : phaseOf(s, seasons, now) === 'ended' ? '-' : '미정'}</td>
+                <td><a href={s.data.sourceUrl} rel="noopener">{phaseLabel[phaseOf(s, seasons, now)]}{s.data.status === 'estimated' && ` · ${certaintyLabel.estimated}`}</a></td>
               </tr>
             ))}
           </tbody>

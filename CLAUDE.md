@@ -28,8 +28,9 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 ## 데이터 규칙
 - 모든 시각은 UTC ISO 8601로 저장 (`2026-12-11T15:00:00Z`). 화면에서만 KST로 변환 (`src/lib/time.ts`)
 - 시각이 확정되지 않았으면 `timePrecision: "day"`, 확정되면 `"exact"`
-- 시즌 상태: `confirmed`(공식 발표) / `estimated`(과거 주기로 계산한 예상) / `ended`. 끝난 시즌은 반드시 `ended`로 바꾼다 (시즌 상세 페이지의 검색 노출 기준)
-- 시즌 상세 페이지(`/games/{id}/seasons/{slug}/`): `ended`이고 연결된 글이 없으면 noindex + 사이트맵 제외. 기준은 `src/lib/seasons.ts`의 `isIndexable`과 `astro.config.mjs`의 사이트맵 필터 두 곳에 있으니 함께 고친다
+- 시즌 `status`는 `confirmed`(공식 발표) / `estimated`(과거 주기로 계산한 예상) 구분만. 시작 전·진행 중·종료는 시각으로 자동 판정 (`src/lib/seasons.ts`의 `phaseOf`: 종료 시각은 `endsAt`, 없으면 같은 게임 다음 시즌 시작). 끝난 시즌을 손으로 바꿀 필요 없음
+- 빌드 기준 시각을 바꿔 상태 전환을 확인하려면 `PYEJI_NOW` 환경변수로 빌드 (예: PowerShell `$env:PYEJI_NOW='2026-11-10T00:00:00Z'; npm run build; Remove-Item Env:PYEJI_NOW`)
+- 시즌 상세 페이지(`/games/{id}/seasons/{slug}/`): 종료됐고 연결된 글이 없으면 noindex + 사이트맵 제외. 기준은 `src/lib/seasons.ts`의 `isIndexable`과 `astro.config.mjs`의 사이트맵 필터 두 곳에 있으니 함께 고친다
 - 이벤트의 `seasonId`(선택)로 시즌 상세 페이지의 "관련 일정"에 연결
 - `sourceUrl`은 필수. 가능하면 공식 출처
 - `id`와 `slug`는 소문자 영문, 숫자, 하이픈만

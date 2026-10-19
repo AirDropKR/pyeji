@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { timelineRange, monthTicks, seasonSpans, pct } from '../lib/calendar';
-import { formatKst } from '../lib/time';
-import { seasonPath } from '../lib/seasons';
+import { formatKst, buildNow } from '../lib/time';
+import { seasonPath, phaseOf, phaseLabel, certaintyLabel } from '../lib/seasons';
 
-const now = Date.now();
+const now = buildNow();
 const range = timelineRange(now);
 const ticks = monthTicks(range);
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
@@ -25,7 +25,6 @@ const pos = (start: number, end: number) => {
   const l = pct(start, range);
   return `--l:${l.toFixed(3)}%;--w:${(pct(end, range) - l).toFixed(3)}%`;
 };
-const status = { confirmed: '확정', estimated: '예상', ended: '종료' } as const;
 ---
 <Base title="폐지달력" description="POE1, POE2, 디아블로 4, 라스트 에폭, 토치라이트: 인피니트의 최근 1년 시즌과 앞으로 발표된 일정을 한국 시간 타임라인.">
   <section class="hero">
@@ -66,14 +65,16 @@ const status = { confirmed: '확정', estimated: '예상', ended: '종료' } as 
             <div class="tl-track">
               {spans.map((sp) => {
                 const s = sp.season.data;
+                const phase = phaseOf(sp.season, seasons, now);
+                const state = `${phaseLabel[phase]} · ${certaintyLabel[s.status]}`;
                 const when = `${formatKst(s.startsAt, s.timePrecision, true)} ~ ${sp.endKnown ? formatKst(s.endsAt!, 'exact', true) : sp.open ? '진행 중' : '다음 시즌 시작까지'}`;
                 return (
                   <a
-                    class:list={['tl-bar', { estimate: s.status === 'estimated', ended: s.status === 'ended', open: sp.open }]}
+                    class:list={['tl-bar', { estimate: s.status === 'estimated', ended: phase === 'ended', open: sp.open }]}
                     href={seasonPath(sp.season)}
                     style={pos(sp.start, sp.end)}
-                    title={`${s.name}${s.nameEn ? ` (${s.nameEn})` : ''} · ${when} · ${status[s.status]}`}
-                    aria-label={`${g.data.name} ${s.name}, ${when}, ${status[s.status]}`}
+                    title={`${s.name}${s.nameEn ? ` (${s.nameEn})` : ''} · ${when} · ${state}`}
+                    aria-label={`${g.data.name} ${s.name}, ${when}, ${state}`}
                   >
                     <span>{s.name}</span>
                   </a>

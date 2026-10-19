@@ -7,9 +7,9 @@ import SeasonProgress from '../components/SeasonProgress.astro';
 import SeasonName from '../components/SeasonName.astro';
 import GameStamp from '../components/GameStamp.astro';
 import PostThumb from '../components/PostThumb.astro';
-import { formatKst } from '../lib/time';
+import { formatKst, buildNow } from '../lib/time';
 
-const now = Date.now();
+const now = buildNow();
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 const seasons = await getCollection('seasons');
 const events = await getCollection('events');
