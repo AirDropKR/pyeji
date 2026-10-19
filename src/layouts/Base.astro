@@ -2,11 +2,22 @@
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
 
-interface Props { title?: string; description?: string; }
-const { title, description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리합니다.' } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+const {
+  title,
+  description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리합니다.',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
 const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | ARPG 시즌·패치 달력';
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 const path = Astro.url.pathname;
+const canonical = new URL(path, Astro.site).href;
 ---
 <!doctype html>
 <html lang="ko">
@@ -15,6 +26,18 @@ const path = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:site_name" content="폐지.com" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#c9af86" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -25,7 +48,7 @@ const path = Astro.url.pathname;
         <a class="logo" href="/" aria-label="폐지.com 처음으로">폐지.com</a>
         <nav class="site-nav" aria-label="게임">
           {games.map((g) => (
-            <a href={`/games/${g.id}`} aria-current={path.startsWith(`/games/${g.id}`) ? 'page' : undefined}>{g.data.shortName}</a>
+            <a href={`/games/${g.id}/`} aria-current={path.startsWith(`/games/${g.id}`) ? 'page' : undefined}>{g.data.shortName}</a>
           ))}
         </nav>
       </header>
@@ -35,9 +58,9 @@ const path = Astro.url.pathname;
       <footer class="site-footer">
         <p>비공식 팬 사이트예요. 일정은 공식 발표를 기준으로 정리하고, 각 항목에 출처를 달아둡니다. 시간은 모두 한국 시간이에요.</p>
         <nav class="footer-nav" aria-label="사이트 정보">
-          <a href="/about">소개</a>
-          <a href="/privacy">개인정보처리방침</a>
-          <a href="/contact">문의·정정 요청</a>
+          <a href="/about/">소개</a>
+          <a href="/privacy/">개인정보처리방침</a>
+          <a href="/contact/">문의·정정 요청</a>
         </nav>
       </footer>
     </div>

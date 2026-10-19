@@ -24,7 +24,8 @@ const seasons = defineCollection({
   schema: z.object({
     id: z.string(),
     gameId: reference('games'), // games.json에 없는 id면 빌드 실패
-    name: z.string(),
+    name: z.string(), // 한국어 공식 이름 (국내 서비스사 표기 우선). 예: 0.5 고대의 귀환 · 알두르의 룬
+    nameEn: z.string().optional(), // 영어 원제. 예: Return of the Ancients · Runes of Aldur
     slug,
     startsAt: isoDateTime,
     endsAt: isoDateTime.optional(),

@@ -2,7 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { timelineFor, sortByStart } from '../../lib/seasons';
-import { formatKst, daysUntil, ddayLabel } from '../../lib/time';
+import DdayStamp from '../../components/DdayStamp.astro';
+import SeasonProgress from '../../components/SeasonProgress.astro';
+import SeasonName from '../../components/SeasonName.astro';
+import { formatKst } from '../../lib/time';
 
 export async function getStaticPaths() {
   const games = await getCollection('games');
@@ -32,36 +35,34 @@ const term = game.data.seasonTerm;
       {game.data.officialUrl && <p class="small"><a href={game.data.officialUrl} rel="noopener">공식 사이트</a></p>}
     </div>
     {next && (
-      <span class:list={['stamp big', { estimate: next.data.status === 'estimated' }]} data-dday={next.data.startsAt}>
-        {ddayLabel(daysUntil(next.data.startsAt, now))}
-      </span>
+      <DdayStamp at={next.data.startsAt} size="big" estimated={next.data.status === 'estimated'} />
     )}
   </section>
 
   {current && (
-    <section class="gc" style={`margin-top:28px;--game-raw:${game.data.themeColor}`}>
+    <section class="section tight gc" style={`--game-raw:${game.data.themeColor}`}>
       <h2 class="section-title">진행 중인 {term}</h2>
-      <strong>{current.data.name}</strong>
-      {currentEndsAt && <div class="progress" data-progress-start={current.data.startsAt} data-progress-end={currentEndsAt} aria-hidden="true"><i style="width:0"></i></div>}
-      <p class="small muted" style="margin:0">
+      <strong><SeasonName season={current} /></strong>
+      {currentEndsAt && <SeasonProgress start={current.data.startsAt} end={currentEndsAt} />}
+      <p class="small muted flush">
         <span data-elapsed={current.data.startsAt}></span>
         {current.data.endsAt && `, ${formatKst(current.data.endsAt, 'exact')} 종료`}
       </p>
     </section>
   )}
 
-  <section style="margin-top:36px">
+  <section class="section">
     <h2 class="section-title">사전 정보</h2>
     {posts.length ? (
       <ul class="plain-list">
         {posts.map((p) => (
-          <li><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}`}>{p.data.title}</a></li>
+          <li><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></li>
         ))}
       </ul>
     ) : <p class="muted">이 게임의 사전 정보 글은 아직 없어요.</p>}
   </section>
 
-  <section style="margin-top:36px">
+  <section class="section">
     <h2 class="section-title">{term} 기록</h2>
     {mine.length ? (
       <div class="tbl">
@@ -70,9 +71,9 @@ const term = game.data.seasonTerm;
           <tbody>
             {mine.map((s) => (
               <tr>
-                <td>{s.data.name}</td>
-                <td>{formatKst(s.data.startsAt, s.data.timePrecision)}</td>
-                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact') : '미정'}</td>
+                <td><SeasonName season={s} /></td>
+                <td>{formatKst(s.data.startsAt, s.data.timePrecision, true)}</td>
+                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : s.data.status === 'ended' ? '-' : '미정'}</td>
                 <td><a href={s.data.sourceUrl} rel="noopener">{statusLabel[s.data.status]}</a></td>
               </tr>
             ))}
@@ -83,7 +84,7 @@ const term = game.data.seasonTerm;
   </section>
 
   {patches.length > 0 && (
-    <section style="margin-top:36px">
+    <section class="section">
       <h2 class="section-title">패치 목록</h2>
       <ul class="plain-list">
         {patches.map((p) => (

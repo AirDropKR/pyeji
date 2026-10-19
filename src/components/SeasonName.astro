@@ -1,0 +1,10 @@
+---
+// 시즌 이름: 한국어 이름 + 작은 영어 원제
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  season: CollectionEntry<'seasons'>;
+}
+const { name, nameEn } = Astro.props.season.data;
+---
+<span class="season-name">{name}{nameEn && <span class="en" lang="en">{nameEn}</span>}</span>

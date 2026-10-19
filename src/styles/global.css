@@ -1,30 +1,10 @@
-/* 폐지.com: 재생지 위에 찍은 날짜 도장 */
+/* 폐지.com 공통 스타일. 색·서체·도장 모양은 tokens.css에서만 정한다 */
+@import './tokens.css';
+
 :root {
-  --kraft: #c9af86;
-  --paper: #e8e4da;
-  --ink: #26211d;
-  --muted: #6a6056;
-  --rule: #b8ad9a;
-  --stamp: #2c4a9e;
-  --mark: #f0cf3a;
-  --hatch: rgba(38, 33, 29, 0.06);
-  color-scheme: light;
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --kraft: #1e1915;
-    --paper: #29231e;
-    --ink: #ece4d6;
-    --muted: #a99d8d;
-    --rule: #4a4038;
-    --stamp: #95aaf0;
-    --mark: #c9a92a;
-    --hatch: rgba(236, 228, 214, 0.05);
-    color-scheme: dark;
-  }
 }
 *, *::before, *::after { box-sizing: inherit; }
 html { scroll-padding-top: 16px; -webkit-text-size-adjust: 100%; }
@@ -32,13 +12,13 @@ body {
   margin: 0;
   background: var(--kraft);
   color: var(--ink);
-  font: 400 16px/1.7 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font: 400 16px/1.7 var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--stamp); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid var(--stamp); outline-offset: 2px; border-radius: 2px; }
-h1, h2, h3 { font-family: 'Black Han Sans', 'IBM Plex Sans KR', sans-serif; font-weight: 400; line-height: 1.2; margin: 0; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.2; margin: 0; text-wrap: balance; }
 img { max-width: 100%; }
 
 .shell { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
@@ -46,17 +26,23 @@ img { max-width: 100%; }
   background: var(--paper);
   border-radius: 3px;
   padding: clamp(20px, 4vw, 44px);
-  box-shadow: 0 1px 0 var(--rule), 0 20px 40px -28px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--sheet-shadow);
 }
 .muted { color: var(--muted); }
+.small { font-size: 14px; }
+.flush { margin: 0; }
+.block { display: block; }
+.eyebrow { margin: 0 0 6px; color: var(--muted); }
+.section { margin-top: var(--space-section); }
+.section.tight { margin-top: var(--space-section-tight); }
 .section-title { font-size: 22px; margin: 0 0 14px; }
 
-/* 헤더 */
+/* 헤더·푸터 */
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
 .logo {
-  font-family: 'Black Han Sans', sans-serif; font-size: 26px; color: var(--stamp);
-  text-decoration: none; border: 3px double var(--stamp); border-radius: 6px;
-  padding: 2px 10px 0; transform: rotate(-3deg); display: inline-block;
+  font-family: var(--font-display); font-size: 26px; color: var(--stamp);
+  text-decoration: none; border: 3px var(--stamp-line) var(--stamp); border-radius: 6px;
+  padding: 2px 10px 0; transform: rotate(var(--logo-tilt)); display: inline-block;
 }
 .site-nav { display: flex; gap: 14px; flex-wrap: wrap; font-size: 15px; }
 .site-nav a { color: var(--ink); text-decoration: none; }
@@ -66,24 +52,28 @@ img { max-width: 100%; }
 .footer-nav { display: flex; gap: 16px; flex-wrap: wrap; }
 .footer-nav a { color: var(--ink); }
 
-/* 날짜 도장: 이 사이트에서 유일하게 튀는 요소 */
+/* 날짜 도장 (DdayStamp.astro): 이 사이트에서 유일하게 튀는 요소 */
 .stamp {
-  display: inline-block; color: var(--stamp); border: 3px double var(--stamp);
-  border-radius: 8px; padding: 2px 10px 0; transform: rotate(-4deg);
-  font-family: 'Black Han Sans', sans-serif; line-height: 1.1; white-space: nowrap;
+  display: inline-block; color: var(--stamp); border: 3px var(--stamp-line) var(--stamp);
+  border-radius: var(--stamp-radius); padding: 2px 10px 0; transform: rotate(var(--stamp-tilt));
+  font-family: var(--font-display); line-height: 1.1; white-space: nowrap;
 }
-.stamp.big { margin-right: 6px; font-size: clamp(56px, 12vw, 112px); border-width: 6px; padding: 4px 20px 0; border-radius: 14px; }
+.stamp.big { margin-right: 6px; font-size: clamp(56px, 12vw, 112px); border-width: 6px; padding: 4px 20px 0; border-radius: calc(var(--stamp-radius) * 1.75); }
 .stamp.small { font-size: 20px; }
+.stamp.estimate { border-style: var(--stamp-line-estimate); }
 
-/* 대시보드 히어로 */
+/* 시즌 이름 (SeasonName.astro): 영어 원제는 작고 조용하게 */
+.season-name .en { display: block; font-family: var(--font-body); font-size: 0.8125rem; font-weight: 400; color: var(--muted); line-height: 1.4; }
+
+/* 히어로 */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; padding-bottom: 28px; border-bottom: 3px solid var(--ink); }
 .hero h1 { font-size: clamp(28px, 5vw, 44px); }
 .hero p { margin: 8px 0 0; font-size: 18px; }
+.hero .eyebrow { margin: 0 0 6px; font-size: 16px; }
 @media (max-width: 640px) { .hero { grid-template-columns: 1fr; } .hero .stamp { justify-self: start; } }
 
-/* 게임 색: 다크 모드에선 밝게 섞어서 대비 확보 */
-.gc { --game: var(--game-raw); }
-@media (prefers-color-scheme: dark) { .gc { --game: color-mix(in oklab, var(--game-raw) 55%, #fff); } }
+/* 게임 색: games.json의 themeColor를 --game-raw로 받는다 */
+.gc { --game: color-mix(in oklab, var(--game-raw) calc(100% - var(--game-mix)), #fff); }
 
 /* 게임별 행 */
 .games { list-style: none; margin: 0; padding: 0; }
@@ -101,12 +91,13 @@ img { max-width: 100%; }
   .game-row { grid-template-columns: 1fr; gap: 8px; }
   .game-row .next { text-align: left; }
 }
+
+/* 진행률 (SeasonProgress.astro) */
 .progress { height: 8px; background: var(--hatch); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin: 6px 0 4px; }
-.progress i { display: block; height: 100%; background: var(--game, var(--stamp)); }
-.small { font-size: 14px; }
+.progress i { display: block; width: 0; height: 100%; background: var(--game, var(--stamp)); }
 
 /* 두 칸 목록 */
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 36px; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: var(--space-section); }
 @media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
 .plain-list { list-style: none; margin: 0; padding: 0; }
 .plain-list li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
@@ -119,12 +110,11 @@ table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 15p
 th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 
-/* 게시글 본문 */
+/* 게시글·안내 페이지 본문 */
 .prose { max-width: 68ch; }
 .prose h2 { font-size: 24px; margin: 36px 0 12px; }
 .prose ul { padding-left: 20px; }
 .prose li { margin: 6px 0; }
 .prose table { margin: 12px 0; }
-.estimate { border: 1.5px dashed var(--stamp); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

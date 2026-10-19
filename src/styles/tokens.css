@@ -1,0 +1,45 @@
+/* 디자인 토큰. 디자인을 바꿀 때는 이 파일부터 고친다.
+ * 현재: 시안 A "날짜 도장" (재생지 위 파란 이중 테두리 도장)
+ * 서체를 바꾸면 Base.astro의 구글 폰트 링크도 같이 바꾼다 */
+:root {
+  /* 색 */
+  --kraft: #c9af86;   /* 바탕 (크라프트지) */
+  --paper: #e8e4da;   /* 본문 종이 */
+  --ink: #26211d;
+  --muted: #6a6056;
+  --rule: #b8ad9a;
+  --stamp: #2c4a9e;   /* 도장·링크 강조색 */
+  --hatch: rgba(38, 33, 29, 0.06);
+  --sheet-shadow: 0 1px 0 var(--rule), 0 20px 40px -28px rgba(0, 0, 0, 0.5);
+  --game-mix: 0%;     /* 게임 색을 흰색과 섞는 비율. 다크 모드 대비용 */
+
+  /* 서체 */
+  --font-display: 'Black Han Sans', 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
+  --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+
+  /* 도장 모양 */
+  --stamp-line: double;          /* 확정 일정 테두리 */
+  --stamp-line-estimate: dashed; /* 예상 일정 테두리 */
+  --stamp-tilt: -4deg;
+  --stamp-radius: 8px;
+  --logo-tilt: -3deg;
+
+  /* 간격 */
+  --space-section: 36px;
+  --space-section-tight: 28px;
+
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --kraft: #1e1915;
+    --paper: #29231e;
+    --ink: #ece4d6;
+    --muted: #a99d8d;
+    --rule: #4a4038;
+    --stamp: #95aaf0;
+    --hatch: rgba(236, 228, 214, 0.05);
+    --game-mix: 45%;
+    color-scheme: dark;
+  }
+}

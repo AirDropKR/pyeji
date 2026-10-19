@@ -2,7 +2,8 @@
   {
     "id": "poe1-3-29",
     "gameId": "poe1",
-    "name": "3.29 Curse of the Allflame",
+    "name": "3.29 올플레임의 저주",
+    "nameEn": "Curse of the Allflame",
     "slug": "3-29",
     "startsAt": "2026-07-24T20:00:00Z",
     "endsAt": "2026-11-09T21:00:00Z",
@@ -23,6 +24,42 @@
     "note": "태평양 시간 11월 13일 = 한국 시간 11월 14일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4010521). 정확한 시각 미발표. 리그 이름은 엑자일콘에서 공개"
   },
   {
+    "id": "poe2-0-3",
+    "gameId": "poe2",
+    "name": "0.3 세 번째 칙령 · 떠오르는 심연",
+    "nameEn": "The Third Edict · Rise of the Abyssal",
+    "slug": "0-3",
+    "startsAt": "2025-08-29T20:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3829091",
+    "note": "한국 시간 8월 30일 오전 5시 시작. 종료 시각은 공식 공지에서 찾지 못함(0.4.0 일정 공지에 '몇 주 뒤 종료'라고만 있음 https://www.pathofexile.com/forum/view-thread/3876666)"
+  },
+  {
+    "id": "poe2-0-4",
+    "gameId": "poe2",
+    "name": "0.4 최후의 드루이드 · 바알의 운명",
+    "nameEn": "The Last of the Druids · Fate of the Vaal",
+    "slug": "0-4",
+    "startsAt": "2025-12-12T19:00:00Z",
+    "timePrecision": "exact",
+    "status": "ended",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3885148",
+    "note": "한국 시간 12월 13일 오전 4시 시작. 종료 시각은 공식 공지에서 찾지 못함"
+  },
+  {
+    "id": "poe2-0-5",
+    "gameId": "poe2",
+    "name": "0.5 고대의 귀환 · 알두르의 룬",
+    "nameEn": "Return of the Ancients · Runes of Aldur",
+    "slug": "0-5",
+    "startsAt": "2026-05-29T20:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3933994",
+    "note": "한국 시간 5월 30일 오전 5시 시작. 1.0 출시 때 종료(시각 미정). 이벤트 리그 금단의 의식(Forbidden Rites)이 한국 시간 9월 5일 오전 5시부터 함께 진행 중이며 같이 종료 https://www.pathofexile.com/forum/view-thread/4000430"
+  },
+  {
     "id": "poe2-1-0",
     "gameId": "poe2",
     "name": "정식 출시 (1.0)",
@@ -30,8 +67,8 @@
     "startsAt": "2026-12-11T15:00:00Z",
     "timePrecision": "day",
     "status": "confirmed",
-    "sourceUrl": "https://www.inven.co.kr/webzine/news/?news=322076",
-    "note": "한국 기준 12월 12일. 정확한 오픈 시각은 확인 후 exact로 변경"
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3999366",
+    "note": "태평양 시간 12월 11일 = 한국 시간 12월 12일(카카오게임즈 공지 https://poe.kakaogames.com/forum/view-thread/4000434). 정확한 오픈 시각 미발표"
   },
   {
     "id": "le-s5",

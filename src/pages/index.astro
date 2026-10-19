@@ -2,7 +2,10 @@
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { timelineFor } from '../lib/seasons';
-import { formatKst, daysUntil, ddayLabel } from '../lib/time';
+import DdayStamp from '../components/DdayStamp.astro';
+import SeasonProgress from '../components/SeasonProgress.astro';
+import SeasonName from '../components/SeasonName.astro';
+import { formatKst } from '../lib/time';
 
 const now = Date.now();
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
@@ -27,39 +30,37 @@ const upcoming = events
   {hero && heroGame ? (
     <section class="hero">
       <div>
-        <p class="muted" style="margin:0 0 6px">가장 먼저 열리는 시즌</p>
-        <h1>{heroGame.data.shortName} {hero.data.name}</h1>
+        <p class="eyebrow">가장 먼저 열리는 시즌</p>
+        <h1>{heroGame.data.shortName} <SeasonName season={hero} /></h1>
         <p>
           한국 시간 {formatKst(hero.data.startsAt, hero.data.timePrecision)} 시작
           {hero.data.status === 'estimated' && ' (예상)'}
           {hero.data.timePrecision === 'day' && <span class="muted">, 정확한 시각은 아직 발표 전</span>}
         </p>
       </div>
-      <span class:list={['stamp big', { estimate: hero.data.status === 'estimated' }]} data-dday={hero.data.startsAt}>
-        {ddayLabel(daysUntil(hero.data.startsAt, now))}
-      </span>
+      <DdayStamp at={hero.data.startsAt} size="big" estimated={hero.data.status === 'estimated'} />
     </section>
   ) : (
     <section class="hero"><h1>지금 발표된 다음 시즌이 없어요</h1></section>
   )}
 
-  <section style="margin-top:28px" aria-labelledby="games-title">
+  <section class="section tight" aria-labelledby="games-title">
     <h2 class="section-title" id="games-title">게임별 시즌</h2>
     <ul class="games">
       {rows.map(({ g, current, next, currentEndsAt }) => (
         <li class="game-row gc" style={`--game-raw:${g.data.themeColor}`}>
           <div>
-            <h3><a href={`/games/${g.id}`}>{g.data.shortName}</a></h3>
+            <h3><a href={`/games/${g.id}/`}>{g.data.shortName}</a></h3>
             <span class="small muted">{g.data.name}</span>
           </div>
           <div>
             {current ? (
               <>
-                <strong>{current.data.name}</strong>
+                <strong><SeasonName season={current} /></strong>
                 {currentEndsAt && (
-                  <div class="progress" data-progress-start={current.data.startsAt} data-progress-end={currentEndsAt} aria-hidden="true"><i style="width:0"></i></div>
+                  <SeasonProgress start={current.data.startsAt} end={currentEndsAt} />
                 )}
-                <span class="small muted" style="display:block">
+                <span class="small muted block">
                   <span data-elapsed={current.data.startsAt}></span>
                   {current.data.endsAt && `, ${formatKst(current.data.endsAt, 'exact')} 종료`}
                 </span>
@@ -71,11 +72,9 @@ const upcoming = events
           <div class="next">
             {next ? (
               <>
-                <span class:list={['stamp small', { estimate: next.data.status === 'estimated' }]} data-dday={next.data.startsAt}>
-                  {ddayLabel(daysUntil(next.data.startsAt, now))}
-                </span>
+                <DdayStamp at={next.data.startsAt} estimated={next.data.status === 'estimated'} />
                 <span class="when">
-                  {next.data.name} {formatKst(next.data.startsAt, next.data.timePrecision)}
+                  <SeasonName season={next} />{formatKst(next.data.startsAt, next.data.timePrecision)}
                   {next.data.status === 'estimated' && ' 예상'}
                 </span>
               </>
@@ -114,7 +113,7 @@ const upcoming = events
             return (
               <li class="gc" style={`--game-raw:${g.data.themeColor}`}>
                 <span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span>
-                <span class="tag">{g.data.shortName}</span><a href={`/posts/${p.id}`}>{p.data.title}</a>
+                <span class="tag">{g.data.shortName}</span><a href={`/posts/${p.id}/`}>{p.data.title}</a>
               </li>
             );
           })}

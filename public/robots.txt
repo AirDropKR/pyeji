@@ -1,0 +1,10 @@
+# Cloudflare가 이 파일 앞에 관리형 robots.txt 내용을 자동으로 붙인다.
+# 검색 엔진과 애드센스 크롤러는 모두 허용한다.
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pyeji.kr/sitemap-index.xml

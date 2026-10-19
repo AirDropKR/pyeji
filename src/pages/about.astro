@@ -14,7 +14,7 @@ const games = (await getCollection('games')).sort((a, b) => a.data.order - b.dat
 
     <h2>다루는 게임</h2>
     <ul>
-      {games.map((g) => <li><a href={`/games/${g.id}`}>{g.data.name}</a></li>)}
+      {games.map((g) => <li><a href={`/games/${g.id}/`}>{g.data.name}</a></li>)}
     </ul>
 
     <h2>데이터 출처 원칙</h2>
@@ -41,7 +41,7 @@ const games = (await getCollection('games')).sort((a, b) => a.data.order - b.dat
       게임 이름과 관련 상표는 각 권리자에게 있어요.
     </p>
     <p>
-      잘못된 정보를 발견하셨다면 <a href="/contact">문의·정정 요청</a> 페이지로 알려주세요.
+      잘못된 정보를 발견하셨다면 <a href="/contact/">문의·정정 요청</a> 페이지로 알려주세요.
     </p>
   </article>
 </Base>

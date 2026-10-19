@@ -1,0 +1,9 @@
+---
+// 현재 시즌 진행률 막대. 폭은 live.ts가 브라우저에서 계산
+interface Props {
+  start: string;
+  end: string;
+}
+const { start, end } = Astro.props;
+---
+<div class="progress" data-progress-start={start} data-progress-end={end} aria-hidden="true"><i></i></div>

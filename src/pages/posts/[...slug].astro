@@ -1,7 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, getEntry, render } from 'astro:content';
-import { formatKst, daysUntil, ddayLabel } from '../../lib/time';
+import DdayStamp from '../../components/DdayStamp.astro';
+import { formatKst } from '../../lib/time';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -14,21 +15,19 @@ const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefin
 const now = Date.now();
 const upcoming = season && Date.parse(season.data.startsAt) > now;
 ---
-<Base title={post.data.title} description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리했어요.`}>
+<Base title={post.data.title} type="article" description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리했어요.`}>
   <article class="gc" style={`--game-raw:${game.data.themeColor}`}>
     <header class="hero">
       <div>
-        <p style="margin:0 0 8px"><a class="tag" href={`/games/${game.id}`}>{game.data.shortName}</a></p>
+        <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
         <h1>{post.data.title}</h1>
         <p class="small muted">{formatKst(post.data.publishedAt, 'day')} 갱신</p>
       </div>
       {season && upcoming && (
-        <span class:list={['stamp big', { estimate: season.data.status === 'estimated' }]} data-dday={season.data.startsAt}>
-          {ddayLabel(daysUntil(season.data.startsAt, now))}
-        </span>
+        <DdayStamp at={season.data.startsAt} size="big" estimated={season.data.status === 'estimated'} />
       )}
     </header>
-    <div class="prose" style="margin-top:24px">
+    <div class="prose section tight">
       <Content />
       <h2>출처</h2>
       <ul>

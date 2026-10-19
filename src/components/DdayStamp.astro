@@ -1,0 +1,12 @@
+---
+// D-day 날짜 도장. 사이트에서 유일하게 튀는 요소. 숫자는 live.ts가 브라우저에서 다시 계산
+import { daysUntil, ddayLabel } from '../lib/time';
+
+interface Props {
+  at: string;
+  size?: 'big' | 'small';
+  estimated?: boolean;
+}
+const { at, size = 'small', estimated = false } = Astro.props;
+---
+<span class:list={['stamp', size, { estimate: estimated }]} data-dday={at}>{ddayLabel(daysUntil(at))}</span>

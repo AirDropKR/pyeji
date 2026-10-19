@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="페이지를 찾을 수 없어요" noindex>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">404</p>
+      <h1>페이지를 찾을 수 없어요</h1>
+      <p>주소가 바뀌었거나 없는 페이지예요. 아래에서 게임을 골라주세요.</p>
+    </div>
+    <span class="stamp big estimate" aria-hidden="true">404</span>
+  </section>
+  <section class="section tight">
+    <ul class="plain-list">
+      <li><a href="/">처음으로</a></li>
+      {games.map((g) => <li><a href={`/games/${g.id}/`}>{g.data.name}</a></li>)}
+    </ul>
+  </section>
+</Base>
