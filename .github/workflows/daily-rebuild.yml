@@ -1,0 +1,29 @@
+# 하루 한 번 Cloudflare 빌드를 다시 돌려 빌드 시점에 고정되는 값(현재/다음 시즌, 달력 기간, 검색 노출 판정)을 최신으로 유지한다
+# 시즌 시작·종료가 한국 시간 오전 1~6시에 몰려 있어, 그 직후인 오전 7시(KST)에 실행한다
+# 시즌 시작일처럼 바로 다시 빌드해야 할 때는 Actions 화면에서 "Run workflow"로 수동 실행
+name: daily-rebuild
+
+on:
+  schedule:
+    - cron: '0 22 * * *' # UTC 22:00 = 한국 시간 다음 날 오전 7시
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Cloudflare Deploy Hook 호출
+        env:
+          HOOK_URL: ${{ secrets.CF_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "::error::CF_DEPLOY_HOOK_URL 시크릿이 비어 있음"
+            exit 1
+          fi
+          # Hook 주소 자체가 비밀값이라 로그에 남기지 않는다
+          response=$(curl -fsS -X POST "$HOOK_URL")
+          echo "$response" | grep -Eq '"success"[[:space:]]*:[[:space:]]*true' || { echo "::error::빌드 요청 실패"; echo "$response"; exit 1; }
+          echo "빌드 요청 완료: $(echo "$response" | grep -Eo '"build_uuid"[[:space:]]*:[[:space:]]*"[^"]*"' || true)"

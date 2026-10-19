@@ -13,6 +13,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 방문자 쪽 데이터베이스 없음. 일정·패치 목록은 `src/data/*.json`, 게시글은 `src/content/posts/**/*.md`, 스키마는 `src/content.config.ts`
 - 배포: Cloudflare Workers 프로젝트 (Git 연동, main push 시 자동 배포. 빌드 `npm run build`, 출력 `dist`). 배포 설정은 대시보드에서 관리하므로 건드리지 않는다. wrangler 설정 파일이 생기면 수정 전에 확인받기
 - Node: `.nvmrc`는 22 유지 (로컬은 24 사용 중)
+- 자동 재빌드: `.github/workflows/daily-rebuild.yml`이 매일 한국 시간 오전 7시에 Cloudflare Deploy Hook(GitHub Secret `CF_DEPLOY_HOOK_URL`)을 호출. Actions 화면에서 수동 실행 가능. 저장소에 60일 동안 활동이 없으면 GitHub가 예약 실행을 멈추므로 메일 알림이 오면 다시 켠다
 
 ## 폴더
 - `src/data/` JSON 데이터 (games, seasons, events, patches)
