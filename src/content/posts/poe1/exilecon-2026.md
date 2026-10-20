@@ -3,7 +3,7 @@ title: "엑자일콘 2026 한국 시간 일정: POE 3.30 공개 키노트 11월 
 description: "엑자일콘 2026 생중계와 패스 오브 엑자일 3.30 공개 키노트의 한국 시간. 11월 7일(토) 오전 6시 키노트, 시청 방법, 레이스 결승."
 gameId: poe1
 seasonId: poe1-3-30
-countdownTo: poe1-3-30-reveal
+countdownTo: exilecon-2026
 publishedAt: "2026-10-19T18:00:00Z"
 videos:
   - youtubeId: "PkG8x5BhYNg"
