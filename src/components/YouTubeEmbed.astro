@@ -5,7 +5,7 @@ import { channelFor, type Video } from '../lib/videos';
 
 interface Props {
   video: Video;
-  gameId: string;
+  gameId?: string;
 }
 const { video, gameId } = Astro.props;
 const ch = channelFor(video, gameId);

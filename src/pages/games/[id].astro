@@ -21,7 +21,7 @@ const now = buildNow();
 const seasons = await getCollection('seasons');
 const mine = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id)).reverse();
 const { current, next, currentEndsAt } = timelineFor(game.id, seasons, now);
-const posts = (await getCollection('posts', (p) => p.data.gameId.id === game.id)).sort(
+const posts = (await getCollection('posts', (p) => p.data.gameId?.id === game.id)).sort(
   (a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a)),
 );
 const patches = (await getCollection('patches', (p) => p.data.gameId.id === game.id)).sort(

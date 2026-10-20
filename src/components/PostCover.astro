@@ -4,10 +4,11 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import GameStamp from './GameStamp.astro';
 import { formatKst } from '../lib/time';
+import { COMMON_TAG } from '../lib/posts';
 
 interface Props {
   post: CollectionEntry<'posts'>;
-  game: CollectionEntry<'games'>;
+  game?: CollectionEntry<'games'>;
   season?: CollectionEntry<'seasons'>;
 }
 const { post, game, season } = Astro.props;
@@ -19,10 +20,11 @@ const cover = post.data.cover;
     <figcaption class="small muted">이미지: <a href={cover.creditUrl} rel="noopener">{cover.credit}</a></figcaption>
   </figure>
 ) : (
-  <div class="stamp-card gc" style={`--game-raw:${game.data.themeColor}`} aria-hidden="true">
-    <GameStamp game={game} size="lg" />
+  <div class="stamp-card gc" style={`--game-raw:${game?.data.themeColor ?? COMMON_TAG.color}`} aria-hidden="true">
+    {game ? <GameStamp game={game} size="lg" /> : <GameStamp code={COMMON_TAG.code} color={COMMON_TAG.color} size="lg" />}
     <div class="stamp-card-text">
-      <span class="name">{game.data.name}</span>
+      <span class="name">{game?.data.name ?? COMMON_TAG.name}</span>
+      {!season && <strong>{post.data.title}</strong>}
       {season && <strong>{season.data.name}</strong>}
       {season && <span>한국 시간 {formatKst(season.data.startsAt, season.data.timePrecision, true)} 시작{season.data.status === 'estimated' && ' 예상'}</span>}
     </div>

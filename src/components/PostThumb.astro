@@ -3,14 +3,15 @@
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import GameStamp from './GameStamp.astro';
+import { COMMON_TAG } from '../lib/posts';
 
 interface Props {
   post: CollectionEntry<'posts'>;
-  game: CollectionEntry<'games'>;
+  game?: CollectionEntry<'games'>;
 }
 const { post, game } = Astro.props;
 const cover = post.data.cover;
 ---
 <span class="post-thumb" aria-hidden="true">
-  {cover ? <Image src={cover.src} alt="" width={192} /> : <GameStamp game={game} size="sm" />}
+  {cover ? <Image src={cover.src} alt="" width={192} /> : (game ? <GameStamp game={game} size="sm" /> : <GameStamp code={COMMON_TAG.code} color={COMMON_TAG.color} size="sm" />)}
 </span>

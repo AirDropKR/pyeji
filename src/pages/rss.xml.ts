@@ -14,14 +14,14 @@ export const GET: APIRoute = async ({ site }) => {
   );
   const items = posts.map((p) => {
     const link = new URL(`/posts/${p.id}/`, base).href;
-    const game = games.find((g) => g.id === p.data.gameId.id);
+    const game = games.find((g) => g.id === p.data.gameId?.id);
     const desc = p.data.description ?? p.data.title;
     return `    <item>
       <title>${esc(p.data.title)}</title>
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <pubDate>${new Date(postModified(p)).toUTCString()}</pubDate>
-      ${game ? `<category>${esc(game.data.name)}</category>` : ''}
+      <category>${esc(game?.data.name ?? '공통')}</category>
       <description>${esc(desc)}</description>
     </item>`;
   });

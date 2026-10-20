@@ -5,7 +5,7 @@ import { getImage } from 'astro:assets';
 import DdayStamp from '../../components/DdayStamp.astro';
 import PostCover from '../../components/PostCover.astro';
 import { formatKst, buildNow } from '../../lib/time';
-import { postModified } from '../../lib/posts';
+import { postModified, COMMON_TAG } from '../../lib/posts';
 import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
@@ -18,7 +18,8 @@ export async function getStaticPaths() {
 }
 const { post } = Astro.props;
 const { Content } = await render(post);
-const game = await getEntry(post.data.gameId);
+const game = post.data.gameId ? await getEntry(post.data.gameId) : undefined;
+const tagColor = game?.data.themeColor ?? COMMON_TAG.color;
 const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefined;
 const now = buildNow();
 const countdown = post.data.countdownTo ? await getEntry(post.data.countdownTo) : undefined;
@@ -38,7 +39,7 @@ const ogImage = post.data.cover
   ? (await getImage({ src: post.data.cover.src, width: Math.min(1200, post.data.cover.src.width), format: 'jpg' })).src
   : undefined;
 const modified = postModified(post);
-const description = post.data.description ?? `${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`;
+const description = post.data.description ?? `${game?.data.name ?? COMMON_TAG.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -54,10 +55,10 @@ const jsonLd = {
 };
 ---
 <Base title={post.data.title} type="article" image={ogImage} description={description} jsonLd={jsonLd}>
-  <article class="gc" style={`--game-raw:${game.data.themeColor}`}>
+  <article class="gc" style={`--game-raw:${tagColor}`}>
     <header class="hero">
       <div>
-        <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
+        <p class="eyebrow">{game ? <a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a> : <span class="tag">{COMMON_TAG.label}</span>}</p>
         <h1>{post.data.title}</h1>
         <p class="small muted"><time datetime={modified}>{formatKst(modified, 'day')}</time> 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
         {target && upcoming && <Countdown at={target.at} precision={target.precision} label={target.label} />}
@@ -74,7 +75,7 @@ const jsonLd = {
       </section>
     )}
     {post.data.videos?.[0] && (
-      <div class="section tight"><YouTubeEmbed video={post.data.videos[0]} gameId={game.id} /></div>
+      <div class="section tight"><YouTubeEmbed video={post.data.videos[0]} gameId={game?.id} /></div>
     )}
     <div class="prose section tight">
       <Content />

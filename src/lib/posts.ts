@@ -4,6 +4,9 @@ import type { CollectionEntry } from 'astro:content';
 
 const KST_OFFSET = 9 * 3600_000;
 
+/** 게임 없는 공통 글의 표시값 (태그, 도장, 색) */
+export const COMMON_TAG = { code: '공통', label: '공통', name: '핵앤슬래시 공통', color: '#6A6056' } as const;
+
 /** 마지막 갱신 시각(ISO). 업데이트 기록이 없거나 못 읽으면 publishedAt */
 export function postModified(post: CollectionEntry<'posts'>): string {
   const published = post.data.publishedAt;

@@ -88,7 +88,7 @@ const posts = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(), // 검색어를 앞쪽에: 게임 약칭(POE2, POE 3.30)과 날짜를 넣는다
     description: z.string().max(160).optional(), // 검색 결과 설명. 게임 풀네임을 한 번 넣는다. 없으면 자동 문구
-    gameId: reference('games'),
+    gameId: reference('games').optional(), // 없으면 여러 게임을 다루는 공통 글 (월간 일정 등). 화면에는 "공통" 태그
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
     countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
     cycleTable: reference('games').optional(), // 넣으면 그 게임의 시즌 주기 표를 데이터에서 자동 생성해 본문 앞에 넣는다

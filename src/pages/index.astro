@@ -1,7 +1,7 @@
 ---
 // 메인: "지금 할 만한 것(막 열린 시즌) → 곧 열릴 것(다음 오픈) → 나머지 게임" 순서
 import Base from '../layouts/Base.astro';
-import { postModified } from '../lib/posts';
+import { postModified, COMMON_TAG } from '../lib/posts';
 import { getCollection } from 'astro:content';
 import { timelineFor, seasonPath, stageOf, seasonEnd, FRESH_DAYS } from '../lib/seasons';
 import DdayStamp from '../components/DdayStamp.astro';
@@ -171,13 +171,13 @@ const upcomingEvents = events
       {posts.length ? (
         <ul class="plain-list">
           {posts.slice(0, 5).map((p) => {
-            const g = gameOf(p.data.gameId.id);
+            const g = p.data.gameId ? gameOf(p.data.gameId.id) : undefined;
             return (
-              <li class="post-item gc" style={`--game-raw:${g.data.themeColor}`}>
+              <li class="post-item gc" style={`--game-raw:${g?.data.themeColor ?? COMMON_TAG.color}`}>
                 <PostThumb post={p} game={g} />
                 <div>
                   <span class="date">{formatKst(postModified(p), 'day')} 갱신</span>
-                  <span class="tag">{g.data.shortName}</span><a href={`/posts/${p.id}/`}>{p.data.title}</a>
+                  <span class="tag">{g?.data.shortName ?? COMMON_TAG.label}</span><a href={`/posts/${p.id}/`}>{p.data.title}</a>
                 </div>
               </li>
             );
