@@ -5,6 +5,10 @@ gameId: poe1
 seasonId: poe1-3-30
 countdownTo: poe1-3-30-reveal
 publishedAt: "2026-10-19T18:00:00Z"
+videos:
+  - youtubeId: "PkG8x5BhYNg"
+    title: "One Month until ExileCon 2026"
+    channel: ggg
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/4009902"
   - "https://www.pathofexile.com/forum/view-thread/3911368"

@@ -4,6 +4,10 @@ description: "패스 오브 엑자일 2(POE2) 정식 출시(1.0)는 한국 시�
 gameId: poe2
 seasonId: poe2-1-0
 publishedAt: "2026-10-19T12:00:00Z"
+videos:
+  - youtubeId: "BwYNNQJO-AE"
+    title: "Path of Exile 2 Full Release | Play 1.0 for Free on December 11"
+    channel: ggg
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3999366"
   - "https://poe.kakaogames.com/forum/view-thread/4000434"

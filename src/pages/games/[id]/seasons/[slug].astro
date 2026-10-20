@@ -113,7 +113,7 @@ const jsonLd = {
   {s.images && (
     <div class="section tight"><SeasonImages season={season} mode="hero" /></div>
   )}
-  {s.videos?.[0] && (
+  {!s.images && s.videos?.[0] && (
     <div class="section tight"><YouTubeEmbed video={s.videos[0]} gameId={game.id} /></div>
   )}
 
@@ -160,6 +160,16 @@ const jsonLd = {
         {posts.map((p) => (
           <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(postModified(p), 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
+      </ul>
+    </section>
+  )}
+
+  {/* 대표 이미지가 있으면 영상은 모두 여기, 없으면 첫 영상은 위에 크게 */}
+  {s.videos && s.videos.slice(s.images ? 0 : 1).length > 0 && (
+    <section class="section" aria-labelledby="vid-title">
+      <h2 class="section-title" id="vid-title">공식 영상</h2>
+      <ul class="video-grid">
+        {s.videos.slice(s.images ? 0 : 1).map((v) => <li><YouTubeEmbed video={v} gameId={game.id} /></li>)}
       </ul>
     </section>
   )}

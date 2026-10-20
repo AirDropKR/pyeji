@@ -40,6 +40,28 @@
         "credit": "Grinding Gear Games 보도자료",
         "creditUrl": "https://www.pathofexile.com/forum/view-thread/3985355"
       }
+    ],
+    "videos": [
+      {
+        "youtubeId": "ARFSbodxJZU",
+        "title": "Path of Exile 1: Curse of the Allflame Official Trailer",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "F5dO2Gg01VU",
+        "title": "Path of Exile 1: Curse of the Allflame Content Reveal",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "PjwSA8brW54",
+        "title": "Path of Exile 1: Curse of the Allflame Releases on July 24 PDT",
+        "channel": "ggg"
+      }
+    ],
+    "highlights": [
+      "해도를 이어 붙여 항해를 꾸리는 리그 콘텐츠 Voyage",
+      "용병을 영구히 고용하는 새 사이온 전직 루미너리",
+      "자가 시전 주문을 바꾸는 새 젬 종류 Pacts"
     ]
   },
   {
@@ -63,7 +85,19 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3829091",
-    "note": "한국 시간 8월 30일 오전 5시 시작. 종료 시각은 공식 공지에서 찾지 못함(0.4.0 일정 공지에 '몇 주 뒤 종료'라고만 있음 https://www.pathofexile.com/forum/view-thread/3876666)"
+    "note": "한국 시간 8월 30일 오전 5시 시작. 종료 시각은 공식 공지에서 찾지 못함(0.4.0 일정 공지에 '몇 주 뒤 종료'라고만 있음 https://www.pathofexile.com/forum/view-thread/3876666)",
+    "videos": [
+      {
+        "youtubeId": "zXLzXS4I2ak",
+        "title": "Path of Exile 2: The Third Edict Official Trailer",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "xIhIXv9b7Qo",
+        "title": "Path of Exile 2: The Third Edict Content Reveal",
+        "channel": "ggg"
+      }
+    ]
   },
   {
     "id": "poe2-0-4",
@@ -75,7 +109,24 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3885148",
-    "note": "한국 시간 12월 13일 오전 4시 시작. 종료 시각은 공식 공지에서 찾지 못함"
+    "note": "한국 시간 12월 13일 오전 4시 시작. 종료 시각은 공식 공지에서 찾지 못함",
+    "videos": [
+      {
+        "youtubeId": "HUsjULYd2q8",
+        "title": "Path of Exile 2: The Last of the Druids Official Trailer",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "7nH1hHyzUSk",
+        "title": "Path of Exile 2: The Last of the Druids Content Reveal",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "_6hdjBN97mM",
+        "title": "Path of Exile 2: Fate of the Vaal League Trailer",
+        "channel": "ggg"
+      }
+    ]
   },
   {
     "id": "poe2-0-5",
@@ -117,6 +168,11 @@
         "credit": "Grinding Gear Games 보도자료",
         "creditUrl": "https://www.pathofexile.com/forum/view-thread/3930564"
       }
+    ],
+    "highlights": [
+      "룬 제작 리그 알두르의 룬",
+      "새 전직 마셜 아티스트(몽크)와 스피릿 워커(헌트리스)",
+      "아틀라스 엔드게임 개편과 첫 도전과제 8개"
     ]
   },
   {
@@ -136,6 +192,13 @@
         "caption": "1.0 정식 출시 보도자료 이미지",
         "credit": "Grinding Gear Games 보도자료",
         "creditUrl": "https://www.pathofexile.com/forum/view-thread/3999509"
+      }
+    ],
+    "videos": [
+      {
+        "youtubeId": "BwYNNQJO-AE",
+        "title": "Path of Exile 2 Full Release | Play 1.0 for Free on December 11",
+        "channel": "ggg"
       }
     ]
   },
@@ -209,7 +272,12 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24295394",
-    "note": "태평양 시간 9월 15일 오전 9시 30분(영어판 공지 https://news.blizzard.com/en-us/article/24295394) = 한국 시간 9월 16일 오전 1시 30분. 종료일 미발표"
+    "note": "태평양 시간 9월 15일 오전 9시 30분(영어판 공지 https://news.blizzard.com/en-us/article/24295394) = 한국 시간 9월 16일 오전 1시 30분. 종료일 미발표",
+    "highlights": [
+      "디아블로 30주년 기념 시즌",
+      "세 악마 군주와 데커드 케인 귀환",
+      "닌텐도 스위치 2 출시와 같은 날 시작"
+    ]
   },
   {
     "id": "le-s3",
@@ -245,7 +313,19 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://forum.lastepoch.com/t/countdown-to-season-5-rage-of-the-frostborn-hits-october-1/81745",
-    "note": "10월 1일 오전 11시 CDT = 한국 시간 10월 2일 오전 1시. 공식 한국어 이름 없음. 종료일 미발표"
+    "note": "10월 1일 오전 11시 CDT = 한국 시간 10월 2일 오전 1시. 공식 한국어 이름 없음. 종료일 미발표",
+    "videos": [
+      {
+        "youtubeId": "3wyM0yS3Gs8",
+        "title": "Last Epoch Season 5 - Rage of the Frostborn - October 1st | Official Trailer",
+        "channel": "lastepoch"
+      }
+    ],
+    "highlights": [
+      "시즌 메커니즘 Rage of Morditas",
+      "새 스킬 3개와 새 고유 아이템",
+      "팩션 업데이트"
+    ]
   },
   {
     "id": "tli-ss10",
@@ -293,7 +373,19 @@
     "timePrecision": "day",
     "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1838407329258272",
-    "note": "한국 날짜 7월 17일(스팀 한국어 공지 기준). 공지에 시각 없음"
+    "note": "한국 날짜 7월 17일(스팀 한국어 공지 기준). 공지에 시각 없음",
+    "videos": [
+      {
+        "youtubeId": "WNoRv0Xgud0",
+        "title": "SS13 [애프터라이트] 7월17일(금) 업데이트 확정! | 토치라이트: 인피니트",
+        "channel": "torchlight-kr"
+      },
+      {
+        "youtubeId": "n65ObwTrf4c",
+        "title": "SS13 [애프터라이트] 시즌 프리뷰 방송",
+        "channel": "torchlight-kr"
+      }
+    ]
   },
   {
     "id": "tli-ss14",
@@ -305,7 +397,24 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://store.steampowered.com/news/app/1974050/view/1846651706679832",
-    "note": "공식 사이트 https://torchlight.xd.com 기준 10월 15일 오후 7시 PDT = 한국 시간 10월 16일 오전 11시. 종료일 미발표"
+    "note": "공식 사이트 https://torchlight.xd.com 기준 10월 15일 오후 7시 PDT = 한국 시간 10월 16일 오전 11시. 종료일 미발표",
+    "videos": [
+      {
+        "youtubeId": "ilP6VZlBy38",
+        "title": "SS14 [타르타로스] 시즌 프로모션 영상 | 토치라이트: 인피니트",
+        "channel": "torchlight-kr"
+      },
+      {
+        "youtubeId": "HJqPMqM9buo",
+        "title": "SS14 [타르타로스] 시즌 프리뷰 핵심 3분 요약 | 토치라이트: 인피니트",
+        "channel": "torchlight-kr"
+      }
+    ],
+    "highlights": [
+      "감옥을 운영하며 죄수를 키우는 시즌 콘텐츠",
+      "히어로 유가의 새 특성",
+      "새 성장 요소 추종자(Followers)"
+    ]
   },
   {
     "id": "poe1-3-27",
@@ -317,7 +426,19 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3870689",
-    "note": "한국 시간 11월 1일 오전 4시 시작(태평양 시간 10월 31일 정오, 동부 오후 3시). 종료는 태평양 시간 3월 3일로만 안내되어 시각 미확인 https://www.pathofexile.com/forum/view-thread/3913878. 한국어 이름은 카카오게임즈 https://poe.kakaogames.com/forum/view-thread/3869085"
+    "note": "한국 시간 11월 1일 오전 4시 시작(태평양 시간 10월 31일 정오, 동부 오후 3시). 종료는 태평양 시간 3월 3일로만 안내되어 시각 미확인 https://www.pathofexile.com/forum/view-thread/3913878. 한국어 이름은 카카오게임즈 https://poe.kakaogames.com/forum/view-thread/3869085",
+    "videos": [
+      {
+        "youtubeId": "tfxxuVVGjPM",
+        "title": "Path of Exile: Keepers of the Flame Official Trailer",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "EXaVNgZEp_E",
+        "title": "Path of Exile: Keepers of the Flame Content Reveal",
+        "channel": "ggg"
+      }
+    ]
   },
   {
     "id": "poe1-3-28",
@@ -330,7 +451,19 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3914487",
-    "note": "한국 시간 3월 7일 오전 4시 시작. 종료 한국 시간 7월 21일(화) 오전 7시(카카오게임즈 3.29 일정 공지 https://poe.kakaogames.com/forum/view-thread/3955024). 한국어 이름은 카카오게임즈 패치 노트 https://poe.kakaogames.com/forum/view-thread/3928495"
+    "note": "한국 시간 3월 7일 오전 4시 시작. 종료 한국 시간 7월 21일(화) 오전 7시(카카오게임즈 3.29 일정 공지 https://poe.kakaogames.com/forum/view-thread/3955024). 한국어 이름은 카카오게임즈 패치 노트 https://poe.kakaogames.com/forum/view-thread/3928495",
+    "videos": [
+      {
+        "youtubeId": "y8X5MC5gdzA",
+        "title": "Path of Exile: Mirage Official Trailer",
+        "channel": "ggg"
+      },
+      {
+        "youtubeId": "zFzHf3etCTA",
+        "title": "Path of Exile: Mirage Content Reveal",
+        "channel": "ggg"
+      }
+    ]
   },
   {
     "id": "d2r-s12",
@@ -380,6 +513,11 @@
     "timePrecision": "exact",
     "status": "confirmed",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24296140",
-    "note": "시작: 한국 시간 8월 22일 오전 9시(북미 8월 21일 오후 5시 PDT), 패치 3.3. 종료일 미발표"
+    "note": "시작: 한국 시간 8월 22일 오전 9시(북미 8월 21일 오후 5시 PDT), 패치 3.3. 종료일 미발표",
+    "highlights": [
+      "패치 3.3과 함께 시작",
+      "광기·발작 등 래더 전용 아이템 변경",
+      "공포의 영역 전령 3등급 이상 희귀 아이템 드롭 확률 상승"
+    ]
   }
 ]

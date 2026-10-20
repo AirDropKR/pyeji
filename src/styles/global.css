@@ -222,6 +222,9 @@ img { max-width: 100%; }
 .yt-play { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; border: 0; background: transparent; cursor: pointer; }
 .yt-play:hover path:first-child, .yt-play:focus-visible path:first-child { fill: #c00; fill-opacity: 1; }
 
+/* 공식 영상 목록 (시즌 상세) */
+.video-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 20px; }
+
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }
 .post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }
