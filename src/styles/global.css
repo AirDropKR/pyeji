@@ -79,13 +79,22 @@ img { max-width: 100%; }
 /* 메인: 지금 줍기 좋은 폐지 (막 열린 시즌) */
 .fresh { padding-bottom: 28px; border-bottom: 3px solid var(--ink); display: grid; gap: 18px; }
 .fresh-head { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; flex-wrap: wrap; }
-.fresh-title { font-size: clamp(30px, 5.4vw, 46px); }
+.fresh-answer { display: grid; gap: 6px; justify-items: start; }
+/* 라벨이 아래 게임 이름을 가리키도록 아래쪽 꼭지를 단다: "지금 줍기 좋은 폐지 → 토치라이트" */
+.fresh-label {
+  position: relative; margin: 0 0 10px; padding: 5px 12px 4px; border-radius: 3px;
+  background: var(--game, var(--ink)); color: var(--paper);
+  font-family: var(--font-display); font-size: 17px; letter-spacing: 0.02em;
+}
+.fresh-label span { margin-left: 6px; font-family: var(--font-body); font-size: 13px; opacity: 0.85; }
+.fresh-label::after { content: ''; position: absolute; left: 22px; top: 100%; border: 8px solid transparent; border-top-color: var(--game, var(--ink)); }
+.fresh-game-title { font-size: clamp(32px, 6vw, 52px); }
+.fresh-game-title a { display: inline-flex; align-items: center; gap: 14px; color: var(--ink); text-decoration: none; }
+.fresh-game-title a:hover { text-decoration: underline; }
 .fresh-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 24px; align-items: start; }
 .fresh-body:not(:has(.fresh-media)) { grid-template-columns: 1fr; }
 .fresh-info { display: grid; gap: 8px; align-content: start; }
-.fresh-game { margin: 0; display: flex; align-items: center; gap: 10px; }
-.fresh-game a { color: var(--ink); text-decoration: none; font-weight: 700; }
-.fresh-season { font-size: clamp(24px, 4vw, 34px); }
+.fresh-season { font-size: clamp(22px, 3.6vw, 30px); }
 .fresh-fact { margin: 0; font-size: 17px; }
 .fresh-highlights { margin: 6px 0 0; padding-left: 20px; }
 .fresh-highlights li { margin: 3px 0; }

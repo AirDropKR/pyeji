@@ -61,20 +61,19 @@ const upcomingEvents = events
   {fresh && freshGame ? (
     <section class="fresh gc" style={`--game-raw:${freshGame.data.themeColor}`} aria-labelledby="fresh-title">
       <div class="fresh-head">
-        <div>
-          <h1 class="fresh-title" id="fresh-title">지금 줍기 좋은 폐지</h1>
-          <p class="muted flush">남들 다 줍기 전에</p>
-        </div>
-        <DdayStamp at={fresh.data.startsAt} size="big" />
-      </div>
-      <div class="fresh-body">
-        <div class="fresh-info">
-          <p class="fresh-game"><GameStamp game={freshGame} size="sm" /><a href={`/games/${freshGame.id}/`}>{freshGame.data.name}</a></p>
+        <div class="fresh-answer">
+          <p class="fresh-label" id="fresh-title">지금 줍기 좋은 폐지 <span>남들 다 줍기 전에</span></p>
+          <h1 class="fresh-game-title"><a href={`/games/${freshGame.id}/`}><GameStamp game={freshGame} size="md" />{freshGame.data.name}</a></h1>
           <h2 class="fresh-season"><a class="season-link" href={seasonPath(fresh)}><SeasonName season={fresh} /></a></h2>
           <p class="fresh-fact">
             {formatKst(fresh.data.startsAt, fresh.data.timePrecision)} 시작 · <span data-elapsed={fresh.data.startsAt}>{freshDay}일째</span>
             {freshDay <= Math.round(FRESH_DAYS * 0.7) && <span>, 아직 다들 초반</span>}
           </p>
+        </div>
+        <DdayStamp at={fresh.data.startsAt} size="big" />
+      </div>
+      <div class="fresh-body">
+        <div class="fresh-info">
           {freshEnd && <SeasonProgress start={fresh.data.startsAt} end={freshEnd} />}
           {fresh.data.highlights && (
             <ul class="fresh-highlights">
