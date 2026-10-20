@@ -230,6 +230,11 @@ img { max-width: 100%; }
 .mascot.icon { display: inline-block; vertical-align: middle; }
 .fresh-mascot, .game-mascot { margin-inline: auto; }
 
+/* 발표 결과 칸 (게시글 reveal) */
+.reveal { border-left: 4px solid var(--game, var(--ink)); padding-left: 16px; }
+.reveal ul { margin: 8px 0; padding-left: 20px; }
+.reveal li { margin: 4px 0; }
+
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }
 .post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }

@@ -74,6 +74,14 @@ const jsonLd = {
         <MilestoneTimeline milestones={milestones} />
       </section>
     )}
+    {post.data.reveal && (
+      <section class="section tight reveal" aria-labelledby="reveal-title">
+        <h2 class="section-title" id="reveal-title">{post.data.reveal.heading}</h2>
+        {post.data.reveal.revealedAt && <p class="small muted flush">한국 시간 {formatKst(post.data.reveal.revealedAt, 'exact')} 발표</p>}
+        <ul>{post.data.reveal.items.map((i) => <li>{i}</li>)}</ul>
+        <p class="small">출처: {post.data.reveal.sourceUrls.map((u, i) => <>{i > 0 && ' · '}<a href={u} rel="noopener">{new URL(u).hostname}</a></>)}</p>
+      </section>
+    )}
     {post.data.videos?.[0] && (
       <div class="section tight"><YouTubeEmbed video={post.data.videos[0]} gameId={game?.id} /></div>
     )}

@@ -216,3 +216,11 @@
 운영자가 정할 것 / 줘야 하는 것
 - satori 추가 여부, 폰트 방식, 공식 이미지 배경 사용 여부 (제안서 마지막 항목)
 - 주섬이 2D 전신 이미지 (레이아웃 왼쪽)
+
+## 작업 10. 엑자일콘 준비
+
+결정한 것
+- 게시글 frontmatter `reveal`(발표 결과 칸): heading(기본 "엑자일콘 발표 내용"), revealedAt, items, sourceUrls. 비어 있으면 화면에 없음. 표지·일정 다음, 본문 앞에 나옴. 임시로 넣어 표시 확인 후 되돌림
+- 3.30 데이터에서 채울 칸: name, nameEn, startsAt + timePrecision exact, sourceUrl, highlights, images, videos
+- 엑자일콘 글의 결과 정리 전환은 별도 모드 없이 제목·reveal·countdownTo 정리로 (체크리스트 9번)
+- 당일 체크리스트: `docs/exilecon-day.md`

@@ -95,6 +95,13 @@ const posts = defineCollection({
     publishedAt: isoDateTime, // 처음 쓴 시각. 마지막 갱신일은 글 아래 '## 업데이트' 첫 항목에서 자동 계산 (src/lib/posts.ts)
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
     videos,
+    // 발표 결과 칸 (엑자일콘 등). 비어 있으면 화면에 나오지 않는다. 사실만, 공식 공지 링크 필수
+    reveal: z.object({
+      heading: z.string().default('엑자일콘 발표 내용'),
+      revealedAt: isoDateTime.optional(), // 발표 시각 (화면에 "한국 시간 ... 발표"로 표시)
+      items: z.array(z.string()).min(1),
+      sourceUrls: z.array(z.string().url()).min(1),
+    }).optional(),
     // 대표 이미지. 공식 배포 이미지만, 출처 표기 필수. 없으면 직접 만든 도장 카드로 대신한다
     // 라스트 에폭(약관상 서면 동의 필요)과 토치라이트(이용 조건 미확인)는 넣지 않는다
     cover: z.object({
