@@ -224,3 +224,18 @@
 - 3.30 데이터에서 채울 칸: name, nameEn, startsAt + timePrecision exact, sourceUrl, highlights, images, videos
 - 엑자일콘 글의 결과 정리 전환은 별도 모드 없이 제목·reveal·countdownTo 정리로 (체크리스트 9번)
 - 당일 체크리스트: `docs/exilecon-day.md`
+
+## 작업 11. 패치노트 링크 정리 (POE1·POE2, 초안)
+
+결정한 것
+- patches 데이터에 `seasonId`(리그), `kind`(patch/hotfix), `kakaoUrl`(선택) 추가
+- 화면: 시즌 상세 "이 리그의 패치"(대형 패치 목록 + "핫픽스 N개 더 보기"), 게임 페이지 "리그별 패치"(리그마다 접고 펼치기, 최신 리그만 펼침). 내용 번역·요약 없이 버전·날짜·공식 링크만
+- 출처: GGG 공식 포럼 패치노트 게시판 목록(POE1 patch-notes, POE2 2212)만 읽음. robots.txt에서 허용된 목록 페이지, 요청 사이 3초 간격
+- 날짜: 포럼 표시 시각을 한국 시간으로 봄 (GGG 3.30 일정 공지 05:57 ↔ 카카오 같은 공지 06:03로 확인). "Content Update"(대형 업데이트 패치노트)는 출시 전 게시라 게시일이 리그 시작보다 며칠 앞섬
+- 초안 `drafts/patches.json` 233개 (대형 55, 핫픽스 178). 사람이 보기 쉬운 표: `drafts/patches.md`. 잠시 넣어 빌드 검증 통과 후 되돌림
+- 서버 점검 글은 제외
+
+확인이 필요한 것
+- 반영해도 되는지: `drafts/patches.json`을 `src/data/patches.json`으로 복사하면 끝 (링크와 날짜만이라 표에서 대형 패치만 훑어보면 됨)
+- 카카오게임즈 패치노트 링크는 카카오 포럼 글 번호가 GGG와 달라 이번엔 넣지 않음. 필요하면 카카오 패치노트 게시판에서 버전별로 짝을 맞춰 `kakaoUrl`에 추가
+- 폐지달력 패치 점: 1년 233개라 점이 너무 많아짐. 넣는다면 대형 패치(55개)만 막대 아래 작은 눈금으로 제안

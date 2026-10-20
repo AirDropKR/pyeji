@@ -75,9 +75,12 @@ const patches = defineCollection({
   schema: z.object({
     id: z.string(),
     gameId: reference('games'),
-    version: z.string(),
-    releasedAt: isoDateTime,
+    seasonId: reference('seasons').optional(), // 이 패치가 속한 리그·시즌
+    version: z.string(), // 화면 표기. 예: "3.29.1 패치", "3.29.0 핫픽스 2"
+    kind: z.enum(['patch', 'hotfix']).default('patch'), // 핫픽스는 화면에서 접어 둔다
+    releasedAt: isoDateTime, // 공식 패치노트 게시 시각
     sourceUrl: z.string().url(), // 공식 패치노트
+    kakaoUrl: z.string().url().optional(), // 국내 서비스사 패치노트가 있으면
     note: z.string().max(80).optional(), // 직접 쓴 한 줄 설명. 원문 번역 금지
   }),
 });

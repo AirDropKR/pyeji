@@ -235,6 +235,12 @@ img { max-width: 100%; }
 .reveal ul { margin: 8px 0; padding-left: 20px; }
 .reveal li { margin: 4px 0; }
 
+/* 패치 목록 (PatchList.astro) */
+.patch-group { border-bottom: 1px solid var(--rule); padding: 8px 0; }
+.patch-group > summary, .hotfixes > summary { cursor: pointer; padding: 6px 0; }
+.hotfixes { margin-top: 6px; }
+.hotfixes > summary { font-size: 14px; color: var(--muted); }
+
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }
 .post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }

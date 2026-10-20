@@ -11,6 +11,7 @@ import GameStamp from '../../components/GameStamp.astro';
 import PostThumb from '../../components/PostThumb.astro';
 import SeasonImages from '../../components/SeasonImages.astro';
 import Mascot from '../../components/Mascot.astro';
+import PatchList from '../../components/PatchList.astro';
 import { formatKst, buildNow } from '../../lib/time';
 
 export async function getStaticPaths() {
@@ -97,13 +98,18 @@ const term = game.data.seasonTerm;
   </section>
 
   {patches.length > 0 && (
-    <section class="section">
-      <h2 class="section-title">패치 목록</h2>
-      <ul class="plain-list">
-        {patches.map((p) => (
-          <li><span class="date">{formatKst(p.data.releasedAt, 'day')}</span><a href={p.data.sourceUrl} rel="noopener">{p.data.version} 공식 패치노트</a>{p.data.note && <span class="muted">, {p.data.note}</span>}</li>
-        ))}
-      </ul>
+    <section class="section" aria-labelledby="patch-title">
+      <h2 class="section-title" id="patch-title">{term}별 패치</h2>
+      {mine.filter((sn) => patches.some((p) => p.data.seasonId?.id === sn.id)).map((sn, i) => {
+        const list = patches.filter((p) => p.data.seasonId?.id === sn.id);
+        return (
+          <details class="patch-group" open={i === 0}>
+            <summary><b>{sn.data.name}</b> <span class="small muted">패치 {list.filter((p) => p.data.kind === 'patch').length} · 핫픽스 {list.filter((p) => p.data.kind === 'hotfix').length}</span></summary>
+            <PatchList patches={list} />
+          </details>
+        );
+      })}
+      {patches.some((p) => !p.data.seasonId) && <PatchList patches={patches.filter((p) => !p.data.seasonId)} />}
     </section>
   )}
 </Base>

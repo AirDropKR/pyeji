@@ -1,0 +1,36 @@
+---
+// 패치 목록: 대형 패치는 바로 보이고, 핫픽스는 "더 보기"로 접는다. 내용 번역·요약 없이 버전·날짜·공식 링크만
+import type { CollectionEntry } from 'astro:content';
+import { formatKst } from '../lib/time';
+
+interface Props {
+  patches: CollectionEntry<'patches'>[];
+}
+const list = [...Astro.props.patches].sort((a, b) => Date.parse(b.data.releasedAt) - Date.parse(a.data.releasedAt));
+const major = list.filter((p) => p.data.kind === 'patch');
+const hotfix = list.filter((p) => p.data.kind === 'hotfix');
+---
+{list.length > 0 && (
+  <div class="patches">
+    <ul class="plain-list">
+      {major.map((p) => (
+        <li>
+          <span class="date">{formatKst(p.data.releasedAt, 'day', true)}</span>
+          <a href={p.data.sourceUrl} rel="noopener">{p.data.version} 공식 패치노트</a>
+          {p.data.kakaoUrl && <> · <a href={p.data.kakaoUrl} rel="noopener">카카오게임즈</a></>}
+          {p.data.note && <span class="muted"> · {p.data.note}</span>}
+        </li>
+      ))}
+    </ul>
+    {hotfix.length > 0 && (
+      <details class="hotfixes">
+        <summary>핫픽스 {hotfix.length}개 더 보기</summary>
+        <ul class="plain-list">
+          {hotfix.map((p) => (
+            <li><span class="date">{formatKst(p.data.releasedAt, 'day', true)}</span><a href={p.data.sourceUrl} rel="noopener">{p.data.version}</a></li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </div>
+)}
