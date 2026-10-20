@@ -61,6 +61,7 @@ const canonical = new URL(path, Astro.site).href;
         <a class="logo" href="/" aria-label="폐지.com 처음으로">폐지.com</a>
         <nav class="site-nav" aria-label="사이트">
           <a href="/calendar/" aria-current={path.startsWith('/calendar') ? 'page' : undefined}>폐지달력</a>
+          <a href="/posts/" aria-current={path === '/posts/' ? 'page' : undefined}>전체 글</a>
           {games.map((g) => (
             <a href={`/games/${g.id}/`} aria-current={path.startsWith(`/games/${g.id}`) ? 'page' : undefined}>{g.data.shortName}</a>
           ))}

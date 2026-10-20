@@ -1,0 +1,33 @@
+---
+// 전체 글 목록: 게임별로 묶고, 공통 글은 맨 앞. 모든 글이 내비게이션에서 닿게 한다
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import PostThumb from '../../components/PostThumb.astro';
+import { postModified, COMMON_TAG } from '../../lib/posts';
+import { formatKst } from '../../lib/time';
+
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('posts')).sort((a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a)));
+const groups = [
+  { key: 'common', label: COMMON_TAG.name, color: COMMON_TAG.color, game: undefined, list: posts.filter((p) => !p.data.gameId) },
+  ...games.map((g) => ({ key: g.id, label: g.data.name, color: g.data.themeColor, game: g, list: posts.filter((p) => p.data.gameId?.id === g.id) })),
+].filter((g) => g.list.length);
+---
+<Base title="전체 글" description="POE1, POE2, 디아블로 2·4, 토치라이트, 라스트 에폭 리그·시즌 사전 정보와 일정 정리 글 전체 목록.">
+  <section class="hero">
+    <div>
+      <h1>전체 글</h1>
+      <p>사전 정보, 시즌 주기, 월간 일정 글 {posts.length}개.</p>
+    </div>
+  </section>
+  {groups.map((g) => (
+    <section class="section gc" style={`--game-raw:${g.color}`} aria-labelledby={`g-${g.key}`}>
+      <h2 class="section-title" id={`g-${g.key}`}>{g.game ? <a class="season-link" href={`/games/${g.game.id}/`}>{g.label}</a> : g.label}</h2>
+      <ul class="plain-list">
+        {g.list.map((p) => (
+          <li class="post-item"><PostThumb post={p} game={g.game} /><div><span class="date">{formatKst(postModified(p), 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>
