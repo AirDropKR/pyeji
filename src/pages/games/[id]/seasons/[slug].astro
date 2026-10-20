@@ -13,6 +13,7 @@ import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, stageO
 import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
 import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
+import YouTubeEmbed from '../../../../components/YouTubeEmbed.astro';
 import { formatKst, kstDay, kstIso } from '../../../../lib/time';
 import { josa } from '../../../../lib/korean';
 
@@ -111,6 +112,9 @@ const jsonLd = {
 
   {s.images && (
     <div class="section tight"><SeasonImages season={season} mode="hero" /></div>
+  )}
+  {s.videos?.[0] && (
+    <div class="section tight"><YouTubeEmbed video={s.videos[0]} gameId={game.id} /></div>
   )}
 
   {!upcoming && !over && progressEnd && (

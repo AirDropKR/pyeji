@@ -1,0 +1,24 @@
+---
+// 공식 유튜브 영상. 처음엔 썸네일과 재생 버튼만, 누르면 youtube-nocookie 플레이어를 불러와 바로 재생 (live.ts)
+// 썸네일은 이 임베드 안에서만 쓴다 (장식 이미지·og:image로 쓰지 않음)
+import { channelFor, type Video } from '../lib/videos';
+
+interface Props {
+  video: Video;
+  gameId: string;
+}
+const { video, gameId } = Astro.props;
+const ch = channelFor(video, gameId);
+const watchUrl = `https://www.youtube.com/watch?v=${video.youtubeId}${video.startSeconds ? `&t=${video.startSeconds}s` : ''}`;
+---
+<figure class="yt">
+  <div class="yt-frame" data-yt={video.youtubeId} data-yt-start={video.startSeconds ?? 0} data-yt-title={video.title}>
+    <img src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+    <button type="button" class="yt-play" aria-label={`영상 재생: ${video.title}`}>
+      <svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.2-5.9-6C55.4.3 34 .3 34 .3s-21.4 0-26.6 1.4c-2.9.8-5.2 3.1-5.9 6C.1 13 .1 24 .1 24s0 11 1.4 16.3c.8 2.9 3 5.2 5.9 6C12.6 47.7 34 47.7 34 47.7s21.4 0 26.6-1.4c2.9-.8 5.2-3.1 5.9-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#212121" fill-opacity=".85"/><path d="M45 24 27 14v20z" fill="#fff"/></svg>
+    </button>
+  </div>
+  <figcaption class="small muted">
+    {video.title} · <a href={ch.url} rel="noopener">{ch.name}</a> 공식 채널 · <a href={watchUrl} rel="noopener">유튜브에서 보기</a>
+  </figcaption>
+</figure>

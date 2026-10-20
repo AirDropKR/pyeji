@@ -1,0 +1,23 @@
+{
+  "_설명": "공식 유튜브 영상 초안. 확인 후 seasons.json의 시즌 또는 게시글 frontmatter에 videos로 옮긴다. npm run check:videos drafts/videos.json 으로 공식 채널 여부 확인됨",
+  "poe1-3-29": {
+    "gameId": "poe1",
+    "target": "seasons.json poe1-3-29",
+    "videos": [{ "youtubeId": "PjwSA8brW54", "title": "Path of Exile 1: Curse of the Allflame Releases on July 24 PDT", "channel": "ggg" }]
+  },
+  "poe2-1-0": {
+    "gameId": "poe2",
+    "target": "seasons.json poe2-1-0, posts/poe2/1-0-preview.md",
+    "videos": [{ "youtubeId": "BwYNNQJO-AE", "title": "Path of Exile 2 Full Release | Play 1.0 for Free on December 11", "channel": "ggg" }]
+  },
+  "exilecon-2026": {
+    "gameId": "poe1",
+    "target": "posts/poe1/exilecon-2026.md",
+    "videos": [{ "youtubeId": "PkG8x5BhYNg", "title": "One Month until ExileCon 2026", "channel": "ggg" }]
+  },
+  "le-s5": {
+    "gameId": "le",
+    "target": "seasons.json le-s5",
+    "videos": [{ "youtubeId": "3wyM0yS3Gs8", "title": "Last Epoch Season 5 - Rage of the Frostborn - October 1st | Official Trailer", "channel": "lastepoch" }]
+  }
+}

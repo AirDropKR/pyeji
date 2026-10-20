@@ -9,6 +9,7 @@ import { postModified } from '../../lib/posts';
 import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -70,6 +71,9 @@ const jsonLd = {
         <h2 class="section-title" id="ms-title">주요 일정</h2>
         <MilestoneTimeline milestones={milestones} />
       </section>
+    )}
+    {post.data.videos?.[0] && (
+      <div class="section tight"><YouTubeEmbed video={post.data.videos[0]} gameId={game.id} /></div>
     )}
     <div class="prose section tight">
       <Content />

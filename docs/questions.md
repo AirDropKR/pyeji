@@ -100,3 +100,30 @@
   - [명칭 확인] 표시는 국내 공식 번역명을 못 찾은 항목 (POE1 Voyage·Pacts, D4 세 악마 군주, 토치라이트 Followers, 라스트 에폭 Rage of Morditas)
   - 확인되면 seasons.json 해당 시즌에 `"highlights": [...]`로 옮김
 - 막 열린 시즌 칸의 대표 영상은 작업 5, 주섬이 전신 이미지는 작업 8 이후
+
+## 작업 5. 공식 유튜브 영상 임베드
+
+결정한 것
+- 게시글 frontmatter와 시즌 데이터에 `videos` 추가: `[{ youtubeId, title, channel, startSeconds? }]`. 첫 번째가 대표 영상
+- 공식 채널 허용 목록 `src/data/channels.json` (채널 id, 이름, 주소, 해당 게임). 목록에 없는 채널이나 다른 게임 채널이면 빌드가 멈춤
+- 공식 채널 검증: `npm run check:videos [초안 파일]`. 유튜브 oEmbed가 돌려주는 영상의 채널 주소(author_url)를 허용 목록과 비교. 네트워크가 필요해서 빌드에는 넣지 않고 영상을 추가할 때 실행
+- 임베드: 처음엔 i.ytimg.com 썸네일 + 재생 버튼, 누르면 youtube-nocookie.com 플레이어를 불러와 바로 재생. 영상 아래 제목·공식 채널 링크·"유튜브에서 보기". 썸네일은 임베드 안에서만 사용
+- 위치: 시즌 상세(대표 이미지 다음), 메인 "지금 줍기 좋은 폐지"(영상이 있으면 이미지 대신), 게시글(표지·주요 일정 다음, 본문 앞)
+  - 기획안의 "한눈에 보기 아래"는 마크다운 본문 중간에 컴포넌트를 넣으려면 MDX(새 의존성 @astrojs/mdx)가 필요해서 본문 바로 앞에 둠
+- 개인정보처리방침에 "5. 유튜브 영상" 항목 추가, 위탁 업체에 YouTube 추가, 시행일 2026년 10월 20일로 갱신
+- 390px에서 16:9 유지 확인 (초안 영상을 잠시 넣어 확인 후 되돌림)
+
+확인이 필요한 것
+- 허용 목록 채널 2개는 GGG 공지·라스트 에폭 포럼에 들어 있던 영상으로 확인함: Path of Exile https://www.youtube.com/@playpathofexile , Last Epoch https://www.youtube.com/@LastEpochGame
+- `drafts/videos.json` 영상 4개 (모두 공식 채널 확인됨)
+
+| 넣을 곳 | 영상 | ID |
+|---|---|---|
+| POE1 3.29 시즌 | Curse of the Allflame Releases on July 24 PDT | PjwSA8brW54 |
+| POE2 1.0 시즌 + 1.0 글 | Path of Exile 2 Full Release, Play 1.0 for Free on December 11 | BwYNNQJO-AE |
+| 엑자일콘 글 | One Month until ExileCon 2026 | PkG8x5BhYNg |
+| 라스트 에폭 시즌 5 | Season 5 Rage of the Frostborn Official Trailer | 3wyM0yS3Gs8 |
+
+운영자가 줘야 하는 것
+- 디아블로 4, 디아블로 2 레저렉션, 토치라이트: 인피니트 공식 유튜브 채널 주소 (블리자드 소식·토치라이트 공식 사이트는 영상이 스크립트로 그려져서 영상 ID를 찾지 못함)
+- 각 게임 현재 시즌 트레일러 주소 (토치라이트 SS14 트레일러가 있으면 메인 "지금 줍기 좋은 폐지" 칸에 바로 들어감)

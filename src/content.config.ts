@@ -6,6 +6,14 @@ import { z } from 'astro/zod';
 const isoDateTime = z.string().datetime({ offset: true });
 const slug = z.string().regex(/^[a-z0-9-]+$/);
 
+// 공식 유튜브 영상. 첫 번째가 대표 영상. channel은 src/data/channels.json의 id (공식 채널만)
+const videos = z.array(z.object({
+  youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
+  title: z.string(),
+  channel: z.string(),
+  startSeconds: z.number().int().nonnegative().optional(), // 긴 방송은 해당 장면부터
+})).optional();
+
 const games = defineCollection({
   loader: file('src/data/games.json'),
   schema: z.object({
@@ -33,6 +41,7 @@ const seasons = defineCollection({
     status: z.enum(['confirmed', 'estimated']), // 확정/예상 구분만. 진행·종료는 시각으로 판정 (src/lib/seasons.ts phaseOf)
     sourceUrl: z.string().url(),
     note: z.string().optional(),
+    videos,
     // 이번 시즌 핵심 (메인 "지금 줍기 좋은 폐지" 칸 등). 공식 발표에서 뽑은 사실을 직접 쓴 짧은 문장, 최대 3개
     highlights: z.array(z.string().max(60)).max(3).optional(),
     // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수
@@ -84,6 +93,7 @@ const posts = defineCollection({
     countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
     publishedAt: isoDateTime, // 처음 쓴 시각. 마지막 갱신일은 글 아래 '## 업데이트' 첫 항목에서 자동 계산 (src/lib/posts.ts)
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
+    videos,
     // 대표 이미지. 공식 배포 이미지만, 출처 표기 필수. 없으면 직접 만든 도장 카드로 대신한다
     // 라스트 에폭(약관상 서면 동의 필요)과 토치라이트(이용 조건 미확인)는 넣지 않는다
     cover: z.object({

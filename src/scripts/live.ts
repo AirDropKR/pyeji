@@ -55,6 +55,21 @@ function enhanceTables() {
 }
 enhanceTables();
 
+/** 유튜브: 썸네일 버튼을 누르면 그때 youtube-nocookie 플레이어를 불러와 바로 재생 */
+document.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement).closest('.yt-play');
+  const frame = btn?.closest<HTMLElement>('[data-yt]');
+  if (!frame) return;
+  const id = frame.dataset.yt!;
+  const start = Number(frame.dataset.ytStart) || 0;
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0${start ? `&start=${start}` : ''}`;
+  iframe.title = frame.dataset.ytTitle ?? 'YouTube';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  frame.replaceChildren(iframe);
+});
+
 function update() {
   const now = Date.now();
   document.querySelectorAll<HTMLElement>('[data-dday]').forEach((el) => {

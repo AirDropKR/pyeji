@@ -214,6 +214,14 @@ img { max-width: 100%; }
 .gallery img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 3px; }
 .gallery a:hover img { filter: brightness(1.06); }
 
+/* 유튜브 임베드 (YouTubeEmbed.astro): 16:9 고정, 처음엔 썸네일 */
+.yt { margin: 0; display: grid; gap: 6px; }
+.yt-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; background: #000; border-radius: 3px; overflow: hidden; }
+.yt-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.yt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-play { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; border: 0; background: transparent; cursor: pointer; }
+.yt-play:hover path:first-child, .yt-play:focus-visible path:first-child { fill: #c00; fill-opacity: 1; }
+
 /* 게시글 대표 이미지 (PostCover.astro) */
 .post-cover { margin: 0; display: grid; gap: 6px; }
 .post-cover img { display: block; width: 100%; height: auto; border-radius: 3px; box-shadow: var(--sheet-shadow); }
