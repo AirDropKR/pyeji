@@ -1,8 +1,11 @@
 ---
-// 게시글 대표 이미지: 공식 배포 이미지가 있으면 출처와 함께, 없으면 직접 만든 도장 카드
+// 게시글 대표 이미지: 공식 배포 이미지가 있으면 출처와 함께, 없으면 직접 만든 카드
+// 게임 글은 게임 도장 + 연결된 시즌, 공통 글(여러 게임)은 주섬이 + 다루는 게임 목록
 import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import GameStamp from './GameStamp.astro';
+import Mascot from './Mascot.astro';
 import { formatKst } from '../lib/time';
 import { COMMON_TAG } from '../lib/posts';
 
@@ -13,20 +16,34 @@ interface Props {
 }
 const { post, game, season } = Astro.props;
 const cover = post.data.cover;
+const games = game ? [] : (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 ---
 {cover ? (
   <figure class="post-cover">
     <Image src={cover.src} alt={cover.alt} widths={[640, 960, 1600]} sizes="(max-width: 1040px) 100vw, 960px" loading="eager" />
     <figcaption class="small muted">이미지: <a href={cover.creditUrl} rel="noopener">{cover.credit}</a></figcaption>
   </figure>
-) : (
-  <div class="stamp-card gc" style={`--game-raw:${game?.data.themeColor ?? COMMON_TAG.color}`} aria-hidden="true">
-    {game ? <GameStamp game={game} size="lg" /> : <GameStamp code={COMMON_TAG.code} color={COMMON_TAG.color} size="lg" />}
+) : game ? (
+  <div class="stamp-card gc" style={`--game-raw:${game.data.themeColor}`} aria-hidden="true">
+    <GameStamp game={game} size="lg" />
     <div class="stamp-card-text">
-      <span class="name">{game?.data.name ?? COMMON_TAG.name}</span>
-      {!season && <strong>{post.data.title}</strong>}
-      {season && <strong>{season.data.name}</strong>}
-      {season && <span>한국 시간 {formatKst(season.data.startsAt, season.data.timePrecision, true)} 시작{season.data.status === 'estimated' && ' 예상'}</span>}
+      <span class="name">{game.data.name}</span>
+      {season ? (
+        <>
+          <strong>{season.data.name}</strong>
+          <span>한국 시간 {formatKst(season.data.startsAt, season.data.timePrecision, true)} 시작{season.data.status === 'estimated' && ' 예상'}</span>
+        </>
+      ) : <strong>{post.data.title}</strong>}
+    </div>
+  </div>
+) : (
+  <div class="stamp-card common">
+    <Mascot form="full" size={120} />
+    <div class="stamp-card-text">
+      <span class="name">{COMMON_TAG.name}</span>
+      <span class="common-games">
+        {games.map((g) => <a class="tag gc" style={`--game-raw:${g.data.themeColor}`} href={`/games/${g.id}/`}>{g.data.shortName}</a>)}
+      </span>
     </div>
   </div>
 )}

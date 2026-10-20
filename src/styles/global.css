@@ -264,6 +264,10 @@ img { max-width: 100%; }
 }
 .stamp-card-text { display: grid; gap: 4px; }
 .stamp-card-text .name { color: var(--muted); }
+.stamp-card.common { padding-block: clamp(14px, 3vw, 24px); }
+.common-games { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.common-games .tag { margin: 0; text-decoration: none; color: var(--ink); }
+.post-thumb .thumb-mascot.mascot.icon { margin: 0; width: 46px; height: 46px; object-fit: contain; }
 .stamp-card-text strong { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 4vw, 34px); line-height: 1.2; }
 
 /* 글 목록 썸네일 (PostThumb.astro) */
