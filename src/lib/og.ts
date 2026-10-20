@@ -8,6 +8,7 @@ import { join } from 'node:path';
 
 const W = 1200;
 const H = 630;
+const BORDER = 22; // 크라프트지 테두리 두께
 const FONT_DIR = join(process.cwd(), 'src/assets/fonts');
 const MASCOT_DIR = join(process.cwd(), 'src/assets/mascot/original');
 
@@ -66,8 +67,9 @@ export async function renderOg(c: OgContent): Promise<Buffer> {
   warnMissing(c.key, [c.eyebrow ?? '', c.title, c.date ?? '', c.dday ?? '', c.note ?? '', '폐지.com']);
   const m = await mascot(c.gameId);
   const titleSize = c.title.length > 26 ? 50 : c.title.length > 14 ? 60 : 72;
-  const tree = h('div', { width: W, height: H, display: 'flex', background: C.kraft, padding: 22, fontFamily: 'Plex' }, [
-    h('div', { flex: 1, display: 'flex', alignItems: 'center', background: C.paper, borderRadius: 8, padding: '0 56px 0 24px', position: 'relative' }, [
+  // satori는 padding을 크기에 더해서(content-box) 종이가 넘친다. 종이 크기를 직접 정하고 border-box로 테두리를 사방 같게
+  const tree = h('div', { width: W, height: H, display: 'flex', alignItems: 'center', justifyContent: 'center', background: C.kraft, fontFamily: 'Plex' }, [
+    h('div', { width: W - BORDER * 2, height: H - BORDER * 2, boxSizing: 'border-box', flexShrink: 0, display: 'flex', alignItems: 'center', background: C.paper, borderRadius: 8, padding: '0 56px 0 24px', position: 'relative', overflow: 'hidden' }, [
       m
         ? h('img', { width: Math.round((m.w * 440) / m.h), height: 440, marginRight: 28, flexShrink: 0 }, undefined, { src: m.uri, width: Math.round((m.w * 440) / m.h), height: 440 })
         : h('div', { width: 40 }, ''),
