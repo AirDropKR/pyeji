@@ -1,0 +1,52 @@
+[
+  {
+    "id": "d2r-s12",
+    "gameId": "d2r",
+    "name": "래더 12시즌",
+    "nameEn": "Ladder Season 12",
+    "slug": "season-12",
+    "startsAt": "2025-10-04T00:00:00Z",
+    "endsAt": "2026-02-11T17:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24226703",
+    "note": "시작: 한국 시간 10월 4일 오전 9시(북미 10월 3일 오후 5시 PDT). 종료: 한국 시간 2월 12일 오전 2시(13시즌 공지 https://news.blizzard.com/ko-kr/article/24246296)"
+  },
+  {
+    "id": "d2r-s13",
+    "gameId": "d2r",
+    "name": "래더 13시즌",
+    "nameEn": "Ladder Season 13",
+    "slug": "season-13",
+    "startsAt": "2026-02-21T00:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24246296",
+    "note": "시작: 한국 시간 2월 21일 오전 9시(북미 2월 20일 오후 5시 PST). 종료 시각은 공지에서 찾지 못함"
+  },
+  {
+    "id": "d2r-s14",
+    "gameId": "d2r",
+    "name": "래더 14시즌",
+    "nameEn": "Ladder Season 14",
+    "slug": "season-14",
+    "startsAt": "2026-05-23T00:00:00Z",
+    "endsAt": "2026-08-17T18:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24261478",
+    "note": "시작: 한국 시간 5월 23일 오전 9시(북미 5월 22일 오후 5시 PDT), 패치 3.2. 종료: 한국 시간 8월 18일(화) 오전 3시(15시즌 공지 https://news.blizzard.com/ko-kr/article/24296140)"
+  },
+  {
+    "id": "d2r-s15",
+    "gameId": "d2r",
+    "name": "래더 15시즌",
+    "nameEn": "Ladder Season 15",
+    "slug": "season-15",
+    "startsAt": "2026-08-22T00:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24296140",
+    "note": "시작: 한국 시간 8월 22일 오전 9시(북미 8월 21일 오후 5시 PDT), 패치 3.3. 종료일 미발표"
+  }
+]
