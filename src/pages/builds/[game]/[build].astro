@@ -1,0 +1,76 @@
+---
+// 빌드 페이지: 리그별 상태 띠 + 리그마다 변경 내용과 공식 패치 링크 + 운영자 평가
+import Base from '../../../layouts/Base.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import GameStamp from '../../../components/GameStamp.astro';
+import { buildStateLabel, directionLabel, leagueBuildsPath } from '../../../lib/builds';
+import { seasonPath, sortByStart } from '../../../lib/seasons';
+import { formatKst } from '../../../lib/time';
+
+export async function getStaticPaths() {
+  const builds = await getCollection('builds');
+  return builds.map((b) => ({ params: { game: b.data.gameId.id, build: b.id.split('/').pop()! }, props: { build: b } }));
+}
+const { build } = Astro.props;
+const b = build.data;
+const game = await getEntry(b.gameId);
+const seasons = await getCollection('seasons');
+const order = sortByStart(seasons).map((s) => s.id);
+const leagues = [...b.leagues]
+  .sort((x, y) => order.indexOf(x.seasonId.id) - order.indexOf(y.seasonId.id))
+  .map((l) => ({ ...l, season: seasons.find((s) => s.id === l.seasonId.id)! }));
+const latest = leagues.at(-1)!;
+const { Content } = await render(build);
+const skillText = (n: { en: string; ko?: string }) => (n.ko ? `${n.ko} (${n.en})` : n.en);
+const short = (s: (typeof seasons)[number]) => s.data.name.split(' ')[0];
+---
+<Base
+  title={`${b.name} 빌드 ${short(latest.season)} 현황: 리그별 변화`}
+  description={`${game.data.name} ${b.name}${b.nameEn ? `(${b.nameEn})` : ''} 빌드가 리그마다 어떻게 바뀌었는지. ${short(latest.season)} ${buildStateLabel[latest.state]}. 근거는 공식 패치노트.`}
+>
+  <article class="gc" style={`--game-raw:${game.data.themeColor}`}>
+    <header class="hero">
+      <div>
+        <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a> <a class="small" href={`/builds/${game.id}/`}>빌드 현황</a></p>
+        <div class="game-title">
+          <GameStamp game={game} size="md" />
+          <h1><span class="season-name">{b.name}{b.nameEn && <span class="en" lang="en">{b.nameEn}</span>}</span></h1>
+        </div>
+        <p class="small">{skillText(b.ascendancy)} · {b.skills.map(skillText).join(', ')}</p>
+        <p class="small muted flush"><time datetime={b.updatedAt}>{formatKst(b.updatedAt, 'day')}</time> 갱신</p>
+      </div>
+      <span class={`build-state big ${latest.state}`}>{short(latest.season)} {buildStateLabel[latest.state]}</span>
+    </header>
+
+    <section class="section tight" aria-labelledby="band-title">
+      <h2 class="section-title" id="band-title">리그별 상태</h2>
+      <ol class="build-band">
+        {leagues.map((l) => (
+          <li class={l.state}>
+            <a href={`#league-${l.season.data.slug}`}><b>{short(l.season)}</b><span>{buildStateLabel[l.state]}</span></a>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    {leagues.slice().reverse().map((l) => (
+      <section class="section build-league" id={`league-${l.season.data.slug}`}>
+        <h2 class="section-title"><a class="season-link" href={seasonPath(l.season)}>{l.season.data.name}</a> <span class={`build-state ${l.state}`}>{buildStateLabel[l.state]}</span></h2>
+        {l.note && <p>{l.note} <span class="small muted">(운영자 평가)</span></p>}
+        {l.changes.length > 0 ? (
+          <ul class="plain-list">
+            {l.changes.map((c) => (
+              <li><span class="date">{c.version} · {directionLabel[c.direction]}</span>{c.note} · <a href={c.patchUrl} rel="noopener">공식 패치노트</a></li>
+            ))}
+          </ul>
+        ) : <p class="small muted">관련 패치 변경 없음</p>}
+        <p class="small"><a href={leagueBuildsPath(l.season)}>{short(l.season)} 빌드 현황 한눈에</a></p>
+      </section>
+    ))}
+
+    <section class="section reveal" aria-labelledby="op-title">
+      <h2 class="section-title" id="op-title">운영자 평가</h2>
+      <div class="prose"><Content /></div>
+    </section>
+  </article>
+</Base>

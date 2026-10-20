@@ -1,0 +1,45 @@
+---
+// 리그별 빌드 현황 한눈에: 그 리그에서 상태가 바뀐 빌드 (큰 변화 없음 제외)
+import Base from '../../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { buildStateLabel, buildPath, changedIn } from '../../../../lib/builds';
+import { seasonPath } from '../../../../lib/seasons';
+
+export async function getStaticPaths() {
+  const builds = await getCollection('builds');
+  const seasons = await getCollection('seasons');
+  // 빌드 기록이 하나라도 있는 리그만 페이지를 만든다
+  const used = seasons.filter((s) => builds.some((b) => b.data.leagues.some((l) => l.seasonId.id === s.id)));
+  return used.map((s) => ({
+    params: { game: s.data.gameId.id, league: s.data.slug },
+    props: { season: s, builds: builds.filter((b) => b.data.gameId.id === s.data.gameId.id) },
+  }));
+}
+const { season, builds } = Astro.props;
+const games = await getCollection('games');
+const game = games.find((g) => g.id === season.data.gameId.id)!;
+const rows = builds.flatMap((b) => {
+  const l = changedIn(b, season.id);
+  return l ? [{ b, l }] : [];
+});
+const short = season.data.name.split(' ')[0];
+---
+<Base title={`${game.data.shortName} ${short} 빌드 현황: 너프·버프된 빌드 한눈에`} description={`${game.data.name} ${season.data.name}에서 상태가 바뀐 빌드 목록. 운영자 평가와 공식 패치노트 링크.`}>
+  <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
+    <div>
+      <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
+      <h1>{short} 빌드 현황 한눈에</h1>
+      <p><a href={seasonPath(season)}>{season.data.name}</a>에서 상태가 바뀐 빌드 {rows.length}개. 평가는 운영자, 근거는 공식 패치노트.</p>
+    </div>
+  </section>
+  <section class="section tight">
+    {rows.length ? (
+      <ul class="plain-list">
+        {rows.map(({ b, l }) => (
+          <li><span class={`build-state ${l.state}`}>{buildStateLabel[l.state]}</span> <a href={buildPath(b)}>{b.data.name}</a>{l.note && <span class="muted"> · {l.note}</span>}</li>
+        ))}
+      </ul>
+    ) : <p class="muted">이 리그에서 상태가 바뀐 빌드 없음</p>}
+    <p class="small"><a href={`/builds/${game.id}/`}>{game.data.shortName} 빌드 전체</a></p>
+  </section>
+</Base>

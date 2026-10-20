@@ -1,0 +1,44 @@
+---
+// 게임별 빌드 목록
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { buildStateLabel, buildPath, leagueBuildsPath } from '../../../lib/builds';
+import { sortByStart } from '../../../lib/seasons';
+
+export async function getStaticPaths() {
+  const builds = await getCollection('builds');
+  const games = await getCollection('games');
+  return games
+    .filter((g) => builds.some((b) => b.data.gameId.id === g.id))
+    .map((g) => ({ params: { game: g.id }, props: { game: g, builds: builds.filter((b) => b.data.gameId.id === g.id) } }));
+}
+const { game, builds } = Astro.props;
+const seasons = sortByStart(await getCollection('seasons'));
+const idx = (id: string) => seasons.findIndex((s) => s.id === id);
+const latestOf = (b: (typeof builds)[number]) => [...b.data.leagues].sort((x, y) => idx(x.seasonId.id) - idx(y.seasonId.id)).at(-1)!;
+const leagueSeasons = seasons.filter((s) => builds.some((b) => b.data.leagues.some((l) => l.seasonId.id === s.id))).reverse();
+---
+<Base title={`${game.data.shortName} 빌드 현황: 리그별로 바뀐 빌드`} description={`${game.data.name} 주요 빌드가 리그마다 어떻게 바뀌었는지. 운영자 평가와 공식 패치노트 링크.`}>
+  <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
+    <div>
+      <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
+      <h1>{game.data.shortName} 빌드 현황</h1>
+      <p>빌드 {builds.length}개. 평가는 운영자가 직접, 근거는 공식 패치노트.</p>
+    </div>
+  </section>
+  <section class="section tight">
+    <ul class="plain-list">
+      {builds.map((b) => {
+        const l = latestOf(b);
+        const s = seasons[idx(l.seasonId.id)];
+        return <li><a href={buildPath(b)}>{b.data.name}</a> <span class="small muted">{s.data.name.split(' ')[0]}</span> <span class={`build-state ${l.state}`}>{buildStateLabel[l.state]}</span></li>;
+      })}
+    </ul>
+  </section>
+  <section class="section">
+    <h2 class="section-title">리그별 한눈에</h2>
+    <ul class="plain-list">
+      {leagueSeasons.map((s) => <li><a href={leagueBuildsPath(s)}>{s.data.name} 빌드 현황</a></li>)}
+    </ul>
+  </section>
+</Base>

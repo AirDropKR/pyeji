@@ -15,6 +15,7 @@ import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
 import YouTubeEmbed from '../../../../components/YouTubeEmbed.astro';
 import PatchList from '../../../../components/PatchList.astro';
+import { changedIn, leagueBuildsPath } from '../../../../lib/builds';
 import { formatKst, kstDay, kstIso } from '../../../../lib/time';
 import { josa } from '../../../../lib/korean';
 
@@ -24,6 +25,7 @@ export async function getStaticPaths() {
   const posts = await getCollection('posts');
   const events = await getCollection('events');
   const patches = await getCollection('patches');
+  const builds = await getCollection('builds');
   return seasons.map((season) => {
     const game = games.find((g) => g.id === season.data.gameId.id)!;
     const list = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id));
@@ -42,6 +44,7 @@ export async function getStaticPaths() {
           .filter((p) => p.data.seasonId?.id === season.id)
           .sort((a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a))),
         patches: patches.filter((p) => p.data.seasonId?.id === season.id),
+        buildCount: builds.filter((b) => changedIn(b, season.id)).length,
         events: events
           .filter((e) => e.data.seasonId?.id === season.id)
           .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt)),
@@ -50,7 +53,7 @@ export async function getStaticPaths() {
   });
 }
 
-const { season, game, prev, next, posts, events, patches, phase, stage, indexable } = Astro.props;
+const { season, game, prev, next, posts, events, patches, buildCount, phase, stage, indexable } = Astro.props;
 const s = season.data;
 const term = game.data.seasonTerm;
 const start = Date.parse(s.startsAt);
@@ -188,6 +191,7 @@ const jsonLd = {
     <section class="section" aria-labelledby="patch-title">
       <h2 class="section-title" id="patch-title">이 {term}의 패치</h2>
       <PatchList patches={patches} />
+      {buildCount > 0 && <p class="small"><a href={leagueBuildsPath(season)}>이 {term}에서 바뀐 빌드 {buildCount}개 보기</a></p>}
     </section>
   )}
 

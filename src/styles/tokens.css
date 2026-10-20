@@ -13,6 +13,13 @@
   --sheet-shadow: 0 1px 0 var(--rule), 0 20px 40px -28px rgba(0, 0, 0, 0.5);
   --game-mix: 0%;     /* 게임 색을 흰색과 섞는 비율. 다크 모드 대비용 */
 
+  /* 빌드 상태 (의미 색, 강조색과 별개) */
+  --state-buff: #2f6b3a;
+  --state-nerf: #9b2c2c;
+  --state-dead: #4a4038;
+  --state-new: #2c4a9e;
+  --state-same: #6a6056;
+
   /* 서체 */
   --font-display: 'Black Han Sans', 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
   --font-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
@@ -40,6 +47,11 @@
     --stamp: #95aaf0;
     --hatch: rgba(236, 228, 214, 0.05);
     --game-mix: 45%;
+    --state-buff: #7fc58a;
+    --state-nerf: #ef8f8f;
+    --state-dead: #b8ad9a;
+    --state-new: #95aaf0;
+    --state-same: #a99d8d;
     color-scheme: dark;
   }
 }

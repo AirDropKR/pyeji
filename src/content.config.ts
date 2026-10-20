@@ -116,4 +116,31 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { games, seasons, events, patches, posts };
+// 빌드 현황: src/content/builds/{게임id}/{slug}.md. 선정·평가는 운영자, 근거는 공식 패치노트 링크
+// 본문은 운영자 코멘트(직접 쓴 짧은 평가). 패치노트 문장 번역·요약 금지, 수치는 "피해 +10%"처럼 사실만
+const nameKo = z.object({ en: z.string(), ko: z.string().optional() }); // 영어 + 카카오 클라이언트 한국어 표기
+const builds = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/builds' }),
+  schema: z.object({
+    name: z.string(), // 커뮤니티 통칭(한국어)
+    nameEn: z.string().optional(), // 영어 원명
+    gameId: reference('games'),
+    ascendancy: nameKo,
+    skills: z.array(nameKo).min(1),
+    // 리그별 상태 기록. 오래된 리그부터
+    leagues: z.array(z.object({
+      seasonId: reference('seasons'),
+      state: z.enum(['buffed', 'nerfed', 'unchanged', 'dead', 'new']), // 강화 / 약화 / 큰 변화 없음 / 사실상 불가 / 새로 등장
+      changes: z.array(z.object({
+        version: z.string(), // 예: 3.29.0
+        direction: z.enum(['buff', 'nerf', 'change']),
+        patchUrl: z.string().url(), // 공식 패치노트
+        note: z.string().max(80), // 운영자가 직접 쓴 한 줄. 예: "주 스킬 기본 피해 +10%"
+      })).default([]),
+      note: z.string().max(80).optional(), // 그 리그 한 줄 평가 (운영자)
+    })).min(1),
+    updatedAt: isoDateTime,
+  }),
+});
+
+export const collections = { games, seasons, events, patches, posts, builds };
