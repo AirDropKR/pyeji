@@ -36,6 +36,25 @@ function tickCountdowns(now: number) {
   });
 }
 
+/** 게시글 표를 가로 스크롤 감싸개로 옮기고 칸마다 머리글 이름표를 붙인다.
+ *  칸이 3개 이하면 좁은 화면에서 세로로 쌓는다(.stack). 한 번만 실행 */
+function enhanceTables() {
+  document.querySelectorAll<HTMLTableElement>('.prose table').forEach((table) => {
+    if (table.parentElement?.classList.contains('tbl')) return;
+    const labels = [...table.querySelectorAll('thead th')].map((th) => th.textContent?.trim() ?? '');
+    table.querySelectorAll('tbody tr').forEach((tr) => {
+      tr.querySelectorAll('td').forEach((td, i) => {
+        if (labels[i]) td.dataset.label = labels[i];
+      });
+    });
+    const wrap = document.createElement('div');
+    wrap.className = labels.length && labels.length <= 3 ? 'tbl stack' : 'tbl';
+    table.replaceWith(wrap);
+    wrap.append(table);
+  });
+}
+enhanceTables();
+
 function update() {
   const now = Date.now();
   document.querySelectorAll<HTMLElement>('[data-dday]').forEach((el) => {

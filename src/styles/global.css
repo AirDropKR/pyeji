@@ -251,6 +251,20 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 .prose h2 { font-size: 24px; margin: 36px 0 12px; }
 .prose ul { padding-left: 20px; }
 .prose li { margin: 6px 0; }
-.prose table { margin: 12px 0; }
+/* 게시글 표: 기본은 표 자체를 가로 스크롤 상자로 (JS 없이도 본문 밖으로 넘치지 않게).
+   live.ts가 .tbl 감싸개로 옮기고 칸 이름표(data-label)를 붙이면 일반 표로 돌아간다 */
+.prose table { display: block; max-width: 100%; overflow-x: auto; min-width: 0; margin: 12px 0; }
+.prose .tbl { margin: 12px 0; max-width: 100%; }
+.prose .tbl table { display: table; width: 100%; margin: 0; overflow: visible; }
+/* 칸 3개 이하 표: 좁은 화면에서 행마다 카드처럼 세로로 쌓고, 칸 앞에 머리글 이름을 붙인다 */
+@media (max-width: 560px) {
+  .prose .tbl.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .prose .tbl.stack table, .prose .tbl.stack tbody, .prose .tbl.stack tr, .prose .tbl.stack td { display: block; width: 100%; }
+  .prose .tbl.stack tr { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+  .prose .tbl.stack td { border: 0; padding: 2px 0; }
+  .prose .tbl.stack td:first-child { font-weight: 700; }
+  .prose .tbl.stack td[data-label]:not(:first-child)::before { content: attr(data-label) ' · '; color: var(--muted); font-size: 13px; }
+  .prose .tbl.stack td:empty { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
