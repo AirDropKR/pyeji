@@ -4,7 +4,7 @@ description: "디아블로 2 레저렉션(디아2) 래더 12~15시즌 시작·�
 gameId: d2r
 seasonId: d2r-s15
 cycleTable: d2r
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://news.blizzard.com/ko-kr/article/24226703"
   - "https://news.blizzard.com/ko-kr/article/24246296"

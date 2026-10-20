@@ -3,7 +3,7 @@ title: "POE 리그란? 시즌제 게임을 처음 한다면 (POE2 무료 전환 
 description: "패스 오브 엑자일(POE1·POE2)의 리그·스탠다드 개념과 리그 주기. POE2 정식 출시(12월 12일) 무료 전환으로 처음 시작하는 사람을 위한 정리."
 gameId: poe2
 seasonId: poe2-1-0
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3826247"
   - "https://www.pathofexile.com/forum/view-thread/3986665"

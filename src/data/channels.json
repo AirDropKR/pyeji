@@ -1,4 +1,7 @@
 [
   { "id": "ggg", "name": "Path of Exile", "url": "https://www.youtube.com/@playpathofexile", "games": ["poe1", "poe2"] },
+  { "id": "diablo", "name": "Diablo", "url": "https://www.youtube.com/@Diablo", "games": ["d4", "d2r"] },
+  { "id": "diablo-kr", "name": "디아블로 (한국)", "url": "https://www.youtube.com/@Diablo_KR", "games": ["d4", "d2r"] },
+  { "id": "torchlight-kr", "name": "Torchlight: Infinite (한국)", "url": "https://www.youtube.com/@torchlight-infinite-kr", "games": ["tli"] },
   { "id": "lastepoch", "name": "Last Epoch", "url": "https://www.youtube.com/@LastEpochGame", "games": ["le"] }
 ]

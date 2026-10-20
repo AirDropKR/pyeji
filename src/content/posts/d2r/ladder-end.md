@@ -3,7 +3,7 @@ title: "디아2 래더 시즌이 끝나면 캐릭터와 아이템은 어떻게 �
 description: "디아블로 2 레저렉션(디아2) 래더 시즌 종료 후 캐릭터 이전, 공유 보관함 꺼내기 전용 탭, 래더 전용 아이템 규칙. 블리자드 공지 기준."
 gameId: d2r
 seasonId: d2r-s15
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://news.blizzard.com/ko-kr/article/24296140"
   - "https://news.blizzard.com/ko-kr/article/24261478"

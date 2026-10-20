@@ -4,7 +4,7 @@ description: "토치라이트: 인피니트 SS10부터 SS14까지 시즌 간격.
 gameId: tli
 seasonId: tli-ss14
 cycleTable: tli
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://store.steampowered.com/news/app/1974050/view/1813041031258122"
   - "https://store.steampowered.com/news/app/1974050/view/1821922921814686"

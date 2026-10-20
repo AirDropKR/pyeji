@@ -4,7 +4,7 @@ description: "디아블로 4(디아4) 10시즌부터 15시즌까지 시즌 기�
 gameId: d4
 seasonId: d4-s15
 cycleTable: d4
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://news.blizzard.com/ko-kr/article/24226702"
   - "https://news.blizzard.com/ko-kr/article/24244465"

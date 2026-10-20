@@ -4,7 +4,7 @@ description: "라스트 에폭(Last Epoch) 시즌 3부터 시즌 5까지 시즌 
 gameId: le
 seasonId: le-s5
 cycleTable: le
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://forum.lastepoch.com/t/last-epoch-beneath-ancient-skies-patch-notes/78635"
   - "https://forum.lastepoch.com/t/last-epoch-shattered-omens-patch-notes/80571"

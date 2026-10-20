@@ -4,7 +4,7 @@ description: "패스 오브 엑자일(POE1) 리그 주기. 3.27부터 3.29까지
 gameId: poe1
 seasonId: poe1-3-29
 cycleTable: poe1
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3870689"
   - "https://www.pathofexile.com/forum/view-thread/3913878"

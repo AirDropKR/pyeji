@@ -4,7 +4,7 @@ description: "패스 오브 엑자일 2(POE2) 얼리 액세스 동안의 대형 
 gameId: poe2
 seasonId: poe2-0-5
 cycleTable: poe2
-publishedAt: "2026-10-20T12:00:00Z"
+publishedAt: "2026-10-20T11:00:00Z"
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3829091"
   - "https://www.pathofexile.com/forum/view-thread/3885148"
