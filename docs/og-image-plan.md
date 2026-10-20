@@ -52,3 +52,31 @@
 2. 폰트 방법 1(저장소에 TTF, 약 3~4MB)인지 2(빌드 때 내려받기)인지
 3. 공식 이미지(GGG·블리자드)를 배경으로 쓸지 (시안을 보고 결정)
 4. 주섬이 2D 전신 이미지 (작업 8)
+
+---
+
+# 구현 결과 (2026-10-21)
+
+- 방법 A로 구현: satori + sharp(Astro에 이미 있던 0.35.5를 package.json에 명시). 새로 늘어난 라이브러리는 satori 하나
+- 폰트: `src/assets/fonts/`에 서브셋 TTF 3개(Black Han Sans, IBM Plex Sans KR Regular·Bold, 합계 약 2.4MB)와 OFL 라이선스, 글자 목록 `charset.txt`(2,499자: 한글 2,350 + 영문·숫자·기호)
+  - 다시 만들기: `pip install fonttools` 후 `python scripts/subset-fonts.py` (원본은 .cache/fonts/에 자동으로 받음, 저장소에 넣지 않음)
+  - 서브셋에 없는 글자가 이미지에 들어가면 빌드 로그에 `[og] ... 폰트 서브셋에 없는 글자` 경고. 기호라면 스크립트의 SYMBOLS에 추가하고 다시 실행
+- 생성: `src/pages/og/[name].png.ts` (내용) + `src/lib/og.ts` (레이아웃) + `src/lib/og-paths.ts` (주소). 기본 1 + 게임 6 + 시즌 26 + 글 12 = 45장, 합계 약 3.3MB
+- 파일 이름: `/og/{종류}-{id}-{YYYYMMDD}.png` (빌드한 날의 한국 날짜). 매일 오전 7시 재빌드 때 새 날짜로 다시 만들어지고, 지난 날짜 파일은 빌드 결과에 없음
+- 빌드 시간: 약 1.1초 → 약 7.7초 (이미지 45장 생성 약 6.5초)
+- 구조화 데이터(Article·Event)의 image는 공식 대표 이미지가 있으면 그것, 없으면 생성 이미지
+
+## 공유 화면 확인 방법
+
+카카오톡
+1. https://developers.kakao.com/tool/debugger/sharing 에 카카오 계정으로 로그인 (개발자 등록이 필요하면 무료로 등록)
+2. 주소 입력 (예: https://pyeji.kr/games/poe1/seasons/3-30/) → 미리보기 확인
+3. 이미 한 번 공유된 주소는 카카오가 오래 저장한다. 화면의 "캐시 초기화"를 누르거나, 다음 날 자동 재빌드로 이미지 이름이 바뀐 뒤 다시 확인
+
+디스코드
+1. 나만 있는 서버나 DM에 주소를 붙여넣어 미리보기 확인
+2. 디스코드도 미리보기를 오래 저장한다. 같은 주소를 다시 시험할 때는 끝에 `?v=날짜`를 붙여 새 주소로 인식시킨다 (예: https://pyeji.kr/?v=1021)
+
+공통
+- 이미지 파일을 직접 열어 확인: https://pyeji.kr/og/default-YYYYMMDD.png (오늘 날짜)
+- 페이스북 공유 디버거(https://developers.facebook.com/tools/debug/)도 og 태그 확인과 캐시 새로고침에 쓸 수 있다

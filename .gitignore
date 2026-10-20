@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # wrangler 로컬 파일
 .wrangler/
+
+# 폰트 서브셋 원본 등 로컬 캐시
+.cache/

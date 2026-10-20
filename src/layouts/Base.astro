@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
+import { ogPath } from '../lib/og-paths';
 
 interface Props {
   title?: string;
@@ -20,7 +21,8 @@ const {
   image,
   jsonLd,
 } = Astro.props;
-const ogImage = image ? new URL(image, Astro.site).href : undefined;
+// 공유 미리보기: 페이지가 따로 주지 않으면 사이트 기본 이미지
+const ogImage = new URL(image ?? ogPath('default'), Astro.site).href;
 const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | 핵앤슬래시 리그·시즌 일정, 한국 시간';
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 const path = Astro.url.pathname;
@@ -40,8 +42,10 @@ const canonical = new URL(path, Astro.site).href;
     <meta property="og:description" content={description} />
     {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content="ko_KR" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

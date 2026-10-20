@@ -4,6 +4,7 @@ import { postModified } from '../../../../lib/posts';
 import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { seasonImage } from '../../../../lib/images';
+import { ogPath } from '../../../../lib/og-paths';
 import DdayStamp from '../../../../components/DdayStamp.astro';
 import SeasonName from '../../../../components/SeasonName.astro';
 import SeasonProgress from '../../../../components/SeasonProgress.astro';
@@ -67,9 +68,10 @@ const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined
 const startText = formatKst(s.startsAt, s.timePrecision, true);
 
 const milestones = seasonMilestones(season, prev, events);
-// 공유 미리보기: 대표 이미지가 있으면 1200px로
+// 공유 미리보기: 빌드 때 만든 시즌 이미지 (구조화 데이터의 image는 공식 키아트가 있으면 그것)
 const heroImg = s.images?.[0] ? seasonImage(s.images[0].file) : undefined;
-const ogImage = heroImg ? (await getImage({ src: heroImg, width: Math.min(1200, heroImg.width), format: 'jpg' })).src : undefined;
+const keyArt = heroImg ? (await getImage({ src: heroImg, width: Math.min(1200, heroImg.width), format: 'jpg' })).src : undefined;
+const ogImage = ogPath('season', season.id);
 
 // 직전 시즌과 비교: 종료일이 없으면 이번 시즌 시작까지를 기간으로 본다
 const prevDays = prev
@@ -90,7 +92,7 @@ const jsonLd = {
   eventStatus: 'https://schema.org/EventScheduled',
   eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
   location: { '@type': 'VirtualLocation', url: game.data.officialUrl ?? new URL(Astro.url.pathname, Astro.site).href },
-  ...(ogImage ? { image: [new URL(ogImage, Astro.site).href] } : {}),
+  image: [new URL(keyArt ?? ogImage, Astro.site).href],
   url: new URL(Astro.url.pathname, Astro.site).href,
 };
 ---
