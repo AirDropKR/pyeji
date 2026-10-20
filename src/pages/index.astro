@@ -93,7 +93,7 @@ const upcomingEvents = events
       </div>
     </section>
   ) : (
-    next && <p class="no-fresh muted">지금 막 열린 시즌 없음 · 다음 오픈까지 <span data-dday={next.data.startsAt}></span></p>
+    next && <p class="no-fresh muted"><Mascot form="icon" size={36} />지금 막 열린 시즌 없음 · 다음 오픈까지 <span data-dday={next.data.startsAt}></span></p>
   )}
 
   {next && nextGame ? (
@@ -185,7 +185,7 @@ const upcomingEvents = events
             );
           })}
         </ul>
-      ) : <p class="muted">아직 정리한 글 없음</p>}
+      ) : <p class="muted empty"><Mascot form="icon" size={36} />아직 정리한 글 없음</p>}
       <p class="small"><a href="/posts/">전체 글 보기</a></p>
     </section>
   </div>

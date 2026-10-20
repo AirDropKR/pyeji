@@ -227,7 +227,8 @@ img { max-width: 100%; }
 
 /* 주섬이 (Mascot.astro): 투명 PNG, 외곽선이 있어 크라프트지·다크 모드 모두 사용 */
 .mascot { display: block; width: var(--mascot-size); max-width: 100%; height: auto; }
-.mascot.icon { display: inline-block; vertical-align: middle; }
+.mascot.icon { display: inline-block; vertical-align: middle; margin-right: 8px; }
+.empty, .no-fresh { display: flex; align-items: center; }
 .fresh-mascot, .game-mascot { margin-inline: auto; }
 
 /* 발표 결과 칸 (게시글 reveal) */

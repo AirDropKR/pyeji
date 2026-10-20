@@ -74,7 +74,7 @@ const term = game.data.seasonTerm;
           <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(postModified(p), 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
       </ul>
-    ) : <p class="muted">아직 정리한 사전 정보 없음</p>}
+    ) : <p class="muted empty"><Mascot form="icon" size={36} />아직 정리한 사전 정보 없음</p>}
   </section>
 
   <section class="section">
@@ -95,7 +95,7 @@ const term = game.data.seasonTerm;
           </tbody>
         </table>
       </div>
-    ) : <p class="muted">아직 정리한 {term} 기록 없음</p>}
+    ) : <p class="muted empty"><Mascot form="icon" size={36} />아직 정리한 {term} 기록 없음</p>}
   </section>
 
   {patches.length > 0 && (

@@ -1,5 +1,14 @@
 [
   {
+    "id": "poe2-0-5-5",
+    "gameId": "poe2",
+    "seasonId": "poe2-0-5",
+    "title": "0.5.5 이벤트 리그 금단의 의식 시작",
+    "startsAt": "2026-09-04T20:00:00Z",
+    "timePrecision": "exact",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/4000430"
+  },
+  {
     "id": "poe1-3-30-reveal",
     "gameId": "poe1",
     "seasonId": "poe1-3-30",
