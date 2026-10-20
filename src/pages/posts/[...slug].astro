@@ -5,6 +5,7 @@ import { getImage } from 'astro:assets';
 import DdayStamp from '../../components/DdayStamp.astro';
 import PostCover from '../../components/PostCover.astro';
 import { formatKst, buildNow } from '../../lib/time';
+import { postModified } from '../../lib/posts';
 import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
@@ -34,14 +35,29 @@ const upcoming = target && Date.parse(target.at) > now;
 const ogImage = post.data.cover
   ? (await getImage({ src: post.data.cover.src, width: Math.min(1200, post.data.cover.src.width), format: 'jpg' })).src
   : undefined;
+const modified = postModified(post);
+const description = post.data.description ?? `${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description,
+  datePublished: post.data.publishedAt,
+  dateModified: modified,
+  inLanguage: 'ko-KR',
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  ...(ogImage ? { image: [new URL(ogImage, Astro.site).href] } : {}),
+  author: { '@type': 'Organization', name: '폐지.com', url: 'https://pyeji.kr/' },
+  publisher: { '@type': 'Organization', name: '폐지.com', url: 'https://pyeji.kr/' },
+};
 ---
-<Base title={post.data.title} type="article" image={ogImage} description={`${game.data.name} ${season?.data.name ?? ''} 시작일과 공개된 정보를 한국 시간으로 정리.`}>
+<Base title={post.data.title} type="article" image={ogImage} description={description} jsonLd={jsonLd}>
   <article class="gc" style={`--game-raw:${game.data.themeColor}`}>
     <header class="hero">
       <div>
         <p class="eyebrow"><a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a></p>
         <h1>{post.data.title}</h1>
-        <p class="small muted">{formatKst(post.data.publishedAt, 'day')} 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
+        <p class="small muted"><time datetime={modified}>{formatKst(modified, 'day')}</time> 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
         {target && upcoming && <Countdown at={target.at} precision={target.precision} label={target.label} />}
       </div>
       {target && upcoming && <DdayStamp at={target.at} size="big" estimated={target.estimated} />}

@@ -1,8 +1,9 @@
 ---
-title: "POE1 3.30 시작일과 지금까지 공개된 정보"
+title: "POE 3.30 시작일 11월 14일(토): 한국 시간과 공개된 정보"
+description: "패스 오브 엑자일(POE1) 3.30 리그(시즌) 시작일은 한국 시간 11월 14일(토). 엑자일콘 공개 일정, 3.29 종료 시각, 지금까지 공개된 정보."
 gameId: poe1
 seasonId: poe1-3-30
-publishedAt: "2026-10-19T18:00:00Z"
+publishedAt: "2026-10-19T12:00:00Z"
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/4010618"
   - "https://poe.kakaogames.com/forum/view-thread/4010521"
@@ -11,6 +12,8 @@ sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3982050"
   - "https://poe.kakaogames.com/purchase"
 ---
+
+패스 오브 엑자일(POE1) 3.30 리그(시즌)는 **한국 시간 2026년 11월 14일(토)에 시작**한다. GGG가 공식 발표한 확정 일정이며, 정확한 오픈 시각은 아직 발표되지 않았다. 리그 이름과 새 메커니즘은 11월 7일(토) 오전 6시 엑자일콘 키노트에서 공개된다.
 
 ## 한눈에 보기
 
@@ -49,6 +52,7 @@ sourceUrls:
 
 ## 업데이트
 
+- 10월 20일: 제목 정리, 첫 문단에 핵심 일정 추가
 - 10월 20일: 3.29 Q&A 예고, 서포터 팩 판매 기간, 3.29와의 일정 비교, 엑자일콘 일정 글 링크 추가
 - 10월 19일: 출처를 GGG·카카오게임즈 공식 공지로 교체, 엑자일콘 생중계·키노트 시각 추가
 - 10월 19일: 첫 작성

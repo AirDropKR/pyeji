@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { josa } from '../../lib/korean';
+import { postModified } from '../../lib/posts';
 import { getCollection } from 'astro:content';
 import { timelineFor, sortByStart, seasonPath, phaseOf, phaseLabel, certaintyLabel } from '../../lib/seasons';
 import DdayStamp from '../../components/DdayStamp.astro';
@@ -20,7 +22,7 @@ const seasons = await getCollection('seasons');
 const mine = sortByStart(seasons.filter((s) => s.data.gameId.id === game.id)).reverse();
 const { current, next, currentEndsAt } = timelineFor(game.id, seasons, now);
 const posts = (await getCollection('posts', (p) => p.data.gameId.id === game.id)).sort(
-  (a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt),
+  (a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a)),
 );
 const patches = (await getCollection('patches', (p) => p.data.gameId.id === game.id)).sort(
   (a, b) => Date.parse(b.data.releasedAt) - Date.parse(a.data.releasedAt),
@@ -29,7 +31,7 @@ const patches = (await getCollection('patches', (p) => p.data.gameId.id === game
 const featured = [next, current].find((x) => x?.data.images?.length);
 const term = game.data.seasonTerm;
 ---
-<Base title={`${game.data.name} 다음 ${term} 언제? ${term} 일정 정리`} description={`${game.data.name}의 현재 ${term}, 다음 ${term} 시작일(한국 시간)과 사전 공개 정보 정리.`}>
+<Base title={`${game.data.shortName} 다음 ${term === '리그' ? '리그(시즌)' : term} 언제? ${game.data.name} ${term} 일정`} description={`${game.data.name}(${game.data.shortName}) 현재 ${josa(term, '과', '와')} 다음 ${term} 시작일을 한국 시간으로 정리. ${term} 기록, 사전 정보, 공식 출처.`}>
   <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
     <div>
       <div class="game-title"><GameStamp game={game} size="md" /><h1>{game.data.name}</h1></div>
@@ -64,7 +66,7 @@ const term = game.data.seasonTerm;
     {posts.length ? (
       <ul class="plain-list">
         {posts.map((p) => (
-          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
+          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(postModified(p), 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
       </ul>
     ) : <p class="muted">아직 정리한 사전 정보 없음</p>}

@@ -1,5 +1,6 @@
 ---
 import Base from '../../../../layouts/Base.astro';
+import { postModified } from '../../../../lib/posts';
 import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { seasonImage } from '../../../../lib/images';
@@ -12,7 +13,7 @@ import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, phaseL
 import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
 import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
-import { formatKst, kstDay } from '../../../../lib/time';
+import { formatKst, kstDay, kstIso } from '../../../../lib/time';
 import { josa } from '../../../../lib/korean';
 
 export async function getStaticPaths() {
@@ -35,7 +36,7 @@ export async function getStaticPaths() {
         indexable: isIndexable(season, seasons, posts.filter((p) => p.data.seasonId?.id === season.id).length),
         posts: posts
           .filter((p) => p.data.seasonId?.id === season.id)
-          .sort((a, b) => Date.parse(b.data.publishedAt) - Date.parse(a.data.publishedAt)),
+          .sort((a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a))),
         events: events
           .filter((e) => e.data.seasonId?.id === season.id)
           .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt)),
@@ -67,12 +68,30 @@ const prevDays = prev
   ? kstDay(Date.parse(prev.data.endsAt ?? s.startsAt)) - kstDay(Date.parse(prev.data.startsAt))
   : undefined;
 const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.endsAt)) : undefined;
+// 검색어 역할 분리: "시작일" 같은 대표 검색어는 연결된 게시글이 맡고, 시즌 상세는 "일정" 정리 페이지로
+const mainPost = posts[0];
+const endIso = s.endsAt ?? next?.data.startsAt;
+const description = `${game.data.name} ${s.name}${s.nameEn ? `(${s.nameEn})` : ''} 한국 시간 ${startText} 시작. ${term} 일정, 주요 일정, 공식 출처.`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${game.data.name} ${s.name}${s.nameEn ? ` (${s.nameEn})` : ''}`,
+  description,
+  startDate: kstIso(s.startsAt, s.timePrecision),
+  ...(endIso ? { endDate: kstIso(endIso, s.endsAt ? 'exact' : (next?.data.timePrecision ?? 'exact')) } : {}),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  location: { '@type': 'VirtualLocation', url: game.data.officialUrl ?? new URL(Astro.url.pathname, Astro.site).href },
+  ...(ogImage ? { image: [new URL(ogImage, Astro.site).href] } : {}),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+};
 ---
 <Base
-  title={`${game.data.name} ${s.name} 시작일·종료일`}
-  description={`${game.data.name} ${s.name}${s.nameEn ? `(${s.nameEn})` : ''} 한국 시간 ${startText} 시작. 일정, 관련 정보, 공식 출처.`}
+  title={`${game.data.shortName} ${s.name} ${term === '리그' ? '리그(시즌) ' : ''}일정 · ${game.data.name}`}
+  description={description}
   noindex={!indexable}
   image={ogImage}
+  jsonLd={jsonLd}
 >
   <section class="hero gc" style={`--game-raw:${game.data.themeColor}`}>
     <div>
@@ -84,6 +103,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
         <span class="muted"> · {state} · {certaintyLabel[s.status]}</span>
       </p>
       {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={`${s.name} 시작`} />}
+      {mainPost && <p class="small">자세한 정보: <a href={`/posts/${mainPost.id}/`}>{mainPost.data.title}</a></p>}
     </div>
     {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
   </section>
@@ -133,7 +153,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
       <h2 class="section-title" id="post-title">사전 정보</h2>
       <ul class="plain-list">
         {posts.map((p) => (
-          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(p.data.publishedAt, 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
+          <li class="post-item"><PostThumb post={p} game={game} /><div><span class="date">{formatKst(postModified(p), 'day')} 갱신</span><a href={`/posts/${p.id}/`}>{p.data.title}</a></div></li>
         ))}
       </ul>
     </section>

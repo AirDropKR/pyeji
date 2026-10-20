@@ -9,16 +9,19 @@ interface Props {
   noindex?: boolean;
   /** 공유 미리보기 이미지 경로 (사이트 기준 상대 경로 가능) */
   image?: string;
+  /** 구조화 데이터 (schema.org JSON-LD) */
+  jsonLd?: Record<string, unknown>;
 }
 const {
   title,
-  description = '핵앤슬래시 시즌제 게임의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리.',
+  description = 'POE1, POE2, 디아블로 2·4, 토치라이트, 라스트 에폭의 리그·시즌 시작일과 사전 공개 정보를 한국 시간으로 정리.',
   type = 'website',
   noindex = false,
   image,
+  jsonLd,
 } = Astro.props;
 const ogImage = image ? new URL(image, Astro.site).href : undefined;
-const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | ARPG 시즌·패치 달력';
+const fullTitle = title ? `${title} | 폐지.com` : '폐지.com | 핵앤슬래시 리그·시즌 일정, 한국 시간';
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 const path = Astro.url.pathname;
 const canonical = new URL(path, Astro.site).href;
@@ -43,6 +46,8 @@ const canonical = new URL(path, Astro.site).href;
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#c9af86" />
+    <link rel="alternate" type="application/rss+xml" title="폐지.com 사전 정보" href="/rss.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <meta name="naver-site-verification" content="2f92d9be6d39d28b1cbc4134a02e68acc8bc0153" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

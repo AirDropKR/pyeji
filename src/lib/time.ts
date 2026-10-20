@@ -19,6 +19,14 @@ export function formatKst(iso: string, precision: Precision = 'exact', withYear 
   return `${date} ${ampm} ${h12}시${m ? ` ${m}분` : ''}`;
 }
 
+/** 구조화 데이터용: 한국 시간 ISO (exact면 '2026-11-14T06:00:00+09:00', day면 '2026-11-14') */
+export function kstIso(iso: string, precision: Precision = 'exact'): string {
+  const d = new Date(Date.parse(iso) + KST_OFFSET);
+  const p = (n: number) => String(n).padStart(2, '0');
+  const date = `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())}`;
+  return precision === 'day' ? date : `${date}T${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:00+09:00`;
+}
+
 /** 한국 날짜 기준 일 번호 (D-day 계산용) */
 export const kstDay = (ms: number) => Math.floor((ms + KST_OFFSET) / DAY);
 

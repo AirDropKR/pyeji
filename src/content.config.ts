@@ -75,11 +75,12 @@ const patches = defineCollection({
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
   schema: ({ image }) => z.object({
-    title: z.string(),
+    title: z.string(), // 검색어를 앞쪽에: 게임 약칭(POE2, POE 3.30)과 날짜를 넣는다
+    description: z.string().max(160).optional(), // 검색 결과 설명. 게임 풀네임을 한 번 넣는다. 없으면 자동 문구
     gameId: reference('games'),
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
     countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
-    publishedAt: isoDateTime,
+    publishedAt: isoDateTime, // 처음 쓴 시각. 마지막 갱신일은 글 아래 '## 업데이트' 첫 항목에서 자동 계산 (src/lib/posts.ts)
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
     // 대표 이미지. 공식 배포 이미지만, 출처 표기 필수. 없으면 직접 만든 도장 카드로 대신한다
     // 라스트 에폭(약관상 서면 동의 필요)과 토치라이트(이용 조건 미확인)는 넣지 않는다

@@ -1,5 +1,6 @@
 ---
-title: "엑자일콘 2026 한국 시간 일정: 3.30 공개 키노트와 볼거리"
+title: "엑자일콘 2026 한국 시간 일정: POE 3.30 공개 키노트 11월 7일"
+description: "엑자일콘 2026 생중계와 패스 오브 엑자일 3.30 공개 키노트의 한국 시간. 11월 7일(토) 오전 6시 키노트, 시청 방법, 레이스 결승."
 gameId: poe1
 seasonId: poe1-3-30
 countdownTo: poe1-3-30-reveal
@@ -16,6 +17,8 @@ cover:
   credit: "Grinding Gear Games 공지 (10월 7일)"
   creditUrl: "https://www.pathofexile.com/forum/view-thread/4009902"
 ---
+
+엑자일콘 2026 생중계는 **한국 시간 11월 7일(토) 오전 5시**에 시작하고, POE 3.30을 공개하는 키노트는 같은 날 **오전 6시**에 시작한다. GGG가 공지한 확정 일정이며 트위치와 유튜브에서 무료로 볼 수 있다.
 
 ## 한눈에 보기
 
