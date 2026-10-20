@@ -11,6 +11,7 @@ import GameStamp from '../components/GameStamp.astro';
 import PostThumb from '../components/PostThumb.astro';
 import SeasonImages from '../components/SeasonImages.astro';
 import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import Mascot from '../components/Mascot.astro';
 import { formatKst, buildNow, daysUntil } from '../lib/time';
 
 const now = buildNow();
@@ -87,7 +88,8 @@ const upcomingEvents = events
         </div>
         {fresh.data.videos?.[0] ? (
           <div class="fresh-media"><YouTubeEmbed video={fresh.data.videos[0]} gameId={freshGame.id} /></div>
-        ) : fresh.data.images && <div class="fresh-media"><SeasonImages season={fresh} mode="hero" /></div>}
+        ) : fresh.data.images ? <div class="fresh-media"><SeasonImages season={fresh} mode="hero" /></div>
+          : <Mascot gameId={freshGame.id} form="full" size={256} class="fresh-mascot" />}
       </div>
     </section>
   ) : (

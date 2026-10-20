@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import Mascot from '../components/Mascot.astro';
 
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base title="페이지를 찾을 수 없음" noindex>
   <section class="hero">
     <div>
+      <Mascot form="full" pose="empty" size={160} />
       <p class="eyebrow">404</p>
       <h1>페이지를 찾을 수 없음</h1>
       <p>주소가 바뀌었거나 없는 페이지다.</p>

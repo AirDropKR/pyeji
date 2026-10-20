@@ -10,6 +10,7 @@ import SeasonName from '../../components/SeasonName.astro';
 import GameStamp from '../../components/GameStamp.astro';
 import PostThumb from '../../components/PostThumb.astro';
 import SeasonImages from '../../components/SeasonImages.astro';
+import Mascot from '../../components/Mascot.astro';
 import { formatKst, buildNow } from '../../lib/time';
 
 export async function getStaticPaths() {
@@ -45,8 +46,10 @@ const term = game.data.seasonTerm;
     )}
   </section>
 
-  {featured && (
+  {featured ? (
     <div class="section tight"><SeasonImages season={featured} mode="hero" withName /></div>
+  ) : (
+    <Mascot gameId={game.id} form="full" size={220} class="game-mascot" />
   )}
 
   {current && (
