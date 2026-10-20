@@ -8,7 +8,7 @@ import { formatKst, buildNow } from '../../lib/time';
 import { postModified, COMMON_TAG } from '../../lib/posts';
 import { ogPath } from '../../lib/og-paths';
 import { monthRange, nextMonth, pickNext, type MonthItem } from '../../lib/month';
-import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
+import { seasonPath, neighbors, seasonMilestones, startLabel } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
@@ -35,7 +35,7 @@ if (post.data.month) {
   const allSeasons = await getCollection('seasons');
   const allEvents = await getCollection('events');
   const items: MonthItem[] = [
-    ...allSeasons.filter((s) => inMonth(s.data.startsAt)).map((s) => ({ at: s.data.startsAt, label: `${s.data.name} 시작`, precision: s.data.timePrecision })),
+    ...allSeasons.filter((s) => inMonth(s.data.startsAt)).map((s) => ({ at: s.data.startsAt, label: startLabel(s.data.name), precision: s.data.timePrecision })),
     ...allSeasons.filter((s) => s.data.endsAt && inMonth(s.data.endsAt)).map((s) => ({ at: s.data.endsAt!, label: `${s.data.name} 종료`, precision: 'exact' as const })),
     ...allEvents.filter((e) => inMonth(e.data.startsAt)).map((e) => ({ at: e.data.startsAt, label: e.data.title, precision: e.data.timePrecision })),
   ].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
@@ -49,7 +49,7 @@ const target = post.data.month
   : countdown
   ? { at: countdown.data.startsAt, precision: countdown.data.timePrecision, estimated: false, label: countdown.data.title }
   : season
-    ? { at: season.data.startsAt, precision: season.data.timePrecision, estimated: season.data.status === 'estimated', label: `${season.data.name} 시작` }
+    ? { at: season.data.startsAt, precision: season.data.timePrecision, estimated: season.data.status === 'estimated', label: startLabel(season.data.name) }
     : undefined;
 // 연결된 시즌의 주요 일정 (시즌 상세 페이지와 같은 내용)
 const milestones = season

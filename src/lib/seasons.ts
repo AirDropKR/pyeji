@@ -79,6 +79,9 @@ export interface Milestone {
   main?: boolean;
 }
 
+/** 시즌 시작 문구. 이름에 이미 "출시"가 들어 있으면(예: 정식 출시 (1.0)) "시작"을 붙이지 않는다 */
+export const startLabel = (name: string) => (name.includes('출시') ? name : `${name} 시작`);
+
 /** 시즌 주요 일정: 연결된 이벤트 + 직전 시즌 종료 + 이번 시즌 시작·종료를 날짜순으로 */
 export function seasonMilestones(season: Season, prev: Season | undefined, events: CollectionEntry<'events'>[]): Milestone[] {
   const s = season.data;
@@ -87,7 +90,7 @@ export function seasonMilestones(season: Season, prev: Season | undefined, event
       .filter((e) => e.data.seasonId?.id === season.id)
       .map((e) => ({ at: e.data.startsAt, precision: e.data.timePrecision, label: e.data.title, href: e.data.sourceUrl })),
     ...(prev?.data.endsAt ? [{ at: prev.data.endsAt, precision: 'exact' as const, label: `${prev.data.name} 종료`, href: seasonPath(prev) }] : []),
-    { at: s.startsAt, precision: s.timePrecision, label: `${s.name} 시작`, main: true },
+    { at: s.startsAt, precision: s.timePrecision, label: startLabel(s.name), main: true },
     ...(s.endsAt ? [{ at: s.endsAt, precision: 'exact' as const, label: `${s.name} 종료` }] : []),
   ].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
 }

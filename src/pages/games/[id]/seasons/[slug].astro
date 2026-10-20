@@ -10,7 +10,7 @@ import SeasonName from '../../../../components/SeasonName.astro';
 import SeasonProgress from '../../../../components/SeasonProgress.astro';
 import GameStamp from '../../../../components/GameStamp.astro';
 import PostThumb from '../../../../components/PostThumb.astro';
-import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, stageOf, stageLabel, certaintyLabel } from '../../../../lib/seasons';
+import { sortByStart, seasonPath, isIndexable, seasonMilestones, startLabel, phaseOf, stageOf, stageLabel, certaintyLabel } from '../../../../lib/seasons';
 import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
 import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
@@ -112,7 +112,7 @@ const jsonLd = {
         {s.timePrecision === 'day' && <span class="muted"> · 시각 발표 전</span>}
         <span class="muted"> · {state} · {certaintyLabel[s.status]}</span>
       </p>
-      {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={`${s.name} 시작`} />}
+      {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={startLabel(s.name)} />}
       {mainPost && <p class="small">자세한 정보: <a href={`/posts/${mainPost.id}/`}>{mainPost.data.title}</a></p>}
     </div>
     {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
