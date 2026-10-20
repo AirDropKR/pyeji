@@ -10,6 +10,7 @@ import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
+import SeasonCycleTable from '../../components/SeasonCycleTable.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -77,6 +78,7 @@ const jsonLd = {
     )}
     <div class="prose section tight">
       <Content />
+      {post.data.cycleTable && <SeasonCycleTable game={await getEntry(post.data.cycleTable)} seasons={await getCollection('seasons')} />}
       <h2>출처</h2>
       <ul>
         {post.data.sourceUrls.map((u) => <li><a href={u} rel="noopener">{new URL(u).hostname}</a></li>)}

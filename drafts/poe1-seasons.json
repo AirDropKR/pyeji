@@ -1,0 +1,27 @@
+[
+  {
+    "id": "poe1-3-27",
+    "gameId": "poe1",
+    "name": "3.27 불길의 수호자들",
+    "nameEn": "Keepers of the Flame",
+    "slug": "3-27",
+    "startsAt": "2025-10-31T19:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3870689",
+    "note": "한국 시간 11월 1일 오전 4시 시작(태평양 시간 10월 31일 정오, 동부 오후 3시). 종료는 태평양 시간 3월 3일로만 안내되어 시각 미확인 https://www.pathofexile.com/forum/view-thread/3913878. 한국어 이름은 카카오게임즈 https://poe.kakaogames.com/forum/view-thread/3869085"
+  },
+  {
+    "id": "poe1-3-28",
+    "gameId": "poe1",
+    "name": "3.28 허상",
+    "nameEn": "Mirage",
+    "slug": "3-28",
+    "startsAt": "2026-03-06T19:00:00Z",
+    "endsAt": "2026-07-20T22:00:00Z",
+    "timePrecision": "exact",
+    "status": "confirmed",
+    "sourceUrl": "https://www.pathofexile.com/forum/view-thread/3914487",
+    "note": "한국 시간 3월 7일 오전 4시 시작. 종료 한국 시간 7월 21일(화) 오전 7시(카카오게임즈 3.29 일정 공지 https://poe.kakaogames.com/forum/view-thread/3955024). 한국어 이름은 카카오게임즈 패치 노트 https://poe.kakaogames.com/forum/view-thread/3928495"
+  }
+]

@@ -91,6 +91,7 @@ const posts = defineCollection({
     gameId: reference('games'),
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
     countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
+    cycleTable: reference('games').optional(), // 넣으면 그 게임의 시즌 주기 표를 데이터에서 자동 생성해 본문 앞에 넣는다
     publishedAt: isoDateTime, // 처음 쓴 시각. 마지막 갱신일은 글 아래 '## 업데이트' 첫 항목에서 자동 계산 (src/lib/posts.ts)
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상
     videos,

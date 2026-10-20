@@ -1,0 +1,40 @@
+---
+// 시즌 주기 표: seasons.json에서 기간·공백·평균을 계산해 그린다 (글의 숫자와 데이터가 어긋나지 않게)
+import type { CollectionEntry } from 'astro:content';
+import { seasonCycle, seasonPath, stageOf, stageLabel } from '../lib/seasons';
+import { formatKst, buildNow } from '../lib/time';
+import { josa } from '../lib/korean';
+
+interface Props {
+  game: CollectionEntry<'games'>;
+  seasons: CollectionEntry<'seasons'>[];
+}
+const { game, seasons } = Astro.props;
+const now = buildNow();
+const term = game.data.seasonTerm;
+const { rows, avgDays, avgCount, avgGap, gapCount } = seasonCycle(game.id, seasons, now);
+---
+<section class="cycle" aria-labelledby="cycle-title">
+  <h2 class="section-title" id="cycle-title">{term} 주기 표</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>{term}</th><th>시작 (한국 시간)</th><th>종료</th><th>기간</th><th>다음까지 공백</th></tr></thead>
+      <tbody>
+        {rows.slice().reverse().map((r) => (
+          <tr>
+            <td><a href={seasonPath(r.season)}>{r.season.data.name}</a><span class="small muted block">{stageLabel[stageOf(r.season, seasons, now)]}</span></td>
+            <td>{formatKst(r.season.data.startsAt, r.season.data.timePrecision, true)}</td>
+            <td>{r.endKnown ? formatKst(r.end!, 'exact', true) : r.phase === 'ended' ? `다음 ${term} 시작` : '미정'}</td>
+            <td>{r.days === undefined ? '-' : r.phase === 'ended' ? `${r.days}일` : `${r.days}일째`}</td>
+            <td>{r.gapDays === undefined ? '-' : r.gapDays > 0 ? `${r.gapDays}일` : '없음'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted">
+    {avgDays !== undefined ? `끝난 ${josa(term, '은', '는')} ${avgCount}개, 평균 ${avgDays}일.` : `끝난 ${term} 기록 없음.`}
+    {avgGap !== undefined && ` 종료일이 발표된 ${gapCount}개 기준 평균 공백 ${avgGap}일.`}
+    {' '}종료일이 발표되지 않은 {josa(term, '은', '는')} 다음 {term} 시작까지를 기간으로 계산.
+  </p>
+</section>

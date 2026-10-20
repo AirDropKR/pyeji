@@ -127,3 +127,34 @@
 운영자가 줘야 하는 것
 - 디아블로 4, 디아블로 2 레저렉션, 토치라이트: 인피니트 공식 유튜브 채널 주소 (블리자드 소식·토치라이트 공식 사이트는 영상이 스크립트로 그려져서 영상 ID를 찾지 못함)
 - 각 게임 현재 시즌 트레일러 주소 (토치라이트 SS14 트레일러가 있으면 메인 "지금 줍기 좋은 폐지" 칸에 바로 들어감)
+
+## 작업 6. 콘텐츠 확장 (진행 중, 운영자 요청으로 여기서 일시 정지)
+
+결정한 것
+- 시즌 주기 표 자동 생성: `seasonCycle()`(src/lib/seasons.ts) + `SeasonCycleTable.astro`. 게시글 frontmatter에 `cycleTable: 게임id`를 넣으면 본문 뒤·출처 앞에 표가 들어감 (시작, 종료, 기간, 다음까지 공백, 끝난 시즌 평균 기간·평균 공백). 숫자는 모두 seasons.json에서 계산
+- 초안 글 9개를 `drafts/posts/`에 작성 (사이트 미반영). 초안 데이터와 함께 잠시 넣어 빌드 검증 통과(50페이지) 후 되돌림
+
+| 작업 | 초안 파일 | 제목 |
+|---|---|---|
+| 6-1 | drafts/posts/poe1/league-cycle.md | POE 리그(시즌) 주기 정리: 최근 1년 리그 기간과 3.30 일정 |
+| 6-1 | drafts/posts/poe2/league-cycle.md | POE2 시즌(리그) 주기 정리: 얼리 액세스 업데이트 간격과 정식 출시 |
+| 6-1 | drafts/posts/d4/season-cycle.md | 디아블로 4 시즌 주기 정리: 최근 시즌 기간과 다음 시즌 |
+| 6-1 | drafts/posts/le/season-cycle.md | 라스트 에폭 시즌 주기 정리: 시즌 기간과 다음 시즌 |
+| 6-1 | drafts/posts/tli/season-cycle.md | 토치라이트 인피니트 시즌 주기 정리: SS 시즌 기간과 다음 시즌 |
+| 6-1 | drafts/posts/d2r/ladder-cycle.md | 디아2 레저렉션 래더 시즌 주기 정리: 래더는 얼마나 자주 바뀌나 |
+| 6-2 | drafts/posts/schedule/2026-11.md (+ _monthly-template.md) | 11월 ARPG 시즌 일정 (2026): 엑자일콘, POE 3.30, 진행 중 시즌 한국 시간 |
+| 6-3 | drafts/posts/d2r/ladder-end.md | 디아2 래더 시즌이 끝나면 캐릭터와 아이템은 어떻게 되나 |
+| 6-4 | drafts/posts/poe2/what-is-league.md | POE 리그란? 시즌제 게임을 처음 한다면 (POE2 무료 전환 전에) |
+
+- POE1 시즌 데이터 초안 `drafts/poe1-seasons.json` 추가 (최근 1년 리그 주기 계산에 필요)
+  - 3.27 불길의 수호자들: 한국 시간 2025-11-01(토) 04:00 시작. 종료는 공지에 "3월 3일(태평양 시간)"만 있어 시각 미기재. 출처 https://www.pathofexile.com/forum/view-thread/3870689
+  - 3.28 허상: 2026-03-07(토) 04:00 시작, 2026-07-21(화) 07:00 종료(카카오게임즈 공지). 출처 https://www.pathofexile.com/forum/view-thread/3914487 , https://poe.kakaogames.com/forum/view-thread/3955024
+
+확인이 필요한 것
+- 초안 글의 숫자(평균 기간 등)는 POE1·디아2 초안 데이터가 반영된 상태를 기준으로 계산함. 라스트 에폭 글의 "다른 게임 평균" 비교도 같은 기준
+- 6-3 종료 안내: POE1은 공식 출처를 찾지 못해 쓰지 않음 (리그 종료 규칙을 정리한 글은 커뮤니티 가이드뿐). POE2는 얼리 액세스 기준 공식 공지(GGG 직원, 0.2 종료 안내)가 있지만 1.0 전환 규칙이 미발표라 단독 글 대신 입문 글에 포함. 디아2는 블리자드 15시즌 공지 기준으로 작성
+- 6-2 월간 일정 글은 여러 게임을 다루는데 게시글 `gameId`가 필수라 일단 poe1로 둠. gameId를 선택 항목으로 바꾸는 구조 변경이 필요한지 결정 필요
+- 반영 방법: 확인한 초안을 `drafts/posts/{경로}`에서 `src/content/posts/{같은 경로}`로 옮기고, 데이터 초안은 seasons.json에 합침. 반영 시 publishedAt을 실제 공개 시각으로 바꿀 것
+
+남은 작업 (재개 시)
+- 작업 6 마무리 후 7(애드센스 점검), 8(주섬이, 이미지 필요), 9(og:image, 새 의존성 확인 필요), 10(엑자일콘 준비), 11(패치 링크), 12(빌드 현황)

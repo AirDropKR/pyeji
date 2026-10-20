@@ -92,6 +92,40 @@ export function seasonMilestones(season: Season, prev: Season | undefined, event
   ].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
 }
 
+export interface CycleRow {
+  season: Season;
+  /** 종료 시각: endsAt, 없으면 다음 시즌 시작 */
+  end?: string;
+  endKnown: boolean;
+  /** 진행 기간(일, 한국 날짜 기준). 진행 중이면 오늘까지 */
+  days?: number;
+  /** 종료 후 다음 시즌 시작까지 공백(일). endsAt이 있을 때만 */
+  gapDays?: number;
+  phase: Phase;
+}
+
+const kstDayOf = (ms: number) => Math.floor((ms + 9 * 3_600_000) / DAY_MS);
+
+/** 시즌 주기 표: 시즌별 기간·공백과, 끝난 시즌의 평균 기간 (모두 데이터에서 계산) */
+export function seasonCycle(gameId: string, seasons: Season[], now = buildNow()) {
+  const list = sortByStart(seasons.filter((s) => s.data.gameId.id === gameId));
+  const rows: CycleRow[] = list.map((s, i) => {
+    const next = list[i + 1];
+    const phase = phaseOf(s, seasons, now);
+    const end = s.data.endsAt ?? next?.data.startsAt;
+    const start = Date.parse(s.data.startsAt);
+    const days =
+      phase === 'upcoming' ? undefined : kstDayOf(phase === 'ended' && end ? Date.parse(end) : now) - kstDayOf(start) + (phase === 'ended' ? 0 : 1);
+    const gapDays = s.data.endsAt && next ? kstDayOf(Date.parse(next.data.startsAt)) - kstDayOf(Date.parse(s.data.endsAt)) : undefined;
+    return { season: s, end, endKnown: Boolean(s.data.endsAt), days, gapDays, phase };
+  });
+  const done = rows.filter((r) => r.phase === 'ended' && r.days !== undefined);
+  const avgDays = done.length ? Math.round(done.reduce((a, r) => a + r.days!, 0) / done.length) : undefined;
+  const gaps = rows.filter((r) => r.gapDays !== undefined);
+  const avgGap = gaps.length ? Math.round(gaps.reduce((a, r) => a + r.gapDays!, 0) / gaps.length) : undefined;
+  return { rows, avgDays, avgCount: done.length, avgGap, gapCount: gaps.length };
+}
+
 /** 빌드 시점 기준 현재·다음 시즌. 숫자(D-day, 진행률)는 브라우저에서 다시 계산 */
 export function timelineFor(gameId: string, seasons: Season[], now = buildNow()): GameTimeline {
   const list = sortByStart(seasons.filter((s) => s.data.gameId.id === gameId));
