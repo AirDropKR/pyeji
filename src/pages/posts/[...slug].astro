@@ -7,6 +7,7 @@ import PostCover from '../../components/PostCover.astro';
 import { formatKst, buildNow } from '../../lib/time';
 import { postModified, COMMON_TAG } from '../../lib/posts';
 import { ogPath } from '../../lib/og-paths';
+import { monthRange, nextMonth, pickNext, type MonthItem } from '../../lib/month';
 import { seasonPath, neighbors, seasonMilestones } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
 import Countdown from '../../components/Countdown.astro';
@@ -25,7 +26,27 @@ const season = post.data.seasonId ? await getEntry(post.data.seasonId) : undefin
 const now = buildNow();
 const countdown = post.data.countdownTo ? await getEntry(post.data.countdownTo) : undefined;
 // D-day 대상: 지정한 일정이 있으면 그것, 없으면 연결된 시즌 시작
-const target = countdown
+// 월간 일정 글: 그 달 안의 시즌 시작·종료와 이벤트 중 지금 기준 가장 가까운 다음 일정 (브라우저에서도 다시 고름)
+let monthItems: MonthItem[] = [];
+let nextMonthPost: (typeof post) | undefined;
+if (post.data.month) {
+  const [from, to] = monthRange(post.data.month);
+  const inMonth = (iso: string) => Date.parse(iso) >= from && Date.parse(iso) < to;
+  const allSeasons = await getCollection('seasons');
+  const allEvents = await getCollection('events');
+  const items: MonthItem[] = [
+    ...allSeasons.filter((s) => inMonth(s.data.startsAt)).map((s) => ({ at: s.data.startsAt, label: `${s.data.name} 시작`, precision: s.data.timePrecision })),
+    ...allSeasons.filter((s) => s.data.endsAt && inMonth(s.data.endsAt)).map((s) => ({ at: s.data.endsAt!, label: `${s.data.name} 종료`, precision: 'exact' as const })),
+    ...allEvents.filter((e) => inMonth(e.data.startsAt)).map((e) => ({ at: e.data.startsAt, label: e.data.title, precision: e.data.timePrecision })),
+  ].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
+  // 같은 시각의 같은 일정(시즌 종료와 종료 이벤트 등)은 하나로
+  monthItems = items.filter((it, i) => i === 0 || it.at !== items[i - 1].at);
+  nextMonthPost = (await getCollection('posts')).find((p) => p.data.month === nextMonth(post.data.month!));
+}
+const monthNext = post.data.month ? pickNext(monthItems, now) : undefined;
+const target = post.data.month
+  ? monthNext && { ...monthNext, estimated: false }
+  : countdown
   ? { at: countdown.data.startsAt, precision: countdown.data.timePrecision, estimated: false, label: countdown.data.title }
   : season
     ? { at: season.data.startsAt, precision: season.data.timePrecision, estimated: season.data.status === 'estimated', label: `${season.data.name} 시작` }
@@ -58,12 +79,15 @@ const jsonLd = {
 ---
 <Base title={post.data.title} type="article" image={ogImage} description={description} jsonLd={jsonLd}>
   <article class="gc" style={`--game-raw:${tagColor}`}>
-    <header class="hero">
+    <header class="hero" data-month-candidates={post.data.month ? JSON.stringify(monthItems) : undefined}>
       <div>
         <p class="eyebrow">{game ? <a class="tag" href={`/games/${game.id}/`}>{game.data.shortName}</a> : <span class="tag">{COMMON_TAG.label}</span>}</p>
         <h1>{post.data.title}</h1>
         <p class="small muted"><time datetime={modified}>{formatKst(modified, 'day')}</time> 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
         {target && upcoming && <Countdown at={target.at} precision={target.precision} label={target.label} />}
+        {post.data.month && nextMonthPost && (
+          <p class="small month-next" hidden={Boolean(target && upcoming)}>이달 일정 끝 · <a href={`/posts/${nextMonthPost.id}/`}>{nextMonthPost.data.title}</a></p>
+        )}
       </div>
       {target && upcoming && <DdayStamp at={target.at} size="big" estimated={target.estimated} />}
     </header>

@@ -94,6 +94,7 @@ const posts = defineCollection({
     gameId: reference('games').optional(), // 없으면 여러 게임을 다루는 공통 글 (월간 일정 등). 화면에는 "공통" 태그
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 글이면 연결
     countdownTo: reference('events').optional(), // D-day 도장이 셀 일정. 없으면 연결된 시즌 시작
+    month: z.string().regex(/^\d{4}-\d{2}$/).optional(), // 월간 일정 글이면 "2026-11". 카운트다운이 그 달의 가장 가까운 다음 일정을 자동으로 고른다
     cycleTable: reference('games').optional(), // 넣으면 그 게임의 시즌 주기 표를 데이터에서 자동 생성해 본문 앞에 넣는다
     publishedAt: isoDateTime, // 처음 쓴 시각. 마지막 갱신일은 글 아래 '## 업데이트' 첫 항목에서 자동 계산 (src/lib/posts.ts)
     sourceUrls: z.array(z.string().url()).min(1), // 정보 출처, 하나 이상

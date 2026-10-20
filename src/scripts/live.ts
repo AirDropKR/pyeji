@@ -1,5 +1,6 @@
 // 정적 페이지라 빌드 시점 숫자가 굳어 있으므로, 브라우저에서 D-day와 진행률을 다시 계산한다
 import { daysUntil, ddayLabel } from '../lib/time';
+import { pickNext, type MonthItem } from '../lib/month';
 
 const KST_OFFSET_MIN = -540; // getTimezoneOffset 기준 한국 시간
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
@@ -70,8 +71,35 @@ document.addEventListener('click', (e) => {
   frame.replaceChildren(iframe);
 });
 
+/** 월간 일정 글: 빌드 뒤 시간이 지나 일정이 지났으면 그 달의 다음 일정으로 카운트다운을 옮기고, 다 지났으면 숨긴다 */
+function retargetMonth(now: number) {
+  document.querySelectorAll<HTMLElement>('[data-month-candidates]').forEach((el) => {
+    const next = pickNext(JSON.parse(el.dataset.monthCandidates!) as MonthItem[], now);
+    const cd = el.querySelector<HTMLElement>('[data-countdown]');
+    const stamp = el.querySelector<HTMLElement>('.stamp[data-dday]');
+    const box = el.querySelector<HTMLElement>('.countdown');
+    const nextLink = el.querySelector<HTMLElement>('.month-next');
+    if (!next) {
+      if (box) box.hidden = true;
+      if (stamp) stamp.hidden = true;
+      if (nextLink) nextLink.hidden = false;
+      return;
+    }
+    if (cd && cd.dataset.countdown !== next.at) {
+      cd.dataset.countdown = next.at;
+      cd.dataset.precision = next.precision;
+      const label = el.querySelector('.cd-label');
+      if (label) label.textContent = `${next.label}까지`;
+      const note = el.querySelector<HTMLElement>('.cd-note');
+      if (note) note.hidden = next.precision !== 'day';
+    }
+    if (stamp) stamp.dataset.dday = next.at;
+  });
+}
+
 function update() {
   const now = Date.now();
+  retargetMonth(now);
   document.querySelectorAll<HTMLElement>('[data-dday]').forEach((el) => {
     el.textContent = ddayLabel(daysUntil(el.dataset.dday!, now));
   });

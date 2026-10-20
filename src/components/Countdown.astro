@@ -13,5 +13,5 @@ const { at, precision, label } = Astro.props;
 <p class="countdown">
   <span class="cd-label">{label}까지</span>
   <b data-countdown={at} data-precision={precision}>{daysUntil(at)}일</b>
-  {precision === 'day' && <span class="muted small">시각 발표 전, 한국 날짜 기준</span>}
+  <span class="muted small cd-note" hidden={precision !== 'day'}>시각 발표 전, 한국 날짜 기준</span>
 </p>

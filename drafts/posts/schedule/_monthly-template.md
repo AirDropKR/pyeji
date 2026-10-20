@@ -1,7 +1,8 @@
 ---
 title: "{M}월 ARPG 시즌 일정 ({YYYY}): {가장 큰 일정 1~2개}"
 description: "{YYYY}년 {M}월 핵앤슬래시 시즌 일정. {새로 시작·종료하는 시즌}, 진행 중 시즌 현황, 다음 달 예고."
-seasonId: {그 시즌 id}
+seasonId: {그 시즌 id (주요 일정 띠에 쓰임, 선택)}
+month: "{YYYY}-{MM}"  # 카운트다운이 그 달의 가장 가까운 다음 일정을 자동으로 고른다
 publishedAt: "{YYYY}-{MM-1}-{말일}T12:00:00Z"
 sourceUrls:
   - "{공식 출처}"
