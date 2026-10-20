@@ -62,6 +62,7 @@ img { max-width: 100%; }
   font-family: var(--font-display); line-height: 1.1; white-space: nowrap;
 }
 .stamp.big { margin-right: 6px; font-size: clamp(56px, 12vw, 112px); border-width: 6px; padding: 4px 20px 0; border-radius: calc(var(--stamp-radius) * 1.75); }
+.stamp.mid { font-size: clamp(36px, 7vw, 56px); border-width: 4px; padding: 3px 14px 0; border-radius: calc(var(--stamp-radius) * 1.4); }
 .stamp.small { font-size: 20px; }
 .stamp.estimate { border-style: var(--stamp-line-estimate); }
 
@@ -74,6 +75,46 @@ img { max-width: 100%; }
 .hero p { margin: 8px 0 0; font-size: 18px; }
 .hero .eyebrow { margin: 0 0 6px; font-size: 16px; }
 @media (max-width: 640px) { .hero { grid-template-columns: 1fr; } .hero .stamp { justify-self: start; } }
+
+/* 메인: 지금 줍기 좋은 폐지 (막 열린 시즌) */
+.fresh { padding-bottom: 28px; border-bottom: 3px solid var(--ink); display: grid; gap: 18px; }
+.fresh-head { display: flex; justify-content: space-between; align-items: center; gap: 16px 24px; flex-wrap: wrap; }
+.fresh-title { font-size: clamp(30px, 5.4vw, 46px); }
+.fresh-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 24px; align-items: start; }
+.fresh-body:not(:has(.fresh-media)) { grid-template-columns: 1fr; }
+.fresh-info { display: grid; gap: 8px; align-content: start; }
+.fresh-game { margin: 0; display: flex; align-items: center; gap: 10px; }
+.fresh-game a { color: var(--ink); text-decoration: none; font-weight: 700; }
+.fresh-season { font-size: clamp(24px, 4vw, 34px); }
+.fresh-fact { margin: 0; font-size: 17px; }
+.fresh-highlights { margin: 6px 0 0; padding-left: 20px; }
+.fresh-highlights li { margin: 3px 0; }
+.fresh-actions { margin: 10px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.button {
+  display: inline-block; padding: 8px 16px 7px; border: 2px solid var(--ink); border-radius: 4px;
+  color: var(--ink); text-decoration: none; font-weight: 700; background: var(--paper);
+}
+.button:hover { background: var(--ink); color: var(--paper); }
+@media (max-width: 720px) { .fresh-body { grid-template-columns: 1fr; } }
+.no-fresh { margin: 0 0 14px; font-size: 14px; }
+.next-season { font-size: clamp(24px, 4vw, 34px); }
+.next-events { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 2px; }
+
+/* 메인: 다른 게임 (게임당 한 줄) */
+.others { list-style: none; margin: 0; padding: 0; }
+.other {
+  display: grid; grid-template-columns: minmax(170px, 1.2fr) minmax(0, 2fr) minmax(0, 1.4fr); gap: 8px 18px; align-items: center;
+  padding: 12px 0 12px 12px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--game, var(--ink));
+}
+.other-game { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; line-height: 1.3; }
+.other-game b { font-family: var(--font-display); font-weight: 400; font-size: 17px; }
+.other-next { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.stage-chip { display: inline-block; margin-right: 6px; padding: 0 7px; border-radius: 3px; font-size: 12px; font-weight: 700; border: 1.5px solid var(--muted); color: var(--muted); }
+.stage-chip.ending { border-color: var(--ink); color: var(--ink); }
+@media (max-width: 720px) {
+  .other { grid-template-columns: 1fr; }
+  .other-next { justify-content: flex-start; }
+}
 
 /* 게임 색: games.json의 themeColor를 --game-raw로 받는다 */
 .gc { --game: color-mix(in oklab, var(--game-raw) calc(100% - var(--game-mix)), #fff); }

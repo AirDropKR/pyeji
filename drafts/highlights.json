@@ -1,0 +1,51 @@
+{
+  "_설명": "진행 중 시즌의 highlights 초안. 확인 후 src/data/seasons.json의 해당 시즌에 \"highlights\": [...] 로 옮긴다. 한 줄 60자 이내, 최대 3개. [명칭 확인]은 국내 서비스사 공식 번역명을 확인하지 못한 표기",
+  "poe1-3-29": {
+    "source": "https://www.pathofexile.com/forum/view-thread/3985355",
+    "highlights": [
+      "해도를 이어 붙여 항해를 꾸리는 리그 콘텐츠 [명칭 확인: Voyage]",
+      "용병을 영구히 고용하는 새 사이온 전직 루미너리",
+      "자가 시전 주문을 바꾸는 새 젬 종류 계약 [명칭 확인: Pacts]"
+    ]
+  },
+  "poe2-0-5": {
+    "source": "https://www.pathofexile.com/forum/view-thread/3930564",
+    "highlights": [
+      "룬 제작 리그 알두르의 룬",
+      "새 전직 마셜 아티스트(몽크)와 스피릿 워커(헌트리스)",
+      "아틀라스 엔드게임 개편과 첫 도전과제 8개"
+    ]
+  },
+  "d2r-s15": {
+    "source": "https://news.blizzard.com/ko-kr/article/24296140",
+    "highlights": [
+      "패치 3.3과 함께 시작",
+      "광기·발작 등 래더 전용 아이템 변경",
+      "공포의 영역 전령 3등급 이상 희귀 아이템 드롭 확률 상승"
+    ]
+  },
+  "d4-s15": {
+    "source": "https://news.blizzard.com/en-us/article/24301509/diablos-next-era-revealed-at-blizzcon-2026-opening-ceremonies-recap",
+    "highlights": [
+      "디아블로 30주년 기념 시즌",
+      "세 악마 군주와 데커드 케인 귀환 [명칭 확인]",
+      "닌텐도 스위치 2 출시와 같은 날 시작"
+    ]
+  },
+  "tli-ss14": {
+    "source": "https://torchlight.xd.com/us/index",
+    "highlights": [
+      "감옥을 운영하며 죄수를 키우는 시즌 콘텐츠",
+      "히어로 유가의 새 특성",
+      "새 성장 요소 추종자 [명칭 확인: Followers]"
+    ]
+  },
+  "le-s5": {
+    "source": "https://forum.lastepoch.com/t/season-5-rage-of-the-frostborn-is-now-live/81860",
+    "highlights": [
+      "시즌 메커니즘 모르디타스의 분노 [명칭 확인: Rage of Morditas]",
+      "새 스킬 3개와 새 고유 아이템",
+      "팩션 업데이트"
+    ]
+  }
+}

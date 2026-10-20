@@ -9,7 +9,7 @@ import SeasonName from '../../../../components/SeasonName.astro';
 import SeasonProgress from '../../../../components/SeasonProgress.astro';
 import GameStamp from '../../../../components/GameStamp.astro';
 import PostThumb from '../../../../components/PostThumb.astro';
-import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, phaseLabel, certaintyLabel } from '../../../../lib/seasons';
+import { sortByStart, seasonPath, isIndexable, seasonMilestones, phaseOf, stageOf, stageLabel, certaintyLabel } from '../../../../lib/seasons';
 import MilestoneTimeline from '../../../../components/MilestoneTimeline.astro';
 import Countdown from '../../../../components/Countdown.astro';
 import SeasonImages from '../../../../components/SeasonImages.astro';
@@ -33,6 +33,7 @@ export async function getStaticPaths() {
         prev: list[i - 1],
         next: list[i + 1],
         phase: phaseOf(season, seasons),
+        stage: stageOf(season, seasons),
         indexable: isIndexable(season, seasons, posts.filter((p) => p.data.seasonId?.id === season.id).length),
         posts: posts
           .filter((p) => p.data.seasonId?.id === season.id)
@@ -45,7 +46,7 @@ export async function getStaticPaths() {
   });
 }
 
-const { season, game, prev, next, posts, events, phase, indexable } = Astro.props;
+const { season, game, prev, next, posts, events, phase, stage, indexable } = Astro.props;
 const s = season.data;
 const term = game.data.seasonTerm;
 const start = Date.parse(s.startsAt);
@@ -54,7 +55,7 @@ const progressEnd = s.endsAt ?? next?.data.startsAt;
 // 진행 상태는 시각으로 판정 (getStaticPaths에서 계산, 매일 자동 재빌드로 갱신)
 const upcoming = phase === 'upcoming';
 const over = phase === 'ended';
-const state = phaseLabel[phase];
+const state = stageLabel[stage];
 const days = s.endsAt ? kstDay(Date.parse(s.endsAt)) - kstDay(start) : undefined;
 const startText = formatKst(s.startsAt, s.timePrecision, true);
 

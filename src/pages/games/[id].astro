@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { josa } from '../../lib/korean';
 import { postModified } from '../../lib/posts';
 import { getCollection } from 'astro:content';
-import { timelineFor, sortByStart, seasonPath, phaseOf, phaseLabel, certaintyLabel } from '../../lib/seasons';
+import { timelineFor, sortByStart, seasonPath, phaseOf, stageOf, stageLabel, certaintyLabel } from '../../lib/seasons';
 import DdayStamp from '../../components/DdayStamp.astro';
 import SeasonProgress from '../../components/SeasonProgress.astro';
 import SeasonName from '../../components/SeasonName.astro';
@@ -84,7 +84,7 @@ const term = game.data.seasonTerm;
                 <td><a class="season-link" href={seasonPath(s)}><SeasonName season={s} /></a></td>
                 <td>{formatKst(s.data.startsAt, s.data.timePrecision, true)}</td>
                 <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : phaseOf(s, seasons, now) === 'ended' ? '-' : '미정'}</td>
-                <td><a href={s.data.sourceUrl} rel="noopener">{phaseLabel[phaseOf(s, seasons, now)]}{s.data.status === 'estimated' && ` · ${certaintyLabel.estimated}`}</a></td>
+                <td><a href={s.data.sourceUrl} rel="noopener">{stageLabel[stageOf(s, seasons, now)]}{s.data.status === 'estimated' && ` · ${certaintyLabel.estimated}`}</a></td>
               </tr>
             ))}
           </tbody>

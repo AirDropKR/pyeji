@@ -1,14 +1,16 @@
 ---
+// 메인: "지금 할 만한 것(막 열린 시즌) → 곧 열릴 것(다음 오픈) → 나머지 게임" 순서
 import Base from '../layouts/Base.astro';
 import { postModified } from '../lib/posts';
 import { getCollection } from 'astro:content';
-import { timelineFor, seasonPath } from '../lib/seasons';
+import { timelineFor, seasonPath, stageOf, seasonEnd, FRESH_DAYS } from '../lib/seasons';
 import DdayStamp from '../components/DdayStamp.astro';
 import SeasonProgress from '../components/SeasonProgress.astro';
 import SeasonName from '../components/SeasonName.astro';
 import GameStamp from '../components/GameStamp.astro';
 import PostThumb from '../components/PostThumb.astro';
-import { formatKst, buildNow } from '../lib/time';
+import SeasonImages from '../components/SeasonImages.astro';
+import { formatKst, buildNow, daysUntil } from '../lib/time';
 
 const now = buildNow();
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
@@ -18,76 +20,125 @@ const posts = (await getCollection('posts')).sort(
   (a, b) => Date.parse(postModified(b)) - Date.parse(postModified(a)),
 );
 const gameOf = (id: string) => games.find((g) => g.id === id)!;
+const byStart = (a: { data: { startsAt: string } }, b: { data: { startsAt: string } }) =>
+  Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt);
+const postFor = (seasonId: string) => posts.find((p) => p.data.seasonId?.id === seasonId);
 
-const rows = games.map((g) => ({ g, ...timelineFor(g.id, seasons, now) }));
-const hero = seasons
-  .filter((s) => Date.parse(s.data.startsAt) > now)
-  .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt))[0];
-const heroGame = hero && gameOf(hero.data.gameId.id);
-const upcoming = events
+// 1. 막 열린 시즌: 막 열림 단계 중 가장 최근에 시작한 것
+const fresh = seasons.filter((s) => stageOf(s, seasons, now) === 'fresh').sort(byStart).at(-1);
+const freshGame = fresh && gameOf(fresh.data.gameId.id);
+const freshEnd = fresh && seasonEnd(fresh, seasons);
+const freshDay = fresh ? -daysUntil(fresh.data.startsAt, now) + 1 : 0;
+const freshPost = fresh && postFor(fresh.id);
+
+// 2. 다음 오픈: 가장 먼저 시작하는 미래 시즌과 그 전에 있는 공개 일정
+const next = seasons.filter((s) => Date.parse(s.data.startsAt) > now).sort(byStart)[0];
+const nextGame = next && gameOf(next.data.gameId.id);
+const nextPost = next && postFor(next.id);
+const nextEvents = next
+  ? events
+      .filter((e) => e.data.gameId.id === next.data.gameId.id && Date.parse(e.data.startsAt) > now && Date.parse(e.data.startsAt) < Date.parse(next.data.startsAt))
+      .sort(byStart)
+  : [];
+
+// 3. 다른 게임: 막 열린 시즌의 게임은 빼고, 막차를 위로
+const others = games
+  .filter((g) => g.id !== freshGame?.id)
+  .map((g) => {
+    const t = timelineFor(g.id, seasons, now);
+    return { g, ...t, stage: t.current ? stageOf(t.current, seasons, now) : undefined, end: t.current && seasonEnd(t.current, seasons) };
+  })
+  .sort((a, b) => Number(b.stage === 'ending') - Number(a.stage === 'ending'));
+
+const upcomingEvents = events
   .filter((e) => Date.parse(e.data.endsAt ?? e.data.startsAt) > now)
-  .sort((a, b) => Date.parse(a.data.startsAt) - Date.parse(b.data.startsAt))
+  .sort(byStart)
   .slice(0, 6);
 ---
 <Base>
-  {hero && heroGame ? (
-    <section class="hero">
-      <div>
-        <p class="eyebrow">가장 먼저 열리는 시즌</p>
-        <h1><a class="season-link" href={seasonPath(hero)}>{heroGame.data.shortName} <SeasonName season={hero} /></a></h1>
-        <p>
-          한국 시간 {formatKst(hero.data.startsAt, hero.data.timePrecision)} 시작
-          {hero.data.status === 'estimated' && ' (예상)'}
-          {hero.data.timePrecision === 'day' && <span class="muted">, 정확한 시각은 아직 발표 전</span>}
-        </p>
+  {fresh && freshGame ? (
+    <section class="fresh gc" style={`--game-raw:${freshGame.data.themeColor}`} aria-labelledby="fresh-title">
+      <div class="fresh-head">
+        <div>
+          <h1 class="fresh-title" id="fresh-title">지금 줍기 좋은 폐지</h1>
+          <p class="muted flush">남들 다 줍기 전에</p>
+        </div>
+        <DdayStamp at={fresh.data.startsAt} size="big" />
       </div>
-      <DdayStamp at={hero.data.startsAt} size="big" estimated={hero.data.status === 'estimated'} />
+      <div class="fresh-body">
+        <div class="fresh-info">
+          <p class="fresh-game"><GameStamp game={freshGame} size="sm" /><a href={`/games/${freshGame.id}/`}>{freshGame.data.name}</a></p>
+          <h2 class="fresh-season"><a class="season-link" href={seasonPath(fresh)}><SeasonName season={fresh} /></a></h2>
+          <p class="fresh-fact">
+            {formatKst(fresh.data.startsAt, fresh.data.timePrecision)} 시작 · <span data-elapsed={fresh.data.startsAt}>{freshDay}일째</span>
+            {freshDay <= Math.round(FRESH_DAYS * 0.7) && <span>, 아직 다들 초반</span>}
+          </p>
+          {freshEnd && <SeasonProgress start={fresh.data.startsAt} end={freshEnd} />}
+          {fresh.data.highlights && (
+            <ul class="fresh-highlights">
+              {fresh.data.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+          )}
+          <p class="fresh-actions">
+            <a class="button" href={seasonPath(fresh)}>시즌 정보 보기</a>
+            {freshPost && <a href={`/posts/${freshPost.id}/`}>{freshPost.data.title}</a>}
+          </p>
+        </div>
+        {fresh.data.images && <div class="fresh-media"><SeasonImages season={fresh} mode="hero" /></div>}
+      </div>
     </section>
   ) : (
-    <section class="hero"><h1>발표된 다음 시즌 없음</h1></section>
+    next && <p class="no-fresh muted">지금 막 열린 시즌 없음 · 다음 오픈까지 <span data-dday={next.data.startsAt}></span></p>
   )}
 
-  <section class="section tight" aria-labelledby="games-title">
-    <h2 class="section-title" id="games-title">게임별 시즌</h2>
-    <ul class="games">
-      {rows.map(({ g, current, next, currentEndsAt }) => (
-        <li class="game-row gc" style={`--game-raw:${g.data.themeColor}`}>
-          <div class="game-id">
-            <GameStamp game={g} size="sm" />
-            <div>
-              <h3><a href={`/games/${g.id}/`}>{g.data.shortName}</a></h3>
-              <span class="small muted">{g.data.name}</span>
-            </div>
-          </div>
-          <div class="now">
-            <span class="slot-label">진행 중</span>
+  {next && nextGame ? (
+    <section class:list={['hero gc', { 'section tight': fresh }]} style={`--game-raw:${nextGame.data.themeColor}`} aria-labelledby="next-title">
+      <div>
+        <p class="eyebrow" id="next-title">다음 오픈</p>
+        {fresh ? (
+          <h2 class="next-season"><a class="season-link" href={seasonPath(next)}>{nextGame.data.shortName} <SeasonName season={next} /></a></h2>
+        ) : (
+          <h1><a class="season-link" href={seasonPath(next)}>{nextGame.data.shortName} <SeasonName season={next} /></a></h1>
+        )}
+        <p>
+          한국 시간 {formatKst(next.data.startsAt, next.data.timePrecision)} 오픈{next.data.status === 'estimated' && ' (예상)'}
+          {next.data.timePrecision === 'day' && <span class="muted"> · 시각 미발표</span>}
+        </p>
+        {nextEvents.length > 0 && (
+          <ul class="next-events small">
+            {nextEvents.map((e) => <li><span class="muted">{formatKst(e.data.startsAt, e.data.timePrecision)}</span> {e.data.title}</li>)}
+          </ul>
+        )}
+        {nextPost && <p class="small"><a href={`/posts/${nextPost.id}/`}>{nextPost.data.title}</a></p>}
+      </div>
+      <DdayStamp at={next.data.startsAt} size={fresh ? 'mid' : 'big'} estimated={next.data.status === 'estimated'} />
+    </section>
+  ) : (
+    !fresh && <section class="hero"><h1>발표된 다음 시즌 없음</h1></section>
+  )}
+
+  <section class="section tight" aria-labelledby="others-title">
+    <h2 class="section-title" id="others-title">다른 게임</h2>
+    <ul class="others">
+      {others.map(({ g, current, next: n, stage, end }) => (
+        <li class="other gc" style={`--game-raw:${g.data.themeColor}`}>
+          <a class="other-game" href={`/games/${g.id}/`}><GameStamp game={g} size="sm" /><span><b>{g.data.shortName}</b><span class="small muted block">{g.data.name}</span></span></a>
+          <div class="other-now">
             {current ? (
               <>
-                <strong><a class="season-link" href={seasonPath(current)}><SeasonName season={current} /></a></strong>
-                {currentEndsAt && (
-                  <SeasonProgress start={current.data.startsAt} end={currentEndsAt} />
-                )}
-                <span class="small muted block">
-                  <span data-elapsed={current.data.startsAt}></span>
-                  {current.data.endsAt && `, ${formatKst(current.data.endsAt, 'exact')} 종료`}
-                </span>
+                <span class:list={['stage-chip', { ending: stage === 'ending' }]}>{stage === 'ending' ? '막차' : '진행 중'}</span>
+                <a class="season-link" href={seasonPath(current)}>{current.data.name}</a>
+                {stage === 'ending' && end && <span class="small muted"> · {formatKst(end, current.data.endsAt ? 'exact' : 'day')} 종료</span>}
               </>
             ) : (
-              <span class="muted">진행 중인 {g.data.seasonTerm} 정보 없음</span>
+              <span class="small muted">진행 중인 {g.data.seasonTerm} 없음</span>
             )}
           </div>
-          <div class="next">
-            <span class="slot-label">다음 {g.data.seasonTerm}</span>
-            {next ? (
-              <div class="next-body">
-                <span class="when">
-                  <strong><a class="season-link" href={seasonPath(next)}><SeasonName season={next} /></a></strong>
-                  <span class="block">{formatKst(next.data.startsAt, next.data.timePrecision)}{next.data.status === 'estimated' ? ' 예상' : ' 시작'}</span>
-                </span>
-                <DdayStamp at={next.data.startsAt} estimated={next.data.status === 'estimated'} />
-              </div>
+          <div class="other-next">
+            {n ? (
+              <><a class="season-link small" href={seasonPath(n)}>{n.data.name}</a> <DdayStamp at={n.data.startsAt} estimated={n.data.status === 'estimated'} /></>
             ) : (
-              <span class="small muted">미발표</span>
+              <span class="small muted">다음 {g.data.seasonTerm} 미발표</span>
             )}
           </div>
         </li>
@@ -98,9 +149,9 @@ const upcoming = events
   <div class="split">
     <section aria-labelledby="events-title">
       <h2 class="section-title" id="events-title">다가오는 일정</h2>
-      {upcoming.length ? (
+      {upcomingEvents.length ? (
         <ul class="plain-list">
-          {upcoming.map((e) => {
+          {upcomingEvents.map((e) => {
             const g = gameOf(e.data.gameId.id);
             return (
               <li class="gc" style={`--game-raw:${g.data.themeColor}`}>

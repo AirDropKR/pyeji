@@ -33,6 +33,31 @@ export function phaseOf(season: Season, seasons: Season[], now = buildNow()): Ph
   return end && Date.parse(end) <= now ? 'ended' : 'current';
 }
 
+/** 시즌 단계 기준 일수. 여기만 바꾸면 메인·게임 페이지·시즌 상세·폐지달력이 같이 바뀐다 */
+export const FRESH_DAYS = 14; // 시작 후 이 기간 안이면 "막 열림"
+export const ENDING_DAYS = 14; // 종료까지 이 기간 안이면 "막차" (종료 시각이 정해진 경우만)
+const DAY_MS = 86_400_000;
+
+export type Stage = 'upcoming' | 'fresh' | 'current' | 'ending' | 'ended';
+export const stageLabel: Record<Stage, string> = {
+  upcoming: '시작 전',
+  fresh: '막 열림',
+  current: '진행 중',
+  ending: '막차',
+  ended: '종료',
+};
+
+/** 진행 상태(phaseOf)를 더 잘게 나눈 단계. 종료가 가까우면 막 열림보다 막차를 먼저 본다
+ *  종료 시각은 endsAt, 없으면 다음 시즌 시작. 다음 시즌이 미발표면 막차가 되지 않는다 */
+export function stageOf(season: Season, seasons: Season[], now = buildNow()): Stage {
+  const phase = phaseOf(season, seasons, now);
+  if (phase !== 'current') return phase;
+  const end = seasonEnd(season, seasons);
+  if (end && Date.parse(end) - now <= ENDING_DAYS * DAY_MS) return 'ending';
+  if (now - Date.parse(season.data.startsAt) < FRESH_DAYS * DAY_MS) return 'fresh';
+  return 'current';
+}
+
 /** 검색 노출 여부: 끝났고 연결된 글이 없는 시즌은 내용이 얇아 noindex.
  *  astro.config.mjs의 사이트맵 필터도 같은 기준을 쓴다 */
 export const isIndexable = (s: Season, seasons: Season[], linkedPostCount: number, now = buildNow()) =>

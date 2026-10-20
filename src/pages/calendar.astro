@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { timelineRange, monthTicks, seasonSpans, pct } from '../lib/calendar';
 import { formatKst, buildNow } from '../lib/time';
-import { seasonPath, phaseOf, phaseLabel, certaintyLabel } from '../lib/seasons';
+import { seasonPath, phaseOf, stageOf, stageLabel, certaintyLabel } from '../lib/seasons';
 
 const now = buildNow();
 const range = timelineRange(now);
@@ -66,7 +66,7 @@ const pos = (start: number, end: number) => {
               {spans.map((sp) => {
                 const s = sp.season.data;
                 const phase = phaseOf(sp.season, seasons, now);
-                const state = `${phaseLabel[phase]} · ${certaintyLabel[s.status]}`;
+                const state = `${stageLabel[stageOf(sp.season, seasons, now)]} · ${certaintyLabel[s.status]}`;
                 const when = `${formatKst(s.startsAt, s.timePrecision, true)} ~ ${sp.endKnown ? formatKst(s.endsAt!, 'exact', true) : sp.open ? '진행 중' : '다음 시즌 시작까지'}`;
                 return (
                   <a

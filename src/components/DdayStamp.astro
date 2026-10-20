@@ -4,7 +4,7 @@ import { daysUntil, ddayLabel } from '../lib/time';
 
 interface Props {
   at: string;
-  size?: 'big' | 'small';
+  size?: 'big' | 'mid' | 'small';
   estimated?: boolean;
 }
 const { at, size = 'small', estimated = false } = Astro.props;

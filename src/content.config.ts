@@ -33,6 +33,8 @@ const seasons = defineCollection({
     status: z.enum(['confirmed', 'estimated']), // 확정/예상 구분만. 진행·종료는 시각으로 판정 (src/lib/seasons.ts phaseOf)
     sourceUrl: z.string().url(),
     note: z.string().optional(),
+    // 이번 시즌 핵심 (메인 "지금 줍기 좋은 폐지" 칸 등). 공식 발표에서 뽑은 사실을 직접 쓴 짧은 문장, 최대 3개
+    highlights: z.array(z.string().max(60)).max(3).optional(),
     // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수
     images: z.array(z.object({
       file: z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+\.(jpg|png|webp)$/), // 예: poe1-3-29/key-art.jpg
