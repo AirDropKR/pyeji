@@ -1,0 +1,24 @@
+---
+// 홈 화면 추가 버튼 (모바일만). 표시 조건·동작은 install.ts
+// 설치 창을 띄울 수 있으면 띄우고, 아이폰 사파리는 그림 안내, 그 밖의 모바일 브라우저는 메뉴 안내
+---
+<div class="install" data-install hidden>
+  <button type="button" class="install-btn" data-install-open>홈 화면에 추가</button>
+  <button type="button" class="install-close" data-install-close aria-label="닫기 (30일 동안 안 보기)">×</button>
+</div>
+<dialog class="install-guide" data-install-guide aria-labelledby="install-guide-title">
+  <h2 id="install-guide-title">홈 화면에 추가</h2>
+  <ol class="install-steps" data-guide="ios" hidden>
+    <li>
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10H6v10h12V10h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>사파리의 <b>공유</b> 버튼 (네모에 위쪽 화살표)</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>목록에서 <b>홈 화면에 추가</b></span>
+    </li>
+  </ol>
+  <p class="install-other" data-guide="other" hidden>브라우저 메뉴(⋮ 또는 ≡)에서 <b>홈 화면에 추가</b> 또는 <b>앱 설치</b></p>
+  <form method="dialog"><button class="button">닫기</button></form>
+</dialog>
+<script>import '../scripts/install.ts';</script>

@@ -408,3 +408,27 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 }
 .my-more { margin-top: 6px; }
 [data-my-fold]:not(.my-open) > .my-other { display: none; }
+
+/* 홈 화면 추가 버튼 (InstallButton.astro, 모바일만). 맨 아래 내용이 가려지지 않게 페이지 아래 여백을 늘린다 */
+.install {
+  position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 20;
+  display: flex; align-items: center; border: 2px solid var(--stamp); border-radius: 999px;
+  background: var(--paper); box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.5);
+}
+.install[hidden] { display: none; }
+.install-btn, .install-close { font: 700 13px/1 var(--font-body); background: none; border: 0; color: var(--stamp); cursor: pointer; }
+.install-btn { padding: 9px 4px 8px 14px; }
+.install-close { padding: 9px 12px 8px 8px; font-size: 16px; }
+.has-install .shell { padding-bottom: 64px; }
+.install-guide {
+  max-width: min(360px, calc(100vw - 32px)); border: 2px solid var(--ink); border-radius: 6px;
+  background: var(--paper); color: var(--ink); padding: 20px;
+}
+.install-guide::backdrop { background: rgba(0, 0, 0, 0.45); }
+.install-guide h2 { font-size: 20px; margin-bottom: 12px; }
+.install-steps { margin: 0 0 16px; padding-left: 20px; display: grid; gap: 12px; }
+.install-steps li { padding-left: 4px; }
+.install-steps li > * { vertical-align: middle; }
+.install-steps svg { margin-right: 8px; color: var(--stamp); }
+.install-other { margin: 0 0 16px; }
+.install-guide form { margin: 0; text-align: right; }

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import { ogPath } from '../lib/og-paths';
+import InstallButton from '../components/InstallButton.astro';
 
 interface Props {
   title?: string;
@@ -86,6 +87,7 @@ const canonical = new URL(path, Astro.site).href;
         </nav>
       </footer>
     </div>
+    <InstallButton />
     <script>import '../scripts/live.ts';</script>
   </body>
 </html>
