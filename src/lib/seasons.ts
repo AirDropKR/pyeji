@@ -1,5 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
-import { buildNow } from './time';
+import { buildNow, daysUntil } from './time';
 
 type Season = CollectionEntry<'seasons'>;
 
@@ -34,7 +34,7 @@ export function phaseOf(season: Season, seasons: Season[], now = buildNow()): Ph
 }
 
 /** 시즌 단계 기준 일수. 여기만 바꾸면 메인·게임 페이지·시즌 상세·폐지달력이 같이 바뀐다 */
-export const FRESH_DAYS = 14; // 시작 후 이 기간 안이면 "막 열림"
+export const FRESH_DAYS = 7; // 시작 n일째가 이 값 이하면 "막 열림" (1일째 = 시작한 날, 한국 날짜 기준)
 export const ENDING_DAYS = 14; // 종료까지 이 기간 안이면 "막차" (종료 시각이 정해진 경우만)
 const DAY_MS = 86_400_000;
 
@@ -47,6 +47,9 @@ export const stageLabel: Record<Stage, string> = {
   ended: '종료',
 };
 
+/** 시작 n일째 (시작한 날이 1일째, 한국 날짜 기준). 화면의 "n일째"와 같은 계산 */
+export const seasonDay = (season: Season, now = buildNow()) => -daysUntil(season.data.startsAt, now) + 1;
+
 /** 진행 상태(phaseOf)를 더 잘게 나눈 단계. 종료가 가까우면 막 열림보다 막차를 먼저 본다
  *  종료 시각은 endsAt, 없으면 다음 시즌 시작. 다음 시즌이 미발표면 막차가 되지 않는다 */
 export function stageOf(season: Season, seasons: Season[], now = buildNow()): Stage {
@@ -54,7 +57,7 @@ export function stageOf(season: Season, seasons: Season[], now = buildNow()): St
   if (phase !== 'current') return phase;
   const end = seasonEnd(season, seasons);
   if (end && Date.parse(end) - now <= ENDING_DAYS * DAY_MS) return 'ending';
-  if (now - Date.parse(season.data.startsAt) < FRESH_DAYS * DAY_MS) return 'fresh';
+  if (seasonDay(season, now) <= FRESH_DAYS) return 'fresh';
   return 'current';
 }
 
