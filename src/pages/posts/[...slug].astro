@@ -77,7 +77,7 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: '폐지.com', url: 'https://pyeji.kr/' },
 };
 ---
-<Base title={post.data.title} type="article" image={ogImage} description={description} jsonLd={jsonLd}>
+<Base title={post.data.title} type="article" image={ogImage} description={description} jsonLd={jsonLd} gameId={game?.id}>
   <article class="gc" style={`--game-raw:${tagColor}`}>
     <header class="hero" data-month-candidates={post.data.month ? JSON.stringify(monthItems) : undefined}>
       <div>
