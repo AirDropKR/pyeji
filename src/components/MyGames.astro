@@ -1,0 +1,14 @@
+---
+// 내 게임 고르기 칩. 고른 게임을 목록 위로 올리고 나머지는 접는다 (my-games.ts)
+// 선택은 이 브라우저에만 저장(localStorage). 스크립트가 없으면 칩 자체가 보이지 않는다
+import { getCollection } from 'astro:content';
+const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
+---
+<div class="my-games" data-my-games hidden>
+  <span class="small muted">내 게임</span>
+  {games.map((g) => (
+    <button type="button" class="my-chip gc" style={`--game-raw:${g.data.themeColor}`} data-my-chip={g.id} aria-pressed="false">{g.data.shortName}</button>
+  ))}
+  <button type="button" class="my-reset small" data-my-reset hidden>초기화</button>
+</div>
+<script>import '../scripts/my-games.ts';</script>

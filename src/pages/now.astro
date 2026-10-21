@@ -10,6 +10,7 @@ import { ogPath } from '../lib/og-paths';
 import DdayStamp from '../components/DdayStamp.astro';
 import GameStamp from '../components/GameStamp.astro';
 import Mascot from '../components/Mascot.astro';
+import MyGames from '../components/MyGames.astro';
 
 const now = buildNow();
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
@@ -47,6 +48,8 @@ const rows = games.map((g) => {
     <h1>지금</h1>
     <p class="small muted flush">모든 게임의 지금 상황, 한국 시간</p>
   </header>
+
+  <MyGames />
 
   <div class="now-grid" data-my-scope>
     <div class="now-col">

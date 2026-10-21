@@ -395,3 +395,16 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 .now-link { margin: 0 0 18px; }
 .now-link a { display: inline-block; padding: 4px 12px 3px; border: 2px solid var(--stamp); border-radius: 999px; font-weight: 700; text-decoration: none; }
 .now-link a:hover { background: var(--stamp); color: var(--paper); }
+
+/* 내 게임 고정 (MyGames.astro, my-games.ts) */
+.my-games { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 16px; }
+.my-chip {
+  font: 700 13px/1 var(--font-body); padding: 6px 10px 5px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--game, var(--ink)); background: transparent; color: var(--ink);
+}
+.my-chip[aria-pressed='true'] { background: var(--game, var(--ink)); color: var(--paper); }
+.my-reset, .my-more {
+  font: inherit; background: none; border: 0; padding: 4px 2px; color: var(--stamp); text-decoration: underline; cursor: pointer;
+}
+.my-more { margin-top: 6px; }
+[data-my-fold]:not(.my-open) > .my-other { display: none; }

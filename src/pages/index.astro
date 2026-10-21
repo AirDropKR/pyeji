@@ -12,6 +12,7 @@ import PostThumb from '../components/PostThumb.astro';
 import SeasonImages from '../components/SeasonImages.astro';
 import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 import Mascot from '../components/Mascot.astro';
+import MyGames from '../components/MyGames.astro';
 import { formatKst, buildNow } from '../lib/time';
 
 const now = buildNow();
@@ -123,9 +124,10 @@ const upcomingEvents = events
 
   <section class="section tight" aria-labelledby="others-title">
     <h2 class="section-title" id="others-title">다른 게임</h2>
-    <ul class="others">
+    <MyGames />
+    <ul class="others" data-my-list data-my-fold>
       {others.map(({ g, current, next: n, stage, end }) => (
-        <li class="other gc" style={`--game-raw:${g.data.themeColor}`}>
+        <li class="other gc" style={`--game-raw:${g.data.themeColor}`} data-game={g.id}>
           <a class="other-game" href={`/games/${g.id}/`}><GameStamp game={g} size="sm" /><span><b>{g.data.shortName}</b><span class="small muted block">{g.data.name}</span></span></a>
           <div class="other-now">
             {current ? (
