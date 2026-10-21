@@ -1,3 +1,8 @@
 # 빌드 결과물 파일명에 해시가 붙으므로 오래 캐시해도 된다
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# 홈 화면 앱 설정 파일
+/manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: public, max-age=3600
