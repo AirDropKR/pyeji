@@ -1,5 +1,5 @@
 // 정적 페이지라 빌드 시점 숫자가 굳어 있으므로, 브라우저에서 D-day와 진행률을 다시 계산한다
-import { daysUntil, ddayLabel } from '../lib/time';
+import { daysUntil, ddayLabel, formatKst } from '../lib/time';
 import { pickNext, type MonthItem } from '../lib/month';
 
 const KST_OFFSET_MIN = -540; // getTimezoneOffset 기준 한국 시간
@@ -109,6 +109,9 @@ function update() {
     const pct = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
     const bar = el.querySelector<HTMLElement>('i');
     if (bar) bar.style.width = `${pct.toFixed(1)}%`;
+  });
+  document.querySelectorAll<HTMLElement>('[data-today]').forEach((el) => {
+    el.textContent = formatKst(new Date(now).toISOString(), 'day');
   });
   document.querySelectorAll<HTMLElement>('[data-elapsed]').forEach((el) => {
     el.textContent = `${-daysUntil(el.dataset.elapsed!, now) + 1}일째`;

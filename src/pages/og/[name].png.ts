@@ -34,6 +34,8 @@ export async function getStaticPaths() {
 
   items.push({ key: ogKey('default'), eyebrow: 'POE · 디아블로 · 토치라이트 · 라스트 에폭', title: '핵앤슬래시 시즌 일정, 한국 시간으로' });
 
+  items.push({ key: ogKey('page', 'now'), eyebrow: '지금 · 모든 게임 한 화면', title: '지금 할 만한 핵앤슬래시 시즌 한눈에' });
+
   for (const g of games) {
     const { current, next } = timelineFor(g.id, seasons, now);
     const base = { key: ogKey('game', g.id), gameId: g.id, gameColor: g.data.themeColor, title: g.data.name };

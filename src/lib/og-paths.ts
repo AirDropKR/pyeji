@@ -8,9 +8,9 @@ export function ogDate(now = buildNow()): string {
   return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}`;
 }
 
-/** kind: default | game | season | post. id는 게임 id, 시즌 id, 게시글 id(슬래시 포함 가능) */
-export function ogKey(kind: 'default' | 'game' | 'season' | 'post', id = ''): string {
+/** kind: default | game | season | post | page(고정 페이지, 예: now). id는 게임 id, 시즌 id, 게시글 id(슬래시 포함 가능) */
+export function ogKey(kind: 'default' | 'game' | 'season' | 'post' | 'page', id = ''): string {
   return kind === 'default' ? 'default' : `${kind}-${id.replace(/\//g, '-')}`;
 }
 
-export const ogPath = (kind: 'default' | 'game' | 'season' | 'post', id = '') => `/og/${ogKey(kind, id)}-${ogDate()}.png`;
+export const ogPath = (kind: 'default' | 'game' | 'season' | 'post' | 'page', id = '') => `/og/${ogKey(kind, id)}-${ogDate()}.png`;

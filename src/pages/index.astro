@@ -58,6 +58,7 @@ const upcomingEvents = events
   .slice(0, 6);
 ---
 <Base>
+  <p class="now-link small"><a href="/now/">모든 게임 지금 상황 한눈에 →</a></p>
   {fresh && freshGame ? (
     <section class="fresh gc" style={`--game-raw:${freshGame.data.themeColor}`} aria-labelledby="fresh-title">
       <div class="fresh-head">
