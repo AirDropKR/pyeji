@@ -84,6 +84,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 시간 표기는 `formatKst`만 사용 (로케일 데이터에 의존하지 않게 직접 계산)
 
 ## 작업 원칙
+- 반복 작업(시즌·이벤트·패치 반영, 글 갱신, 월간 글, 사실 확인, push 전 점검, 발표 당일)은 `.claude/commands/`의 명령을 우선 사용. 사용법은 [docs/commands.md](docs/commands.md), 공통 절차는 [docs/ops-common.md](docs/ops-common.md)
 - 지금 필요한 필드만 둔다. 직업 목록, 수집 출처 같은 구조는 실제로 필요해질 때 추가
 - 각 작업이 끝날 때마다 `npm run build`가 통과하는 상태 유지
 - 새 기능보다 데이터 정확성이 우선
