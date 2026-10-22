@@ -1,5 +1,6 @@
 ---
 description: 현재 상태 요약 (2주 안 일정, 시각 미발표, 예상 값, 남은 초안, 열린 질문)
+argument-hint: [기준 날짜, 생략하면 지금]
 disable-model-invocation: true
 ---
 사이트의 현재 상태를 요약한다. 파일을 바꾸지 않는다.

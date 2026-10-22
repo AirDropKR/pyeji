@@ -511,3 +511,11 @@
 - /pre-push: 빌드 + `scripts/check-site.mjs`(npm run check:site). 점검 스크립트는 자체 정적 서버와 엣지 헤드리스로 56개 페이지 390px 넘침까지 약 7초. 일부러 깨진 링크·넓은 상자를 넣어 두 문제를 잡는 것 확인
 - 데이터 형식 검사는 빌드(콘텐츠 스키마)가 이미 하므로 따로 만들지 않음
 - 질문 목록 자동 추출은 "확인 필요/제안/보류" 아래 항목을 모으는 방식이라 이미 해결된 것도 섞여 나옴 → /status가 대조해서 거름
+
+## 5차 작업 4. 사실 확인 에이전트 (10월 22일)
+
+결정한 것
+- `.claude/agents/fact-checker.md` (공식 문서 형식: name, description, tools, model). 도구는 읽기·검색·웹·Bash(원문을 그대로 받기 위한 curl, 엣지 렌더링)만, 글을 고치는 Edit·Write는 주지 않음
+- 공식 출처 목록(블리자드, GGG, 카카오게임즈, Eleventh Hour Games, XD)과 공식 페이지 읽는 법(지금까지 확인된 방법)을 지시에 넣음
+- WebFetch는 요약을 돌려줘 숫자 대조에 약하므로 원문 대조는 curl로 받은 텍스트에서 하도록 지시
+- /fact-check, /new-post가 Agent 도구(subagent_type: fact-checker)로 부름. 공식 문서에 슬래시 명령에서 특정 에이전트를 부르는 전용 문법은 없어서 명령 본문에 "fact-checker 에이전트에게 맡긴다"로 적는 방식
