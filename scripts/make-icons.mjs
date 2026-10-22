@@ -1,5 +1,5 @@
 // 홈 화면 앱 아이콘 만들기: 주섬이 아이콘(jusumi-base-icon)을 종이색 바탕에 올린다
-// 실행: node scripts/make-icons.mjs  → public/icons/ (사이트용), drafts/icons/ (교체 후보)
+// 실행: node scripts/make-icons.mjs  → public/icons/ (안드로이드·매니페스트), public/apple-touch-icon.png (아이폰)
 import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
 
@@ -17,10 +17,9 @@ async function make(out, size, scale) {
 }
 
 mkdirSync('public/icons', { recursive: true });
-mkdirSync('drafts/icons', { recursive: true });
 await make('public/icons/icon-192.png', 192, 0.86);
 await make('public/icons/icon-512.png', 512, 0.86);
 // 마스커블: 런처가 원·둥근 사각형으로 잘라도 남도록 가운데 64% 안에
 await make('public/icons/icon-maskable-512.png', 512, 0.64);
-// apple-touch-icon 교체 후보 (지금 쓰는 public/apple-touch-icon.png는 그대로)
-await make('drafts/icons/apple-touch-icon-jusumi.png', 180, 0.86);
+// 아이폰 홈 화면 아이콘: 안드로이드 아이콘과 같은 그림 (iOS가 모서리를 둥글게 자르므로 여백 7%)
+await make('public/apple-touch-icon.png', 180, 0.86);
