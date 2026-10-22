@@ -81,16 +81,16 @@ const term = game.data.seasonTerm;
   <section class="section">
     <h2 class="section-title">{term} 기록</h2>
     {mine.length ? (
-      <div class="tbl">
+      <div class="tbl cards">
         <table>
           <thead><tr><th>{term}</th><th>시작</th><th>종료</th><th>상태</th></tr></thead>
           <tbody>
             {mine.map((s) => (
               <tr>
                 <td><a class="season-link" href={seasonPath(s)}><SeasonName season={s} /></a></td>
-                <td>{formatKst(s.data.startsAt, s.data.timePrecision, true)}</td>
-                <td>{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : phaseOf(s, seasons, now) === 'ended' ? '-' : '미정'}</td>
-                <td><a href={s.data.sourceUrl} rel="noopener">{stageLabel[stageOf(s, seasons, now)]}{s.data.status === 'estimated' && ` · ${certaintyLabel.estimated}`}</a></td>
+                <td data-label="시작">{formatKst(s.data.startsAt, s.data.timePrecision, true)}</td>
+                <td data-label="종료">{s.data.endsAt ? formatKst(s.data.endsAt, 'exact', true) : phaseOf(s, seasons, now) === 'ended' ? '-' : '미정'}</td>
+                <td data-label="상태"><a href={s.data.sourceUrl} rel="noopener">{stageLabel[stageOf(s, seasons, now)]}{s.data.status === 'estimated' && ` · ${certaintyLabel.estimated}`}</a></td>
               </tr>
             ))}
           </tbody>

@@ -82,6 +82,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - D-day·진행률·카운트다운·오늘 표시·방문자 기기 시간은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 계산 (data-dday, data-countdown, data-local 등). 이 정도 상호작용은 React 없이 live.ts로 처리한다
 - 시즌 주요 일정은 `seasonMilestones()` + `MilestoneTimeline.astro`로 시즌 상세와 게시글에서 같이 쓴다. 글의 카운트다운 대상은 `countdownTo`(이벤트), 없으면 연결된 시즌 시작
 - 시간 표기는 `formatKst`만 사용 (로케일 데이터에 의존하지 않게 직접 계산)
+- 표: 칸 4개 이상인 표는 480px 이하에서 행마다 카드로 쌓는다(`.tbl.cards`, 첫 칸이 카드 제목, 나머지 칸 앞에 칸 이름을 작게). 게시글 표는 `live.ts`가 칸 수를 보고 자동으로 붙이고(3개 이하는 `.stack`), 컴포넌트 표는 `<div class="tbl cards">`와 칸마다 `data-label`을 직접 쓴다
 
 ## 작업 원칙
 - 반복 작업(시즌·이벤트·패치 반영, 글 갱신, 월간 글, 사실 확인, push 전 점검, 발표 당일)은 `.claude/commands/`의 명령을 우선 사용. 사용법은 [docs/commands.md](docs/commands.md), 공통 절차는 [docs/ops-common.md](docs/ops-common.md)

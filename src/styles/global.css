@@ -379,6 +379,18 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
   .prose .tbl.stack td[data-label]:not(:first-child)::before { content: attr(data-label) ' · '; color: var(--muted); font-size: 13px; }
   .prose .tbl.stack td:empty { display: none; }
 }
+/* 칸 4개 이상 표(사이트 전체): 480px 이하에서 행마다 카드로. 첫 칸이 카드 제목, 나머지 칸은 앞에 칸 이름을 작게 */
+@media (max-width: 480px) {
+  .tbl.cards table { min-width: 0; }
+  .tbl.cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tbl.cards table, .tbl.cards tbody, .tbl.cards tr { display: block; width: 100%; }
+  .tbl.cards tr { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+  .tbl.cards td { display: grid; grid-template-columns: minmax(5.5em, 32%) minmax(0, 1fr); gap: 10px; border: 0; padding: 2px 0; }
+  .tbl.cards td::before { content: attr(data-label); color: var(--muted); font-size: 13px; line-height: 1.9; }
+  .tbl.cards td:first-child { display: block; font-weight: 700; padding-bottom: 4px; }
+  .tbl.cards td:first-child::before { content: none; }
+  .tbl.cards td:empty { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 

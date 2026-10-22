@@ -38,7 +38,7 @@ function tickCountdowns(now: number) {
 }
 
 /** 게시글 표를 가로 스크롤 감싸개로 옮기고 칸마다 머리글 이름표를 붙인다.
- *  칸이 3개 이하면 좁은 화면에서 세로로 쌓는다(.stack). 한 번만 실행 */
+ *  좁은 화면에서 칸 3개 이하는 세로로(.stack), 4개 이상은 행마다 카드로(.cards) 쌓는다. 한 번만 실행 */
 function enhanceTables() {
   document.querySelectorAll<HTMLTableElement>('.prose table').forEach((table) => {
     if (table.parentElement?.classList.contains('tbl')) return;
@@ -49,7 +49,8 @@ function enhanceTables() {
       });
     });
     const wrap = document.createElement('div');
-    wrap.className = labels.length && labels.length <= 3 ? 'tbl stack' : 'tbl';
+    // 칸 3개 이하는 .stack(560px 이하에서 세로), 4개 이상은 .cards(480px 이하에서 행마다 카드)
+    wrap.className = labels.length && labels.length <= 3 ? 'tbl stack' : labels.length >= 4 ? 'tbl cards' : 'tbl';
     table.replaceWith(wrap);
     wrap.append(table);
   });

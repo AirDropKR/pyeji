@@ -16,17 +16,17 @@ const { rows, avgDays, avgCount, avgGap, gapCount } = seasonCycle(game.id, seaso
 ---
 <section class="cycle" aria-labelledby="cycle-title">
   <h2 class="section-title" id="cycle-title">{term} 주기 표</h2>
-  <div class="tbl">
+  <div class="tbl cards">
     <table>
       <thead><tr><th>{term}</th><th>시작 (한국 시간)</th><th>종료</th><th>기간</th><th>다음까지 공백</th></tr></thead>
       <tbody>
         {rows.slice().reverse().map((r) => (
           <tr>
             <td><a href={seasonPath(r.season)}>{r.season.data.name}</a><span class="small muted block">{stageLabel[stageOf(r.season, seasons, now)]}</span></td>
-            <td>{formatKst(r.season.data.startsAt, r.season.data.timePrecision, true)}</td>
-            <td>{r.endKnown ? formatKst(r.end!, 'exact', true) : r.phase === 'ended' ? `다음 ${term} 시작` : '미정'}</td>
-            <td>{r.days === undefined ? '-' : r.phase === 'ended' ? `${r.days}일` : `${r.days}일째`}</td>
-            <td>{r.gapDays === undefined ? '-' : r.gapDays > 0 ? `${r.gapDays}일` : '없음'}</td>
+            <td data-label="시작">{formatKst(r.season.data.startsAt, r.season.data.timePrecision, true)}</td>
+            <td data-label="종료">{r.endKnown ? formatKst(r.end!, 'exact', true) : r.phase === 'ended' ? `다음 ${term} 시작` : '미정'}</td>
+            <td data-label="기간">{r.days === undefined ? '-' : r.phase === 'ended' ? `${r.days}일` : `${r.days}일째`}</td>
+            <td data-label="다음까지 공백">{r.gapDays === undefined ? '-' : r.gapDays > 0 ? `${r.gapDays}일` : '없음'}</td>
           </tr>
         ))}
       </tbody>
