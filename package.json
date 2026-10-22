@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check:videos": "node scripts/check-videos.mjs"
+    "check:videos": "node scripts/check-videos.mjs",
+    "status": "node scripts/status.mjs",
+    "check:site": "node scripts/check-site.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",
