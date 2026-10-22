@@ -19,6 +19,7 @@
 
 ## 공식 페이지 읽는 법 (확인된 방법)
 - 블리자드 소식 목록: `https://news.blizzard.com/ko-kr/api/feed/diablo-4?offset=0` (디아2는 `diablo-2-resurrected`). 글 본문은 `https://news.blizzard.com/ko-kr/article/{번호}`를 받아 텍스트로. 페이지의 `timestamp`는 게시 시각인지 수정 시각인지 구분되지 않으니 글 날짜로 쓰지 않는다
+- pathofexile.com(GGG 포럼)은 curl을 클라우드플레어가 막는다("Attention Required"). 엣지 렌더링으로 읽는다: `msedge --headless=new --dump-dom https://www.pathofexile.com/forum/view-thread/{번호}`
 - 블리자드 고객지원, lastepoch.com 패치 노트처럼 자바스크립트로 그려지는 페이지는 엣지로 렌더링해 읽는다: `msedge --headless=new --dump-dom {주소}`
 - 라스트 에폭 포럼(Discourse): `https://forum.lastepoch.com/t/{번호}.json`. 패치 노트는 여러 댓글로 나뉘어 있으니 글쓴이(EHG) 댓글 전체를 본다
 - 디시인사이드·레딧은 읽지 않는다 (로봇 차단)

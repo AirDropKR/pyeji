@@ -31,7 +31,8 @@ model: inherit
 ## 공식 페이지 읽는 법
 - WebFetch는 요약을 돌려주므로, 숫자·문장 대조는 원문을 받아 확인한다: `curl -sL -A "Mozilla/5.0" {주소}`로 받아 태그를 지운 텍스트에서 찾는다
 - 블리자드 소식 본문: `https://news.blizzard.com/ko-kr/article/{번호}`. 목록: `https://news.blizzard.com/ko-kr/api/feed/diablo-4?offset=0` (디아2는 diablo-2-resurrected). 페이지의 timestamp 값은 게시 시각인지 수정 시각인지 알 수 없으니 날짜 근거로 쓰지 않는다
-- 자바스크립트로 그려지는 페이지(블리자드 고객지원, lastepoch.com 패치 노트): `"C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --disable-gpu --virtual-time-budget=20000 --dump-dom {주소}`
+- pathofexile.com은 curl을 막는다(클라우드플레어 "Attention Required"). 엣지 렌더링으로 받는다
+- 자바스크립트로 그려지는 페이지(블리자드 고객지원, lastepoch.com 패치 노트)와 pathofexile.com: `"C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" --headless=new --disable-gpu --virtual-time-budget=20000 --dump-dom {주소}`
 - 라스트 에폭 포럼: `https://forum.lastepoch.com/t/{번호}.json` (패치 노트는 여러 댓글로 나뉨, 글쓴이 댓글 전부)
 - 윈도우 파이썬으로 출력할 때 한글이 깨지면 `PYTHONIOENCODING=utf-8`
 
