@@ -562,3 +562,13 @@
 - `public/apple-touch-icon.png`(180px)를 주섬이로 교체. 안드로이드 아이콘과 같은 그림(종이색 바탕, 주섬이 86%, 사방 여백 7%)
 - `scripts/make-icons.mjs`가 이제 apple-touch-icon도 함께 만듦. 후보 파일(drafts/icons/)은 삭제
 - 브라우저 탭 파비콘(favicon.svg·ico)은 도장 그대로
+
+## 6차 작업 2. 홈 화면 실행 구분 (10월 22일)
+
+결정한 것
+- 바꾸지 않음. 매니페스트 시작 주소는 /now/ 그대로
+- 근거: Cloudflare Web Analytics 공식 FAQ(https://developers.cloudflare.com/web-analytics/faq/) "Does Cloudflare Web Analytics support UTM parameters?" 답변 — "Currently, Cloudflare Web Analytics do not log query strings to avoid collecting potentially sensitive data". 쿼리 문자열(?src=home)을 기록하지 않으므로 시작 주소를 바꿔도 분석 화면에서 구분되지 않음
+- 별도 경로(/now/app/ 같은 새 주소)로 구분하는 방법은 같은 내용의 주소가 둘이 되고 검토 기간 중 주소 추가라 쓰지 않음
+
+참고
+- 구분이 꼭 필요해지면: 구글 애널리틱스처럼 쿼리나 사용자 이벤트를 기록하는 분석 도구를 추가하는 방법이 있음 (개인정보처리방침에 분석 도구 추가 반영 필요). 지금은 보류
