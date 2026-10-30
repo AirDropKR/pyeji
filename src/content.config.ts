@@ -49,6 +49,10 @@ const seasons = defineCollection({
     // 시즌 상세 소개: 직접 쓴 2~4문장 (ㄴ다체). 핵심 변경, 이전 시즌과의 차이, 한국 시간 일정의 특이점. highlights와 겹치지 않게
     // 시즌이 끝난 뒤에도 틀리지 않게 날짜를 박아 쓴다 ("다음 주"가 아니라 "11월 14일(토)")
     intro: z.string().optional(),
+    // 종료일이 발표되지 않은 진행 중 시즌: 종료·다음 시즌에 관한 공식 사실 한 줄 (명사형, 페이지 설명과 위쪽에 표시). 예상 날짜는 쓰지 않는다
+    endNote: z.string().max(90).optional(),
+    // 다음 시즌 시작과 함께 끝난다고 공식 발표됨 (종료 시각은 미발표). 진행 중일 때 제목의 종료일을 다음 시즌 시작일로 쓴다
+    endsWithNext: z.boolean().optional(),
     // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수
     images: z.array(z.object({
       file: z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+\.(jpg|png|webp)$/), // 예: poe1-3-29/key-art.jpg
@@ -67,6 +71,8 @@ const events = defineCollection({
     gameId: reference('games'),
     seasonId: reference('seasons').optional(), // 특정 시즌 관련 일정이면 연결 (시즌 상세 페이지에 표시)
     title: z.string(),
+    // 시즌 상세 제목에 넣을 짧은 이름 (예: "엑자일콘 공개"). 있는 이벤트만 시작 전 시즌 제목에 들어간다
+    label: z.string().max(12).optional(),
     startsAt: isoDateTime,
     endsAt: isoDateTime.optional(),
     timePrecision: z.enum(['exact', 'day']),

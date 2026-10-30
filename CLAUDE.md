@@ -33,6 +33,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 시즌 상세 페이지(`/games/{id}/seasons/{slug}/`): 종료됐고 연결된 글이 없으면 noindex + 사이트맵 제외. 기준은 `src/lib/seasons.ts`의 `isIndexable`과 `astro.config.mjs`의 사이트맵 필터 두 곳에 있으니 함께 고친다
 - 전체 글 목록(`/posts/`)은 제목 목록뿐이라 noindex + 사이트맵 제외. 페이지(`src/pages/posts/index.astro`)와 `astro.config.mjs` 두 곳. 검색 노출 페이지 점검은 `node scripts/content-audit.mjs`와 `docs/content-audit.md`
 - 갱신 기록(메인 "최근 갱신", `/updates/`)은 `src/lib/updates.ts`가 글 업데이트 기록·처음 쓴 날, 사이트 공개 뒤 패치 링크, `src/data/updates.json`(일정 데이터 변경, 방문자용 한 줄)에서 모은다. 일정 데이터를 바꾸면 updates.json에 한 줄 (docs/ops-common.md "끝낼 때"). `/updates/`는 noindex
+- 시즌 상세 제목·설명은 `src/lib/season-head.ts`가 단계별로 만든다: 진행 중이면 "종료일"(endsAt → 날짜, `endsWithNext` → 다음 시즌 시작일, 없으면 "공식 발표 전" + `endNote`), 시작 전이면 "일정: 시작일, 공개 일정"(이벤트 `label`이 있는 것). 예상 날짜는 제목·설명에 쓰지 않는다. 연결된 사전 정보 글은 "공개 정보" 검색어를 맡게 제목을 정한다
 - 이벤트의 `seasonId`(선택)로 시즌 상세 페이지의 "관련 일정"에 연결
 - `sourceUrl`은 필수. 가능하면 공식 출처
 - `id`와 `slug`는 소문자 영문, 숫자, 하이픈만

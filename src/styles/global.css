@@ -498,3 +498,7 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 .lp-key.holiday { border-color: var(--state-nerf); background: transparent; }
 .lp-table .lp-now td { font-weight: 700; }
 .lp-share { margin: 12px 0 0; }
+
+/* 시즌 상세: 진행 중 시즌의 종료일 한 줄 (season-head.ts) */
+.hero .season-lead { font-size: 20px; }
+.season-lead b { margin-right: 6px; }
