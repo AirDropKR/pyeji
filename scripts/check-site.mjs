@@ -1,5 +1,5 @@
 // push 전 점검 (/pre-push 명령용). 먼저 npm run build 후 실행: npm run check:site
-// 깨진 내부 링크, 사이트맵 ↔ noindex 일치, 본문이 짧은 검색 노출 페이지, 390px 가로 넘침을 확인한다
+// 깨진 내부 링크, 대표 주소(https://pyeji.kr) 아닌 주소, 사이트맵 ↔ noindex 일치, 본문이 짧은 검색 노출 페이지, 390px 가로 넘침을 확인한다
 // 문제가 있으면 목록을 출력하고 종료 코드 1
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
@@ -45,6 +45,13 @@ for (const f of htmlFiles) {
 }
 for (const [u, from] of broken) problems.push(`깨진 내부 링크 ${u} ← ${from.slice(0, 3).join(', ')}${from.length > 3 ? ` 외 ${from.length - 3}곳` : ''}`);
 for (const t of thin) warnings.push(`본문이 짧은 검색 노출 페이지 ${t}`);
+
+// 1-2. 대표 주소: 결과물(HTML·XML·robots·manifest) 안의 사이트 주소는 모두 https://pyeji.kr (www·http가 섞이면 구글이 다른 주소를 대표로 고를 수 있다)
+const offHost = new Map();
+for (const f of walk(DIST).filter((p) => /\.(html|xml|txt|webmanifest)$/.test(p))) {
+  for (const m of readFileSync(f, 'utf-8').matchAll(/https?:\/\/www\.pyeji\.kr|http:\/\/pyeji\.kr/g)) offHost.set(m[0], [...(offHost.get(m[0]) ?? []), toUrlPath(f)]);
+}
+for (const [u, from] of offHost) problems.push(`대표 주소가 아닌 ${u} ← ${[...new Set(from)].slice(0, 3).join(', ')}`);
 
 // 2. 사이트맵 ↔ noindex
 const smFile = walk(DIST).find((p) => /sitemap-0\.xml$/.test(p));
