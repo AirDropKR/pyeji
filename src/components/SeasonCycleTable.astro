@@ -36,5 +36,6 @@ const { rows, avgDays, avgCount, avgGap, gapCount } = seasonCycle(game.id, seaso
     {avgDays !== undefined ? `끝난 ${josa(term, '은', '는')} ${avgCount}개, 평균 ${avgDays}일.` : `끝난 ${term} 기록 없음.`}
     {avgGap !== undefined && ` 종료일이 발표된 ${gapCount}개 기준 평균 공백 ${avgGap}일.`}
     {' '}종료일이 발표되지 않은 {josa(term, '은', '는')} 다음 {term} 시작까지를 기간으로 계산.
+    {' '}기간은 {josa(term, '이', '가')} 열려 있던 날수, 글에 쓴 간격은 시작일에서 다음 시작일까지의 날수. 모두 일정 데이터에서 자동 계산.
   </p>
 </section>
