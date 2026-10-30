@@ -121,7 +121,7 @@ const jsonLd = {
       </p>
       {upcoming && <Countdown at={s.startsAt} precision={s.timePrecision} label={startLabel(s.name)} />}
       {planner && <p class="small"><a href={planner}>연차 계산기</a> · 시즌 시작에 맞춰 쉬는 날 계산</p>}
-      {posts[0] && <p class="small">자세한 정보: <a href={`/posts/${posts[0].id}/`}>{posts[0].data.title}</a></p>}
+      {posts.length > 0 && <p class="small">자세한 정보: {posts.slice(0, 2).map((p, i) => <>{i > 0 && ' · '}<a href={`/posts/${p.id}/`}>{p.data.title}</a></>)}</p>}
     </div>
     {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
   </section>

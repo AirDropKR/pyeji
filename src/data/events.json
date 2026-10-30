@@ -21,6 +21,7 @@
     "gameId": "poe1",
     "seasonId": "poe1-3-30",
     "title": "엑자일콘 2026 생중계 (3.30 공개)",
+    "label": "엑자일콘 공개",
     "startsAt": "2026-11-06T20:00:00Z",
     "endsAt": "2026-11-08T15:00:00Z",
     "timePrecision": "exact",
