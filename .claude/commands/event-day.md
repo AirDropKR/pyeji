@@ -10,7 +10,7 @@ disable-model-invocation: true
 시작 전: 링크가 모두 공식 출처인지 확인하고, 어느 게임·시즌·이벤트에 관한 발표인지 정한다. 이번 발표로 영향받는 것(`src/data/seasons.json`의 시즌, `events.json`의 이벤트, 그 시즌·이벤트에 연결된 글, 그 달 월간 글)을 목록으로 보여 주고 시작한다.
 
 ## 1순위: 이름·시각 (따로 커밋, 운영자가 바로 push)
-1. 시즌 데이터: 한국어 공식 이름(없으면 영어로 먼저 넣고 questions.md에 "한국어 이름 확인 필요"), `nameEn`, 시작 시각(발표됐으면 `timePrecision: "exact"`), 종료 시각, `sourceUrl`, `highlights`(공개된 핵심 사실 3줄, 60자 이내 직접 쓴 문장)
+1. 시즌 데이터: 한국어 공식 이름(없으면 영어로 먼저 넣고 questions.md에 "한국어 이름 확인 필요"), `nameEn`, 시작 시각(발표됐으면 `timePrecision: "exact"`), 종료 시각, `sourceUrl`, `highlights`(공개된 핵심 사실 3줄, 60자 이내 직접 쓴 문장). 시즌 `intro`에 "공개한다고 밝혔다"처럼 발표 전 문장이 있으면 2순위에서 발표 내용으로 고친다
 2. 다음 시즌·이벤트 일정이 함께 발표됐으면 `/new-event`와 같은 방식으로 events.json
 3. `npm run build` → 커밋 `data: {시즌} 이름·시작 시각 반영 (/event-day)` 하나로 끝내고, 보고에 "1순위 커밋 완료, push 가능"을 먼저 알린다. 운영자 push를 기다리지 않고 2순위로 넘어간다
 

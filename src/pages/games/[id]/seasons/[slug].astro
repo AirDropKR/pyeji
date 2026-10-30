@@ -118,6 +118,8 @@ const jsonLd = {
     {upcoming && <DdayStamp at={s.startsAt} size="big" estimated={s.status === 'estimated'} />}
   </section>
 
+  {s.intro && <div class="prose section tight"><p class="flush">{s.intro}</p></div>}
+
   {s.images && (
     <div class="section tight"><SeasonImages season={season} mode="hero" /></div>
   )}

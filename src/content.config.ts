@@ -24,6 +24,8 @@ const games = defineCollection({
     seasonTerm: z.string(), // 리그, 시즌 등
     themeColor: z.string().regex(/^#[0-9a-fA-F]{6}$/),
     officialUrl: z.string().url().optional(),
+    // 게임 페이지 소개: 이 게임의 시즌이 어떻게 돌아가는지 직접 쓴 1~2문장 (ㄴ다체, 공식 출처로 확인된 사실만)
+    intro: z.string().optional(),
   }),
 });
 
@@ -44,6 +46,9 @@ const seasons = defineCollection({
     videos,
     // 이번 시즌 핵심 (메인 "지금 줍기 좋은 폐지" 칸 등). 공식 발표에서 뽑은 사실을 직접 쓴 짧은 문장, 최대 3개
     highlights: z.array(z.string().max(60)).max(3).optional(),
+    // 시즌 상세 소개: 직접 쓴 2~4문장 (ㄴ다체). 핵심 변경, 이전 시즌과의 차이, 한국 시간 일정의 특이점. highlights와 겹치지 않게
+    // 시즌이 끝난 뒤에도 틀리지 않게 날짜를 박아 쓴다 ("다음 주"가 아니라 "11월 14일(토)")
+    intro: z.string().optional(),
     // 공식 배포 이미지. 첫 장이 대표(키아트). 파일은 src/assets/seasons/{시즌id}/ 아래, 출처 표기 필수
     images: z.array(z.object({
       file: z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+\.(jpg|png|webp)$/), // 예: poe1-3-29/key-art.jpg

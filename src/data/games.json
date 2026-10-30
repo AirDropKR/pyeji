@@ -1,8 +1,8 @@
 [
-  { "id": "poe1", "order": 1, "name": "패스 오브 엑자일", "shortName": "POE1", "seasonTerm": "리그", "themeColor": "#7A4A1E", "officialUrl": "https://poe.kakaogames.com" },
-  { "id": "poe2", "order": 2, "name": "패스 오브 엑자일 2", "shortName": "POE2", "seasonTerm": "리그", "themeColor": "#A8742C", "officialUrl": "https://pathofexile2.kakaogames.com" },
-  { "id": "d2r", "order": 3, "name": "디아블로 2 레저렉션", "shortName": "Diablo 2", "seasonTerm": "래더 시즌", "themeColor": "#5E6B2E", "officialUrl": "https://diablo2.blizzard.com" },
-  { "id": "d4", "order": 4, "name": "디아블로 4", "shortName": "Diablo 4", "seasonTerm": "시즌", "themeColor": "#8E1B1B", "officialUrl": "https://diablo4.blizzard.com" },
-  { "id": "tli", "order": 5, "name": "토치라이트: 인피니트", "shortName": "Torchlight", "seasonTerm": "시즌", "themeColor": "#5B4A9E", "officialUrl": "https://torchlight.xd.com" },
-  { "id": "le", "order": 6, "name": "라스트 에폭", "shortName": "Last Epoch", "seasonTerm": "시즌", "themeColor": "#3B6E8F", "officialUrl": "https://lastepoch.com" }
+  { "id": "poe1", "order": 1, "name": "패스 오브 엑자일", "shortName": "POE1", "seasonTerm": "리그", "themeColor": "#7A4A1E", "officialUrl": "https://poe.kakaogames.com", "intro": "패스 오브 엑자일(POE1)은 몇 달마다 새 챌린지 리그를 열고, 리그마다 모두가 새 캐릭터로 처음부터 시작한다. 리그가 끝나면 캐릭터는 사라지지 않고 스탠다드 리그로 옮겨진다." },
+  { "id": "poe2", "order": 2, "name": "패스 오브 엑자일 2", "shortName": "POE2", "seasonTerm": "리그", "themeColor": "#A8742C", "officialUrl": "https://pathofexile2.kakaogames.com", "intro": "패스 오브 엑자일 2(POE2)는 얼리 액세스 동안 대형 업데이트마다 새 리그를 열었고, 한국 시간 12월 12일(토) 정식 출시(1.0)와 함께 무료 플레이로 바뀐다. GGG는 0.2 리그가 끝날 때 캐릭터와 아이템을 스탠다드나 하드코어 얼리 액세스 리그로 옮긴다고 공지했다." },
+  { "id": "d2r", "order": 3, "name": "디아블로 2 레저렉션", "shortName": "Diablo 2", "seasonTerm": "래더 시즌", "themeColor": "#5E6B2E", "officialUrl": "https://diablo2.blizzard.com", "intro": "디아블로 2 레저렉션(디아2)의 래더는 새 래더 캐릭터로 참여하는 선택형 경쟁 모드다. 래더 시즌이 끝나면 순위가 초기화되고, 래더 캐릭터는 비래더로 옮겨진다." },
+  { "id": "d4", "order": 4, "name": "디아블로 4", "shortName": "Diablo 4", "seasonTerm": "시즌", "themeColor": "#8E1B1B", "officialUrl": "https://diablo4.blizzard.com", "intro": "디아블로 4는 캐릭터를 만들 때 시즌 영역과 영원의 영역 중 하나를 고른다. 시즌이 끝나면 시즌 캐릭터와 아이템은 영원의 영역으로 옮겨져 계속 쓸 수 있다." },
+  { "id": "tli", "order": 5, "name": "토치라이트: 인피니트", "shortName": "Torchlight", "seasonTerm": "시즌", "themeColor": "#5B4A9E", "officialUrl": "https://torchlight.xd.com", "intro": "토치라이트: 인피니트는 SS 번호가 붙은 시즌을 약 3개월마다 연다. SS11부터 SS14까지는 91일(13주) 간격으로, 모두 한국 시간 금요일에 새 시즌이 시작됐다." },
+  { "id": "le", "order": 6, "name": "라스트 에폭", "shortName": "Last Epoch", "seasonTerm": "시즌", "themeColor": "#3B6E8F", "officialUrl": "https://lastepoch.com", "intro": "라스트 에폭은 시즌(Cycle)마다 모두가 새로 시작하고, 시즌이 끝나면 캐릭터와 보관함은 Legacy로 옮겨진다. 다른 플레이어와 거래할지는 아이템 세력(Merchant's Guild, Circle of Fortune) 선택으로 정한다." }
 ]

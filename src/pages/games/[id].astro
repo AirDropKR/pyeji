@@ -49,6 +49,8 @@ const term = game.data.seasonTerm;
     )}
   </section>
 
+  {game.data.intro && <div class="prose section tight"><p class="flush">{game.data.intro}</p></div>}
+
   {featured ? (
     <div class="section tight"><SeasonImages season={featured} mode="hero" withName /></div>
   ) : (
