@@ -1,5 +1,6 @@
 ---
 // 전체 글 목록: 게임별로 묶고, 공통 글은 맨 앞. 모든 글이 내비게이션에서 닿게 한다
+// 제목 목록뿐이라 검색에서는 제외 (같은 목록이 메인·게임 페이지에 있음). astro.config.mjs 사이트맵 필터와 함께 고친다
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import PostThumb from '../../components/PostThumb.astro';
@@ -13,7 +14,7 @@ const groups = [
   ...games.map((g) => ({ key: g.id, label: g.data.name, color: g.data.themeColor, game: g, list: posts.filter((p) => p.data.gameId?.id === g.id) })),
 ].filter((g) => g.list.length);
 ---
-<Base title="전체 글" description="POE1, POE2, 디아블로 2·4, 토치라이트, 라스트 에폭 리그·시즌 사전 정보와 일정 정리 글 전체 목록.">
+<Base title="전체 글" noindex description="POE1, POE2, 디아블로 2·4, 토치라이트, 라스트 에폭 리그·시즌 사전 정보와 일정 정리 글 전체 목록.">
   <section class="hero">
     <div>
       <h1>전체 글</h1>

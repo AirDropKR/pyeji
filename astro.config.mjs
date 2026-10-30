@@ -38,6 +38,8 @@ function thinSeasonPaths() {
   );
 }
 const thin = thinSeasonPaths();
+// 시즌 말고 검색에서 뺀 페이지 (페이지의 noindex와 함께 고친다). 전체 글 목록: 제목 목록뿐이라 제외
+for (const p of ['/posts/']) thin.add(`https://pyeji.kr${p}`);
 
 // https://astro.build/config
 export default defineConfig({
