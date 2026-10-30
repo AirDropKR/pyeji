@@ -64,6 +64,7 @@ for (const line of q) {
   if (line.startsWith('## ')) { section = line.slice(3); mode = false; continue; }
   if (/^(확인 필요|제안|운영자가 정할 것|보류)/.test(line.trim())) { mode = true; continue; }
   if (/^(결정한 것|공개 전에 갱신할 것)/.test(line.trim()) || !line.trim()) { if (!line.trim()) continue; mode = false; continue; }
-  if (mode && /^\s*[-\d]/.test(line)) open.push(`- [${section}] ${line.trim().replace(/^[-\d.]+\s*/, '')}`);
+  // 끝에 "→ 결정됨"을 붙인 항목은 닫힌 것
+  if (mode && /^\s*[-\d]/.test(line) && !line.includes('→ 결정됨')) open.push(`- [${section}] ${line.trim().replace(/^[-\d.]+\s*/, '')}`);
 }
 console.log(open.join('\n') || '- 없음');
