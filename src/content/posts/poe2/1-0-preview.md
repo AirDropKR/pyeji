@@ -10,6 +10,7 @@ videos:
     channel: ggg
 sourceUrls:
   - "https://www.pathofexile.com/forum/view-thread/3999366"
+  - "https://www.pathofexile.com/forum/view-thread/4011825"
   - "https://poe.kakaogames.com/forum/view-thread/4000434"
   - "https://www.pathofexile.com/forum/view-thread/3999509"
   - "https://www.pathofexile.com/forum/view-thread/4000430"
@@ -26,7 +27,7 @@ cover:
 
 | 일정 | 한국 시간 | 원래 발표 기준 |
 |---|---|---|
-| 엑자일콘 생중계 시작 | 11월 7일(토) 오전 5시 | 태평양 시간 11월 6일 정오 |
+| 엑자일콘 생중계 시작 | 11월 7일(토) 오전 5시 30분 | 태평양 시간 11월 6일 낮 12시 30분 |
 | 사전 등록 마감 | 12월 11일(금) | 태평양 시간 12월 10일 |
 | 정식 출시 (1.0) | 12월 12일(토), 시각 미정 | 태평양 시간 12월 11일 |
 | 알두르의 룬(Runes of Aldur)·금단의 의식(Forbidden Rites) 종료 | 1.0 출시 때 | |
@@ -51,6 +52,7 @@ cover:
 
 ## 업데이트
 
+- 10월 31일: 엑자일콘 생중계 시작을 오전 5시 30분으로 (GGG 10월 26일 공지)
 - 10월 31일: 첫 문단의 일정 출처 문장 수정
 - 10월 20일: 제목 정리, 첫 문단에 핵심 일정 추가
 - 10월 19일: 첫 작성
