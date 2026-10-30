@@ -90,6 +90,19 @@ const patches = defineCollection({
   }),
 });
 
+// 갱신 기록(/updates/, 메인 "최근 갱신") 중 일정 데이터를 바꾼 기록. 글 갱신과 패치 링크는 자동으로 모으고(src/lib/updates.ts),
+// 여기에는 seasons·events 등을 바꾼 작업이 방문자용 한 줄을 남긴다
+const updates = defineCollection({
+  loader: file('src/data/updates.json'),
+  schema: z.object({
+    id: z.string(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // 한국 날짜
+    gameId: reference('games').optional(),
+    text: z.string().max(80), // 명사형 한 줄. 작업 번호·내부 용어 없이
+    href: z.string().startsWith('/').optional(),
+  }),
+});
+
 // 사이트의 핵심 콘텐츠. 시즌 오픈 전 공개 정보 정리 글: src/content/posts/{게임id}/{slug}.md
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
@@ -149,4 +162,4 @@ const builds = defineCollection({
   }),
 });
 
-export const collections = { games, seasons, events, patches, posts, builds };
+export const collections = { games, seasons, events, patches, posts, builds, updates };

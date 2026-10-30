@@ -1,0 +1,45 @@
+---
+// 갱신 기록 전체: 글 업데이트 기록, 패치 링크, 일정 데이터 변경을 날짜별로 (src/lib/updates.ts)
+// 링크 목록뿐이라 검색에서는 제외. astro.config.mjs 사이트맵 필터와 함께 고친다
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { collectUpdates, byDay } from '../lib/updates';
+import { formatKst } from '../lib/time';
+import { COMMON_TAG } from '../lib/posts';
+
+const games = await getCollection('games');
+const items = collectUpdates({
+  posts: await getCollection('posts'),
+  patches: await getCollection('patches'),
+  seasons: await getCollection('seasons'),
+  games,
+  updates: await getCollection('updates'),
+});
+const days = byDay(items);
+const gameOf = (id?: string) => games.find((g) => g.id === id);
+---
+<Base title="갱신 기록" noindex description="폐지.com에서 바뀐 일정과 글을 날짜별로 모은 기록.">
+  <section class="hero">
+    <div>
+      <h1>갱신 기록</h1>
+      <p>바뀐 일정과 글, 날짜별. 글 아래 업데이트 기록과 일정 데이터에서 자동으로 모음.</p>
+    </div>
+  </section>
+  {days.map(({ day, list }) => (
+    <section class="section" aria-labelledby={`d-${day}`}>
+      <h2 class="section-title" id={`d-${day}`}>{formatKst(`${day}T03:00:00Z`, 'day', true)}</h2>
+      <ul class="plain-list update-list">
+        {list.map((u) => {
+          const g = gameOf(u.gameId);
+          return (
+            <li class="gc" style={`--game-raw:${g?.data.themeColor ?? COMMON_TAG.color}`}>
+              <span class="tag">{g?.data.shortName ?? COMMON_TAG.label}</span>
+              {u.href ? <a href={u.href}>{u.title}</a> : u.title}
+              {u.detail && <span class="small muted block">{u.detail}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  ))}
+</Base>

@@ -14,6 +14,7 @@ import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 import Mascot from '../components/Mascot.astro';
 import MyGames from '../components/MyGames.astro';
 import { formatKst, buildNow } from '../lib/time';
+import { collectUpdates, byDay, shortTitle } from '../lib/updates';
 
 const now = buildNow();
 const games = (await getCollection('games')).sort((a, b) => a.data.order - b.data.order);
@@ -52,6 +53,17 @@ const others = games
     return { g, ...t, stage: t.current ? stageOf(t.current, seasons, now) : undefined, end: t.current && seasonEnd(t.current, seasons) };
   })
   .sort((a, b) => Number(b.stage === 'ending') - Number(a.stage === 'ending'));
+
+// 4. 최근 갱신: 최근 3일(내용이 바뀐 날)만, 날마다 3개까지 (일정 데이터 → 새 글 → 패치 → 글 갱신 순)
+const recentDays = byDay(
+  collectUpdates({
+    posts,
+    patches: await getCollection('patches'),
+    seasons,
+    games,
+    updates: await getCollection('updates'),
+  }, now),
+).slice(0, 3);
 
 const upcomingEvents = events
   .filter((e) => Date.parse(e.data.endsAt ?? e.data.startsAt) > now)
@@ -190,4 +202,20 @@ const upcomingEvents = events
       <p class="small"><a href="/posts/">전체 글 보기</a></p>
     </section>
   </div>
+
+  {recentDays.length > 0 && (
+    <section class="section" aria-labelledby="updates-title">
+      <h2 class="section-title" id="updates-title">최근 갱신</h2>
+      <ul class="plain-list update-list">
+        {recentDays.map(({ day, list }) => (
+          <li>
+            <span class="date">{formatKst(`${day}T03:00:00Z`, 'day')}</span>
+            {list.slice(0, 3).map((u, i) => <>{i > 0 && ' · '}{u.href ? <a href={u.href}>{shortTitle(u, games)}</a> : shortTitle(u, games)}</>)}
+            {list.length > 3 && <span class="muted"> 외 {list.length - 3}건</span>}
+          </li>
+        ))}
+      </ul>
+      <p class="small"><a href="/updates/">전체 갱신 기록</a></p>
+    </section>
+  )}
 </Base>

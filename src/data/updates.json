@@ -1,0 +1,16 @@
+[
+  { "id": "2026-10-31-season-intro", "date": "2026-10-31", "text": "진행 중·다음 시즌 8곳에 시즌 소개 추가", "href": "/games/poe1/seasons/3-30/" },
+  { "id": "2026-10-31-game-intro", "date": "2026-10-31", "text": "게임 페이지 6곳에 시즌 방식 소개 추가", "href": "/games/poe1/" },
+  { "id": "2026-10-22-d4-s15-time", "date": "2026-10-22", "gameId": "d4", "text": "15시즌 시작 시각을 날짜만 표시로 수정 (블리자드 공지 한국어판·영어판 시각이 다름)", "href": "/games/d4/seasons/season-15/" },
+  { "id": "2026-10-21-now", "date": "2026-10-21", "text": "모든 게임 지금 상황 화면 추가", "href": "/now/" },
+  { "id": "2026-10-21-exilecon", "date": "2026-10-21", "gameId": "poe1", "text": "엑자일콘 2026 생중계 일정을 3.30 주요 일정에 연결", "href": "/games/poe1/seasons/3-30/" },
+  { "id": "2026-10-21-poe2-055", "date": "2026-10-21", "gameId": "poe2", "text": "0.5.5 이벤트 리그 금단의 의식 일정 추가", "href": "/games/poe2/seasons/0-5/" },
+  { "id": "2026-10-21-poe-patches", "date": "2026-10-21", "text": "POE1·POE2 리그별 공식 패치노트 링크 목록 추가", "href": "/games/poe1/" },
+  { "id": "2026-10-20-d2r", "date": "2026-10-20", "gameId": "d2r", "text": "래더 12~15시즌 일정 추가", "href": "/games/d2r/" },
+  { "id": "2026-10-20-poe1-327", "date": "2026-10-20", "gameId": "poe1", "text": "3.27·3.28 리그 일정 추가", "href": "/games/poe1/" },
+  { "id": "2026-10-20-tli", "date": "2026-10-20", "gameId": "tli", "text": "SS10~SS14 시즌 일정 추가", "href": "/games/tli/" },
+  { "id": "2026-10-20-calendar", "date": "2026-10-20", "text": "게임별 시즌 타임라인 폐지달력 추가", "href": "/calendar/" },
+  { "id": "2026-10-19-d4", "date": "2026-10-19", "gameId": "d4", "text": "10~15시즌 일정 추가", "href": "/games/d4/" },
+  { "id": "2026-10-19-poe2", "date": "2026-10-19", "gameId": "poe2", "text": "0.3~1.0 리그 일정 추가", "href": "/games/poe2/" },
+  { "id": "2026-10-19-poe1-source", "date": "2026-10-19", "gameId": "poe1", "text": "리그 일정 출처를 GGG·카카오게임즈 공식 공지로 교체", "href": "/games/poe1/" }
+]
