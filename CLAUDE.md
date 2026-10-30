@@ -83,6 +83,7 @@ poe2, poe1, d4(디아블로 4), le(라스트 에폭), tli(토치라이트: 인�
 - 콘셉트: 시안 A "날짜 도장". 재생지(크라프트지) 위에 찍은 날짜 도장. 튀는 요소는 D-day 도장 하나뿐, 나머지는 조용하게. 예상 일정 도장은 점선
 - D-day·진행률·카운트다운·오늘 표시·방문자 기기 시간은 빌드 시점 값이 굳지 않도록 `src/scripts/live.ts`가 브라우저에서 계산 (data-dday, data-countdown, data-local 등). 이 정도 상호작용은 React 없이 live.ts로 처리한다
 - 시즌 주요 일정은 `seasonMilestones()` + `MilestoneTimeline.astro`로 시즌 상세와 게시글에서 같이 쓴다. 글의 카운트다운 대상은 `countdownTo`(이벤트), 없으면 연결된 시즌 시작
+- 리그 스타트 연차 계산기(`/tools/leave-planner/`): 계산 `src/lib/leave.ts`, 화면 `LeavePlanner.tsx`(React), 공휴일 `src/data/holidays.json`(출처·확인일 포함, 2026~2027년). 매년 6월 말 우주항공청 월력요항이 나오면 다음 해 공휴일을 추가하고 coverage를 늘린다. 시즌 상세·연결 글에서 시작 전 시즌일 때 링크
 - 시간 표기는 `formatKst`만 사용 (로케일 데이터에 의존하지 않게 직접 계산)
 - 표: 칸 4개 이상인 표는 480px 이하에서 행마다 카드로 쌓는다(`.tbl.cards`, 첫 칸이 카드 제목, 나머지 칸 앞에 칸 이름을 작게). 게시글 표는 `live.ts`가 칸 수를 보고 자동으로 붙이고(3개 이하는 `.stack`), 컴포넌트 표는 `<div class="tbl cards">`와 칸마다 `data-label`을 직접 쓴다
 

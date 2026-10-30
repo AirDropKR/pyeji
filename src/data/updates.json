@@ -1,4 +1,5 @@
 [
+  { "id": "2026-10-31-leave-planner", "date": "2026-10-31", "text": "리그 스타트 연차 계산기 추가 (2026~2027년 공휴일 반영)", "href": "/tools/leave-planner/" },
   { "id": "2026-10-31-season-intro", "date": "2026-10-31", "text": "진행 중·다음 시즌 8곳에 시즌 소개 추가", "href": "/games/poe1/seasons/3-30/" },
   { "id": "2026-10-31-game-intro", "date": "2026-10-31", "text": "게임 페이지 6곳에 시즌 방식 소개 추가", "href": "/games/poe1/" },
   { "id": "2026-10-22-d4-s15-time", "date": "2026-10-22", "gameId": "d4", "text": "15시즌 시작 시각을 날짜만 표시로 수정 (블리자드 공지 한국어판·영어판 시각이 다름)", "href": "/games/d4/seasons/season-15/" },

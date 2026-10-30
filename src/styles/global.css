@@ -465,3 +465,36 @@ th { border-bottom: 2px solid var(--ink); font-weight: 700; }
 .install-steps svg { margin-right: 8px; color: var(--stamp); }
 .install-other { margin: 0 0 16px; }
 .install-guide form { margin: 0; text-align: right; }
+
+/* 리그 스타트 연차 계산기 (/tools/leave-planner/, LeavePlanner.tsx) */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lp-form { display: flex; flex-wrap: wrap; gap: 12px 16px; margin: 0 0 20px; }
+.lp-form label { display: grid; gap: 4px; min-width: 0; flex: 1 1 140px; }
+.lp-form select, .lp-form input {
+  font: inherit; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); color: var(--ink); min-width: 0; max-width: 100%;
+}
+.lp-label { font-size: 14px; color: var(--muted); }
+.lp-result { margin: 0 0 16px; }
+.lp-span { margin: 0 0 4px; font-size: 20px; }
+.lp-len { display: inline-block; margin-left: 6px; padding: 0 8px; border: 2px var(--stamp-line) var(--stamp); border-radius: var(--stamp-radius); color: var(--stamp); font-family: var(--font-display); font-size: 18px; transform: rotate(var(--stamp-tilt)); }
+.lp-cals { display: flex; flex-wrap: wrap; gap: 16px 28px; margin: 0 0 16px; }
+.lp-cal { flex: 1 1 280px; max-width: 360px; }
+.lp-month { margin: 0 0 6px; font-size: 16px; }
+.lp-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.lp-wd { text-align: center; font-size: 12px; color: var(--muted); }
+.lp-day { position: relative; aspect-ratio: 1; display: grid; place-items: center; border-radius: 4px; font-size: 14px; border: 1.5px solid transparent; }
+.lp-day.off { color: var(--muted); }
+.lp-day.holiday { color: var(--state-nerf); font-weight: 700; }
+.lp-day.in { background: var(--hatch); color: var(--ink); border-color: var(--rule); }
+.lp-day.in.holiday { color: var(--state-nerf); }
+.lp-day.leave { background: var(--stamp); border-color: var(--stamp); color: var(--paper); font-weight: 700; }
+.lp-day.start { outline: 3px double var(--ink); outline-offset: 1px; font-weight: 700; }
+.lp-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; flex-basis: 100%; margin: 0; }
+.lp-key { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--rule); margin-left: 8px; }
+.lp-key:first-child { margin-left: 0; }
+.lp-key.start { outline: 3px double var(--ink); outline-offset: 1px; border-color: transparent; }
+.lp-key.leave { background: var(--stamp); border-color: var(--stamp); }
+.lp-key.in { background: var(--hatch); }
+.lp-key.holiday { border-color: var(--state-nerf); background: transparent; }
+.lp-table .lp-now td { font-weight: 700; }
+.lp-share { margin: 12px 0 0; }

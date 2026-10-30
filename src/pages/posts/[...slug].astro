@@ -10,6 +10,7 @@ import { ogPath } from '../../lib/og-paths';
 import { monthRange, nextMonth, pickNext, type MonthItem } from '../../lib/month';
 import { seasonPath, neighbors, seasonMilestones, startLabel } from '../../lib/seasons';
 import MilestoneTimeline from '../../components/MilestoneTimeline.astro';
+import { plannerPath } from '../../lib/leave';
 import Countdown from '../../components/Countdown.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
 import SeasonCycleTable from '../../components/SeasonCycleTable.astro';
@@ -56,6 +57,7 @@ const milestones = season
   ? seasonMilestones(season, neighbors(season, await getCollection('seasons')).prev, await getCollection('events'))
   : [];
 const upcoming = target && Date.parse(target.at) > now;
+const planner = season && plannerPath(season.id, season.data.startsAt, now);
 // 공유 미리보기: 빌드 때 만든 글 이미지. 구조화 데이터의 image는 공식 대표 이미지가 있으면 그것
 const coverImg = post.data.cover
   ? (await getImage({ src: post.data.cover.src, width: Math.min(1200, post.data.cover.src.width), format: 'jpg' })).src
@@ -85,6 +87,7 @@ const jsonLd = {
         <h1>{post.data.title}</h1>
         <p class="small muted"><time datetime={modified}>{formatKst(modified, 'day')}</time> 갱신{season && <> · <a href={seasonPath(season)}>{season.data.name} 일정</a></>}</p>
         {target && upcoming && <Countdown at={target.at} precision={target.precision} label={target.label} />}
+        {planner && <p class="small"><a href={planner}>연차 계산기</a> · {season!.data.name} 시작에 맞춰 쉬는 날 계산</p>}
         {post.data.month && nextMonthPost && (
           <p class="small month-next" hidden={Boolean(target && upcoming)}>이달 일정 끝 · <a href={`/posts/${nextMonthPost.id}/`}>{nextMonthPost.data.title}</a></p>
         )}
