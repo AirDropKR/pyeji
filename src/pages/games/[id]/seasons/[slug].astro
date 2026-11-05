@@ -84,7 +84,7 @@ const gapDays = prev?.data.endsAt ? kstDay(start) - kstDay(Date.parse(prev.data.
 // 검색어 역할 분리: 시즌 상세는 "일정"(시작 전)·"종료일"(진행 중), 연결된 사전 정보 글은 "공개 정보"
 const endIso = s.endsAt ?? next?.data.startsAt;
 // 제목·설명·종료일 한 줄은 시즌 단계별로 (src/lib/season-head.ts)
-const head = seasonHead({ season, game, phase, prev, next, events, now: buildNow() });
+const head = seasonHead({ season, game, phase, stage, prev, next, events, now: buildNow() });
 const description = head.description;
 const jsonLd = {
   '@context': 'https://schema.org',
