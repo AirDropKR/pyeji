@@ -13,7 +13,7 @@
 | 배제됨 | X-Robots-Tag, 5xx·4xx, 리다이렉트 반복: 없음. Googlebot User-Agent로도 같은 200과 같은 내용 |
 | 배제됨 | 사이트맵 오류: 200, 올바른 XML, 주소 37개 모두 https://pyeji.kr |
 | 배제됨 | 서치 콘솔 속성 문제: 운영자 확인(11월 5일) 결과 보고 있는 속성은 도메인 속성 `pyeji.kr`. www·http를 모두 포함하므로 리다이렉트로 노출이 다른 속성으로 옮겨 간 것은 아님 |
-| 가능성 높음 | 대표 주소 전환 중 하락: 구글은 그동안 www 주소를 색인해 왔다(도메인 속성 권장사항 카드에 `https://www.pyeji.kr/games/poe1/seasons/3-30/` 노출 82% 감소로 나옴). 사이트 canonical은 https://pyeji.kr인데도 리다이렉트 전에는 www도 200으로 같은 내용을 보여 줘 구글이 www를 대표로 골랐던 것으로 보인다. www에 301이 걸리면서 색인된 www 주소가 빠지고, https://pyeji.kr 주소가 아직 색인에 충분히 오르지 않은 사이에 노출이 0이 된 것으로 보인다. 클릭이 10월 28일 무렵 0이 된 시점과 맞음 |
+| 확실 (11월 5일) | 대표 주소 전환 중 공백: 서치 콘솔 "내 콘텐츠"의 클릭 페이지가 모두 www 주소 → 구글은 www 버전만 색인해 왔다. URL 검사에서 www 주소와 https://pyeji.kr 주소 둘 다 "URL이 Google에 등록되어 있지 않음" → www에 301이 걸리면서 www 주소는 색인에서 빠졌고, https://pyeji.kr 주소는 아직 색인 전. 색인된 주소가 없는 공백 기간이라 노출 0. 코드의 canonical은 10월 19일부터 https://pyeji.kr이었고 저장소에 www가 들어간 적은 없어, 구글이 www를 고른 이유는 저장소 밖(처음 공유·제출한 주소 등)으로 보이며 확인 불가 |
 | 확인 못 함 | 실제 구글 IP에서 온 Googlebot을 Cloudflare가 막는지: 이쪽에서는 구글 IP로 요청할 수 없다. 가짜 Googlebot 이름(일반 IP)으로는 200이 나옴. Cloudflare 보안 이벤트와 서치 콘솔 크롤링 통계로 확인 필요 |
 | 확인 못 함 | www·http 리다이렉트가 정확히 언제 생겼는지: 10월 31일 처음 확인했을 때 이미 301. 시작 날짜는 Cloudflare 규칙 기록에서 확인 필요 |
 
@@ -194,3 +194,23 @@ BR = 일반 브라우저 User-Agent, GB = Googlebot User-Agent (일반 IP에서 
   3. 4-4 크롤링 통계에서 403·5xx가 보이면 Cloudflare 보안 이벤트(4-6) 확인
   4. 리다이렉트를 한 번으로 정리(http://www → https://pyeji.kr)
   5. 2주 동안 도메인 속성 기준으로 노출 추이를 보고 docs/seo-weekly에 기록
+
+## 6. 원인 확정 뒤 할 일 (11월 5일)
+
+- 리다이렉트는 되돌리지 않는다. 지금은 canonical, 사이트맵, 301이 모두 https://pyeji.kr로 같아 구글이 새 주소로 옮겨 갈 조건이 갖춰져 있다. 되돌리면 전환을 다시 처음부터 겪는다
+- 운영자 (11월 5일): 3.30 시즌 페이지 www·https://pyeji.kr 두 주소 실제 URL 테스트와 색인 생성 요청 완료, 사이트맵 재제출 완료(10월 31일)
+- 색인 생성 요청 우선순위 (하루 요청 수 제한이 있어 며칠에 나눠서. 모두 https://pyeji.kr 주소로)
+  1. https://pyeji.kr/
+  2. https://pyeji.kr/posts/poe1/league-cycle/ (클릭 가장 많던 페이지)
+  3. https://pyeji.kr/games/poe1/
+  4. https://pyeji.kr/games/d2r/
+  5. https://pyeji.kr/posts/d4/season-end/
+  6. https://pyeji.kr/posts/tli/season-cycle/
+  7. https://pyeji.kr/games/d2r/seasons/season-15/ (종료일 검색어)
+  8. https://pyeji.kr/games/d4/seasons/season-15/ (종료일 검색어)
+  9. https://pyeji.kr/posts/poe1/3-30-preview/
+  10. https://pyeji.kr/posts/poe1/exilecon-2026/ (엑자일콘 직전)
+  - 그다음: 나머지 게임 페이지, /now/, /calendar/, /tools/leave-planner/, 나머지 글
+- Cloudflare에서 `http://www.pyeji.kr/*` → `https://pyeji.kr/$1` 한 번에 (지금 두 번 이동)
+- 확인: 2~3일마다 URL 검사로 https://pyeji.kr/ 과 https://pyeji.kr/games/poe1/seasons/3-30/ 이 "URL이 Google에 등록됨"으로 바뀌는지. 보통 며칠~2주. 2주가 지나도 등록되지 않으면 페이지 보고서의 "발견됨 - 현재 색인이 생성되지 않음"/"크롤링됨 - 현재 색인이 생성되지 않음" 항목을 확인
+- 검색 실적 비교(docs/seo-weekly)는 https://pyeji.kr 주소로 노출이 돌아온 뒤 다시 기준을 잡는다. 10월 28일 기준 수치는 www 주소의 것
