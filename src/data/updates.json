@@ -1,4 +1,5 @@
 [
+  { "id": "2026-11-05-about", "date": "2026-11-05", "text": "소개 페이지에 만드는 사람과 사실 확인 절차, 갱신·정정 방법 추가", "href": "/about/" },
   { "id": "2026-10-31-exilecon-time", "date": "2026-10-31", "gameId": "poe1", "text": "엑자일콘 1일차 생중계 시작을 11월 7일 오전 5시 30분으로 수정 (GGG 10월 26일 공지)", "href": "/posts/poe1/exilecon-2026/" },
   { "id": "2026-10-31-leave-planner", "date": "2026-10-31", "text": "리그 스타트 연차 계산기 추가 (2026~2027년 공휴일 반영)", "href": "/tools/leave-planner/" },
   { "id": "2026-10-31-season-intro", "date": "2026-10-31", "text": "진행 중·다음 시즌 8곳에 시즌 소개 추가", "href": "/games/poe1/seasons/3-30/" },
