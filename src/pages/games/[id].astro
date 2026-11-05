@@ -31,6 +31,12 @@ const patches = (await getCollection('patches', (p) => p.data.gameId.id === game
   (a, b) => Date.parse(b.data.releasedAt) - Date.parse(a.data.releasedAt),
 );
 const builds = await getCollection('builds', (b) => b.data.gameId.id === game.id);
+// 패치: 시즌별로 묶어 최근 시즌부터. 게임 페이지에는 최근 시즌 대형 패치 몇 개만 (전체는 시즌 상세)
+const RECENT_PATCHES = 3;
+const patchSeasons = mine
+  .map((season) => ({ season, list: patches.filter((p) => p.data.seasonId?.id === season.id) }))
+  .filter((x) => x.list.length > 0);
+const latest = patchSeasons[0];
 // 대표 이미지: 다음 시즌 공식 이미지가 있으면 그것, 없으면 진행 중인 시즌
 const featured = [next, current].find((x) => x?.data.images?.length);
 const term = game.data.seasonTerm;
@@ -101,19 +107,16 @@ const term = game.data.seasonTerm;
     ) : <p class="muted empty"><Mascot form="icon" size={36} />아직 정리한 {term} 기록 없음</p>}
   </section>
 
-  {patches.length > 0 && (
+  {patchSeasons.length > 0 && (
     <section class="section" aria-labelledby="patch-title">
       <h2 class="section-title" id="patch-title">{term}별 패치</h2>
-      {mine.filter((sn) => patches.some((p) => p.data.seasonId?.id === sn.id)).map((sn, i) => {
-        const list = patches.filter((p) => p.data.seasonId?.id === sn.id);
-        return (
-          <details class="patch-group" open={i === 0}>
-            <summary><b>{sn.data.name}</b> <span class="small muted">패치 {list.filter((p) => p.data.kind === 'patch').length} · 핫픽스 {list.filter((p) => p.data.kind === 'hotfix').length}</span></summary>
-            <PatchList patches={list} />
-          </details>
-        );
-      })}
-      {patches.some((p) => !p.data.seasonId) && <PatchList patches={patches.filter((p) => !p.data.seasonId)} />}
+      {/* 시즌 상세와 겹치지 않게 최근 시즌의 대형 패치 몇 개만, 전체 목록은 시즌 상세에 */}
+      <p class="small muted flush">{latest.season.data.name} 최근 패치</p>
+      <PatchList patches={latest.list.filter((p) => p.data.kind === 'patch').slice(0, RECENT_PATCHES)} />
+      <p class="small"><a href={`${seasonPath(latest.season)}#patch-title`}>{latest.season.data.name} 패치 전체 보기 (패치 {latest.list.filter((p) => p.data.kind === 'patch').length} · 핫픽스 {latest.list.filter((p) => p.data.kind === 'hotfix').length})</a></p>
+      {patchSeasons.length > 1 && (
+        <p class="small flush">지난 {term}: {patchSeasons.slice(1).map(({ season: sn, list }, i) => <>{i > 0 && ' · '}<a href={`${seasonPath(sn)}#patch-title`}>{sn.data.name} ({list.length}개)</a></>)}</p>
+      )}
     </section>
   )}
 </Base>
