@@ -76,6 +76,12 @@ img { max-width: 100%; }
   .logo { font-size: 24px; padding: 1px 7px 0; border-width: 3px; } /* 24px 아래로 줄이면 바탕 대비 기준 미달 */
   .site-nav { gap: 10px; font-size: 15px; }
 }
+/* 320px 등 아주 좁은 화면: 로고는 대비 기준 때문에 그대로 두고 메뉴 글자·간격만 줄인다 */
+@media (max-width: 340px) {
+  .site-header { gap: 4px; }
+  .site-nav { gap: 6px; font-size: 13px; }
+  .nav-games-list { right: 0; }
+}
 .site-footer { padding: 28px 0 40px; font-size: 14px; color: var(--ink); opacity: 0.8; }
 .site-footer p { margin: 0 0 8px; }
 .footer-nav { display: flex; gap: 16px; flex-wrap: wrap; }
