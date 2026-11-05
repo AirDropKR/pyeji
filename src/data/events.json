@@ -26,5 +26,15 @@
     "endsAt": "2026-11-08T15:00:00Z",
     "timePrecision": "exact",
     "sourceUrl": "https://www.pathofexile.com/forum/view-thread/4011825"
+  },
+  {
+    "id": "d4-s16-ptr",
+    "gameId": "d4",
+    "seasonId": "d4-s15",
+    "title": "16시즌 공개 테스트 서버 (3.3.0)",
+    "startsAt": "2026-10-27T17:00:00Z",
+    "endsAt": "2026-11-03T17:00:00Z",
+    "timePrecision": "exact",
+    "sourceUrl": "https://news.blizzard.com/ko-kr/article/24302578"
   }
 ]
