@@ -36,5 +36,15 @@
     "endsAt": "2026-11-03T17:00:00Z",
     "timePrecision": "exact",
     "sourceUrl": "https://news.blizzard.com/ko-kr/article/24302578"
+  },
+  {
+    "id": "exilecon-2026-poe1-qa",
+    "gameId": "poe1",
+    "seasonId": "poe1-3-30",
+    "title": "엑자일콘 2일차 POE1 개발자 질의응답",
+    "startsAt": "2026-11-07T20:30:00Z",
+    "endsAt": "2026-11-07T21:30:00Z",
+    "timePrecision": "exact",
+    "sourceUrl": "https://poe2.kakaogames.com/exilecon"
   }
 ]
