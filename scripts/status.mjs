@@ -1,5 +1,5 @@
 // 현재 상태 요약 (/status 명령용). 실행: npm run status  (PYEJI_NOW=ISO 로 기준 시각 바꾸기)
-// 앞으로 2주 일정, 시각 미발표·예상 항목, drafts/ 초안, docs/questions.md의 확인 필요 항목을 출력한다
+// 마지막 방문자용 갱신(7일 넘으면 경고), 앞으로 2주 일정, 시각 미발표·종료일 미발표·예상 항목, drafts/ 초안, docs/questions.md의 확인 필요 항목을 출력한다
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -18,6 +18,48 @@ const seasons = json('src/data/seasons.json');
 const events = json('src/data/events.json');
 
 console.log(`# 상태 요약 (기준 ${kst(new Date(now).toISOString())} 한국 시간)\n`);
+
+// 0. 마지막 방문자용 갱신 (메인 "최근 갱신"·/updates/와 같은 출처: src/lib/updates.ts)
+//    글 처음 쓴 날과 "## 업데이트" 기록, 사이트 공개 뒤 패치 링크, src/data/updates.json. 7일을 넘으면 경고
+const SITE_START = '2026-10-19';
+const kstDay = (ms) => new Date(ms + KST).toISOString().slice(0, 10);
+const today = kstDay(now);
+const updateDays = [];
+const walkMd = (d) => readdirSync(d).flatMap((f) => { const p = join(d, f); return statSync(p).isDirectory() ? walkMd(p) : p.endsWith('.md') ? [p] : []; });
+const postName = (f) => f.split(/[\\/]/).slice(-2).join('/');
+for (const f of walkMd('src/content/posts')) {
+  const body = readFileSync(f, 'utf-8').replace(/\r\n/g, '\n');
+  const pub = body.match(/^publishedAt:\s*["']?([^"'\n]+)/m)?.[1];
+  if (!pub) continue;
+  const pubDay = kstDay(Date.parse(pub));
+  updateDays.push([pubDay, `새 글 ${postName(f)}`]);
+  const log = body.split(/^##\s*업데이트\s*$/m)[1] ?? '';
+  for (const m of log.matchAll(/^-\s*(\d{1,2})월\s*(\d{1,2})일\s*:?\s*(.*)$/gm)) {
+    // 연도는 처음 쓴 해 기준, 갱신 월이 더 앞이면 다음 해 (src/lib/posts.ts와 같은 기준)
+    const month = Number(m[1]);
+    const year = Number(pubDay.slice(0, 4)) + (month < Number(pubDay.slice(5, 7)) ? 1 : 0);
+    const day = `${year}-${String(month).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+    if (m[3].trim() !== '첫 작성') updateDays.push([day < pubDay ? pubDay : day, `글 갱신 ${postName(f)}: ${m[3].trim()}`]);
+  }
+}
+for (const p of json('src/data/patches.json')) {
+  const d = kstDay(Date.parse(p.releasedAt));
+  if (d >= SITE_START) updateDays.push([d, `패치 링크 ${games[p.gameId]} ${p.version}`]);
+}
+for (const u of json('src/data/updates.json')) updateDays.push([u.date, u.text]);
+const pastUpdates = updateDays.filter(([d]) => d <= today).sort((a, b) => b[0].localeCompare(a[0]));
+const last = pastUpdates[0];
+console.log('## 마지막 방문자용 갱신');
+if (!last) console.log('- 기록 없음');
+else {
+  const gap = Math.round((Date.parse(today) - Date.parse(last[0])) / DAY);
+  const sameDay = pastUpdates.filter(([d]) => d === last[0]).length;
+  console.log(`- ${last[0]} (${gap === 0 ? '오늘' : `${gap}일 전`}) ${last[1]}${sameDay > 1 ? ` 외 ${sameDay - 1}건` : ''}`);
+  if (gap > 7) console.log(`- 경고: ${gap}일째 방문자용 갱신 없음. 아래 "앞으로 2주"·"종료일 공식 발표를 기다리는 진행 중 시즌"에서 갱신할 거리를 찾는다`);
+  const days30 = new Set(pastUpdates.filter(([d]) => Date.parse(today) - Date.parse(d) < 30 * DAY).map(([d]) => d));
+  console.log(`- 최근 30일 중 갱신한 날 ${days30.size}일`);
+}
+console.log('');
 
 // 1. 앞으로 2주
 const soon = [];
@@ -42,6 +84,16 @@ const dayItems = [
 ];
 console.log('\n## 시각 발표를 기다리는 것 (timePrecision: day)');
 console.log(dayItems.join('\n') || '- 없음');
+// 진행 중인데 종료일이 없는 시즌: 시즌 페이지 제목이 "종료일: 공식 발표 전". 종료 공지를 확인할 거리
+const isCurrent = (s) => {
+  if (future(s.startsAt)) return false;
+  const next = seasons.filter((o) => o.gameId === s.gameId && Date.parse(o.startsAt) > Date.parse(s.startsAt)).sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt))[0];
+  const end = s.endsAt ?? next?.startsAt;
+  return !end || future(end);
+};
+const noEnd = seasons.filter((s) => isCurrent(s) && !s.endsAt && !s.endsWithNext);
+console.log('\n## 종료일 공식 발표를 기다리는 진행 중 시즌');
+console.log(noEnd.map((s) => `- ${games[s.gameId]} ${s.name} (${kst(s.startsAt, s.timePrecision)} 시작, ${s.id})${s.endNote ? ` · ${s.endNote}` : ''}`).join('\n') || '- 없음');
 const est = seasons.filter((s) => s.status === 'estimated' && (future(s.startsAt) || (s.endsAt && future(s.endsAt))));
 console.log('\n## 공식 확인이 덜 된 값 (status: estimated)');
 console.log(est.map((s) => `- ${games[s.gameId]} ${s.name} ${kst(s.startsAt, s.timePrecision)} (${s.id})`).join('\n') || '- 없음');
