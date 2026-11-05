@@ -75,6 +75,8 @@ const canonical = new URL(path, Astro.site).href;
           <a href="/now/" aria-current={path === '/now/' ? 'page' : undefined}>지금</a>
           <a href="/calendar/" aria-current={path.startsWith('/calendar') ? 'page' : undefined}>폐지달력</a>
           <a href="/posts/" aria-current={path === '/posts/' ? 'page' : undefined}>전체 글</a>
+          {/* 도구: 넓은 화면은 메뉴 줄에, 480px 이하는 메뉴가 한 줄에 안 들어가 "게임" 펼침 목록 맨 아래에 */}
+          <a class="nav-wide" href="/tools/" aria-current={path.startsWith('/tools') ? 'page' : undefined}>도구</a>
           <details class="nav-games" data-nav-menu>
             <summary class:list={{ current: Boolean(currentGame) }}>게임</summary>
             <ul class="nav-games-list">
@@ -83,6 +85,7 @@ const canonical = new URL(path, Astro.site).href;
                   <a href={`/games/${g.id}/`} aria-current={currentGame === g.id ? (path === `/games/${g.id}/` ? 'page' : 'true') : undefined}>{g.data.shortName}</a>
                 </li>
               ))}
+              <li class="nav-narrow nav-sep"><a href="/tools/" aria-current={path.startsWith('/tools') ? 'page' : undefined}>도구</a></li>
             </ul>
           </details>
         </nav>

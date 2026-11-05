@@ -1,0 +1,44 @@
+---
+// 도구 목록: 일정 데이터로 계산하거나 한 화면에 모아 보여 주는 페이지들. 새 도구를 만들면 여기에 한 줄 추가
+import Base from '../../layouts/Base.astro';
+
+const tools = [
+  {
+    href: '/tools/leave-planner/',
+    name: '리그 스타트 연차 계산기',
+    what: '시즌 시작일과 쓸 수 있는 연차 일수를 고르면, 주말·공휴일과 이어 가장 길게 쉬는 날짜를 달력으로 계산.',
+    how: '2026~2027년 관공서 공휴일·대체공휴일 반영. 결과 주소로 공유 가능.',
+  },
+  {
+    href: '/calendar/',
+    name: '폐지달력',
+    what: '최근 1년과 앞으로 6개월의 시즌을 게임별 타임라인 한 장으로.',
+    how: '시즌이 겹치는 시기, 다음 시즌까지의 공백을 한눈에. 막대를 누르면 시즌 일정으로 이동.',
+  },
+  {
+    href: '/now/',
+    name: '지금',
+    what: '모든 게임의 지금 상황을 한 화면에: 막 열린 시즌, 다음 오픈 D-day, 곧 끝나는 시즌.',
+    how: '내 게임만 골라 볼 수 있음. 휴대폰 홈 화면에 추가해 앱처럼 사용 가능.',
+  },
+];
+---
+<Base title="도구" description="핵앤슬래시 시즌 일정 도구 모음. 리그 스타트 연차 계산기, 게임별 시즌 타임라인 폐지달력, 모든 게임 지금 상황.">
+  <section class="hero">
+    <div>
+      <h1>도구</h1>
+      <p>시즌 일정 데이터로 계산하거나 한 화면에 모아 보는 도구. 모든 시각은 한국 시간.</p>
+    </div>
+  </section>
+  <section class="section">
+    <ul class="plain-list tool-list">
+      {tools.map((t) => (
+        <li>
+          <h2 class="tool-name"><a href={t.href}>{t.name}</a></h2>
+          <p class="flush">{t.what}</p>
+          <p class="small muted flush">{t.how}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
