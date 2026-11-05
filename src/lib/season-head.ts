@@ -74,7 +74,8 @@ export function seasonHead({ season, game, phase, prev, next, events, now }: Inp
     const prevEnd = prev?.data.endsAt ? ` 직전 ${term} ${prev.data.name} 종료 ${formatKst(prev.data.endsAt, 'exact')}.` : '';
     return {
       title: `${g.shortName} ${s.name} 일정: ${formatKst(s.startsAt, 'day')}${verb ? ` ${verb}` : ''}${reveal ? `, ${shortDay(reveal.data.startsAt)} ${reveal.data.label}` : ''}`,
-      description: `${named} ${term} 시작일은 한국 시간 ${startText}${s.status === 'estimated' ? ' 예상' : ''}${s.timePrecision === 'day' ? ', 시각 발표 전' : ''}.${revealText}${prevEnd} 주요 일정과 공식 출처.`,
+      // 이름이 "리그"·"시즌"으로 끝나면(예: 래더 15시즌) 용어를 한 번 더 붙이지 않는다
+      description: `${named}${s.name.endsWith(term) ? '' : ` ${term}`} 시작일은 한국 시간 ${startText}${s.status === 'estimated' ? ' 예상' : ''}${s.timePrecision === 'day' ? ', 시각 발표 전' : ''}.${revealText}${prevEnd} 주요 일정과 공식 출처.`,
     };
   }
 

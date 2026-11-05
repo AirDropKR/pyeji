@@ -1,61 +1,55 @@
-# 엑자일콘 당일 체크리스트 (2026-11-07~08, 한국 시간)
+# 엑자일콘 당일 운영자 순서 (2026-11-07~08, 한국 시간)
 
-원칙
-- 생중계는 메모만 한다. 사이트 반영은 GGG 공식 포럼·X 글(카카오게임즈 공지 포함)이 올라온 뒤 그 링크를 출처로
-- 확정된 사실만 쓴다. 추측은 쓰지 않고, 미발표 정보는 관련 문장 안에서 "아직 발표 전"처럼 한 번만
-- 커밋은 작게 나눠 바로 push (자동 배포 약 1분). push 후 해당 페이지가 열리는지 확인
+원칙: 생중계 화면·채팅·기사는 근거가 아니다. 공식 공지 링크가 올라온 뒤 그 링크로 `/event-day`를 부른다. 1순위 커밋이 나오면 바로 push.
 
-일정
-- 11월 7일(토) 05:00 1일차 생중계 시작 / 06:00 키노트 (3.30 공개)
-- 11월 8일(일) 05:00 2일차 생중계
+## 시간표
 
-## 공식 발표 후 30분 안 (3.30 핵심)
+| 한국 시간 | 일 | 운영자 |
+|---|---|---|
+| 11월 7일(토) 05:30 | 1일차 생중계 시작 (사전 방송) | 메모만 |
+| 06:00 | 키노트, 3.30 공개 | 리그 이름(영어), 시작 시각, 핵심 3가지 메모 |
+| 키노트 끝난 직후 | 공식 공지 올라옴 | 아래 "링크 찾기" → `/event-day` |
+| 07:00 | 매일 자동 재빌드 | 1순위를 이 전에 push하면 자동 재빌드도 새 값으로 |
+| 1순위 커밋 직후 | | push → 1분 뒤 시즌 페이지 확인 |
+| 오전 중 | 2·3순위 | 커밋마다 push, 색인 요청 |
+| 11월 8일(일) 05:00 | 2일차 생중계 | 패널 발표가 공지로 나오면 같은 방법 |
 
-1. `src/data/seasons.json`의 `poe1-3-30`
-   - `name`: "3.30 {카카오게임즈 한국어 리그 이름}" (카카오 공지가 늦으면 영어로 먼저, 한국어 확인 후 교체)
-   - `nameEn`: 영어 리그 이름
-   - 시작 시각이 발표되면 `startsAt`을 그 시각(UTC)으로 바꾸고 `timePrecision: "exact"`. 예: 태평양 시간 11월 13일 오후 1시 = `2026-11-13T21:00:00Z` = 한국 11월 14일 06:00
-   - `sourceUrl`: 공개 공지 주소
-   - `highlights`: 공개된 핵심 3줄 (한 줄 60자 이내, 직접 쓴 문장)
-2. `src/content/posts/poe1/3-30-preview.md`
-   - frontmatter에 `reveal` 추가 (화면에 "엑자일콘 발표 내용" 칸이 생김)
-     ```yaml
-     reveal:
-       revealedAt: "2026-11-06T21:00:00Z"
-       items:
-         - "리그 이름은 ○○○(영어)"
-         - "시작은 한국 시간 11월 14일(토) 오전 ○시"
-       sourceUrls:
-         - "https://www.pathofexile.com/forum/view-thread/..."
-     ```
-   - 첫 문단과 본문(일정이 어떻게 정해졌나 등) 갱신. 이제 발표된 내용(오픈 시각 미발표 등)을 말하던 문장은 고친다
-   - 맨 아래 업데이트 기록 맨 위에 "- 11월 7일: 엑자일콘 발표 반영 (리그 이름, 시작 시각)" (수정일이 자동으로 바뀜)
-   - 제목에 리그 이름 넣기 (예: "POE 3.30 ○○○ 시작일 11월 14일(토): 한국 시간과 공개된 정보")
-3. `npm run build` → 커밋 `data: POE1 3.30 리그 이름·시작 시각 반영 (엑자일콘)` → push
+## 링크 찾기 (이 순서로)
 
-## 1~2시간 안
+1. GGG 포럼 Announcements: https://www.pathofexile.com/forum/view-forum/news (3.30 발표 글)
+2. GGG X: https://x.com/pathofexile (발표 글 주소)
+3. 카카오게임즈 공지사항: https://poe.kakaogames.com/forum/view-forum/notice (한국어 리그 이름, 한국 시간 시작 시각). 뉴스 게시판 https://poe.kakaogames.com/forum/view-forum/news 도 확인
+4. 보도자료(키아트·트레일러, 3순위용): https://www.pathofexile.com/forum/view-forum/press
+5. POE2 1.0 발표가 있으면: GGG 얼리 액세스 공지 https://www.pathofexile.com/forum/view-forum/2211 와 카카오 얼리 액세스 뉴스 https://poe.kakaogames.com/forum/view-forum/news2
 
-4. 공식 키아트: GGG 보도자료(https://www.pathofexile.com/forum/view-forum/press)에서 받아 `src/assets/seasons/poe1-3-30/key-art.jpg` (1600px JPG), seasons.json `images` 첫 장. 직접 보고 alt·캡션 쓰기
-5. 공식 트레일러·콘텐츠 공개 영상: GGG 공지에 들어 있는 유튜브 ID → seasons.json `videos` (트레일러 먼저) → `npm run check:videos`
-6. POE2 1.0 발표가 있으면 `poe2-1-0`과 `src/content/posts/poe2/1-0-preview.md`에 같은 방식(시작 시각, reveal, 업데이트 기록). 엑자일콘 생중계 이벤트(`exilecon-2026`)에 POE2 정보 공개를 붙이는 것은 공식 확인 후
-7. 커밋·push 후 서치 콘솔 → URL 검사 → 색인 생성 요청
-   - https://pyeji.kr/posts/poe1/3-30-preview/
-   - https://pyeji.kr/games/poe1/seasons/3-30/
-   - https://pyeji.kr/posts/poe1/exilecon-2026/
-   - https://pyeji.kr/posts/poe2/1-0-preview/ (발표가 있으면)
-   - https://pyeji.kr/ (메인)
-   - 네이버 서치어드바이저 → 웹 페이지 수집 요청에 같은 주소
+카카오 공지가 늦으면 GGG 링크만으로 먼저 실행한다. 한국어 이름은 나중에 `/new-season 카카오 링크`로 교체.
 
-## 11월 8일
+## `/event-day`에 넣는 것
 
-8. 2일차 발표(패널 등) 반영
-9. 엑자일콘 글을 결과 정리로 바꾸기 (`src/content/posts/poe1/exilecon-2026.md`)
-   - 제목: "엑자일콘 2026 발표 정리: POE 3.30 ○○○, (POE2 1.0 ...)" 처럼 결과 중심으로
-   - `reveal` 칸에 발표 항목, `countdownTo` 줄 삭제 (키노트가 지나 카운트다운이 필요 없음)
-   - "이틀간 방송 시작 시각" 표는 일정 기록으로 남기고, 미발표라고 쓴 문장을 발표 내용으로 고친다
-   - 대표 영상을 키노트 다시보기로 바꾸고 해당 장면부터 재생하려면 `startSeconds`
-10. 11월 월간 일정 글(`src/content/posts/schedule/2026-11.md`)의 3.30 줄에 리그 이름·시각
+```
+/event-day https://www.pathofexile.com/forum/view-thread/{GGG 발표 글 번호} https://poe.kakaogames.com/forum/view-thread/{카카오 공지 번호}
+```
 
-## 그다음 날짜
-- 11월 10일 06:00 3.29 종료: 자동 판정(매일 07:00 재빌드). 3.29 시즌 페이지는 연결 글(POE1 리그 주기)이 있어 검색 노출 유지
-- 11월 14일 3.30 시작: 07:00 재빌드에서 메인 "지금 줍기 좋은 폐지"로 올라옴. 시작 시각이 07:00 이후면 GitHub Actions에서 daily-rebuild 수동 실행
+명령이 하는 일 (리허설로 확인함, 11월 5일)
+- 1순위: `seasons.json`의 `poe1-3-30`에 이름(`name` "3.30 {한국어 이름}", `nameEn`), 시작 시각(`timePrecision: "exact"`), `sourceUrl`, `highlights` + `updates.json` 한 줄 → 커밋 하나. "1순위 커밋 완료, push 가능"이 먼저 보고된다
+  - 이것만으로 바뀌는 곳: 3.30 시즌 페이지 제목("POE1 3.30 {이름} 일정: 11월 14일(토) 시작"), 설명의 시작 시각, 게임 페이지, 메인 "다음 오픈", /now/, 폐지달력, 연차 계산기 목록, 메인 "최근 갱신"
+  - 시즌 제목의 "11월 7일 엑자일콘 공개"는 키노트가 지난 뒤 빌드부터 자동으로 빠진다
+- 2순위: 3.30 사전 정보 글(`reveal` 칸, 첫 문단, 제목 "POE 3.30 {이름} 공개 정보: …"), 시즌 `intro`의 "공개한다고 밝혔다" 문장, 엑자일콘 글(결과 정리, `countdownTo` 삭제), 11월 월간 글의 3.30 줄
+- 3순위: 공식 트레일러(`videos`), 보도자료 키아트(`images`)
+- 4순위: 색인 요청 주소 목록, 커뮤니티 공유 초안
+
+## push 후 확인
+- https://pyeji.kr/games/poe1/seasons/3-30/ 제목·시작 시각
+- https://pyeji.kr/ 다음 오픈 칸
+- 07:00 자동 재빌드 전에 push를 못 했으면 GitHub Actions → daily-rebuild → Run workflow
+
+## 색인 요청 (서치 콘솔 URL 검사, 네이버 웹 페이지 수집)
+- https://pyeji.kr/games/poe1/seasons/3-30/
+- https://pyeji.kr/posts/poe1/3-30-preview/
+- https://pyeji.kr/posts/poe1/exilecon-2026/
+- https://pyeji.kr/posts/poe2/1-0-preview/ (POE2 발표가 있으면)
+- https://pyeji.kr/
+
+## 그다음
+- 11월 10일(화) 06:00 3.29 종료: 자동. 07:00 재빌드 뒤 3.29 페이지는 "일정" 제목으로 돌아가고 검색 노출은 유지(연결 글 있음)
+- 11월 14일(토) 3.30 시작: 시작 시각이 07:00 이후면 daily-rebuild 수동 실행
